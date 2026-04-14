@@ -192,14 +192,16 @@ function shuffle(arr) {
 }
 
 function generateQuestions() {
-  const pool = [...props.wordBank]
-  if (customItems.value.length > 0) {
-    const customPool = customItems.value.filter(
-        c => !pool.some(p => p[props.answerKey] === c[props.answerKey])
+  const customPool = [...customItems.value]
+  const remaining = selectedRounds.value - customPool.length
+  let randomPool = []
+  if (remaining > 0) {
+    const bankFiltered = props.wordBank.filter(
+        b => !customPool.some(c => c[props.answerKey] === b[props.answerKey])
     )
-    pool.push(...customPool)
+    randomPool = shuffle(bankFiltered).slice(0, remaining)
   }
-  questions.value = shuffle(pool).slice(0, selectedRounds.value)
+  questions.value = shuffle([...customPool, ...randomPool])
   generateOptions()
 }
 
