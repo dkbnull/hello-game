@@ -1,11 +1,6 @@
 <template>
   <div class="game-page">
-    <div class="game-top-bar container">
-      <router-link to="/" class="back-link">
-        <span class="back-arrow">←</span> 返回首页
-      </router-link>
-    </div>
-    <div class="game-center-area container">
+    <div class="game-center-area">
       <h1 class="game-title">{{ title }}</h1>
       <div class="game-actions">
         <slot name="actions"></slot>
@@ -25,42 +20,33 @@ defineProps({
 
 <style scoped>
 .game-page {
-  min-height: calc(100vh - var(--header-height) - var(--footer-height) - 48px);
-}
-
-.game-top-bar {
-  margin-bottom: 16px;
-}
-
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-secondary);
-  font-size: 14px;
-  transition: color 0.2s;
-}
-
-.back-link:hover {
-  color: var(--primary);
-}
-
-.back-arrow {
-  font-size: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow: hidden;
 }
 
 .game-center-area {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+  padding: 12px 16px;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+  max-width: var(--max-width);
+  margin: 0 auto;
 }
 
 .game-title {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 16px;
+  margin-bottom: 8px;
   text-align: center;
+  flex-shrink: 0;
 }
 
 .game-actions {
@@ -68,13 +54,45 @@ defineProps({
   gap: 10px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   flex-wrap: wrap;
   font-size: 16px;
+  flex-shrink: 0;
 }
 
 .game-body {
+  flex: 1;
   display: flex;
   justify-content: center;
+  min-height: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  .game-center-area {
+    padding: 8px 8px;
+  }
+
+  .game-title {
+    font-size: 18px;
+    margin-bottom: 4px;
+  }
+
+  .game-actions {
+    margin-bottom: 8px;
+    gap: 6px;
+  }
+}
+
+@media (max-width: 480px) {
+  .game-title {
+    font-size: 16px;
+    margin-bottom: 2px;
+  }
+
+  .game-actions {
+    margin-bottom: 4px;
+  }
 }
 </style>

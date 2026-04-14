@@ -66,10 +66,15 @@ let timer = null
 const config = computed(() => DIFFICULTIES[difficulty.value])
 const mineCount = computed(() => config.value.mines)
 
-const boardStyle = computed(() => ({
-  gridTemplateColumns: `repeat(${config.value.cols}, 32px)`,
-  gridTemplateRows: `repeat(${config.value.rows}, 32px)`,
-}))
+const boardStyle = computed(() => {
+  let size = 32
+  if (window.innerWidth <= 480) size = 24
+  else if (window.innerWidth <= 768) size = 28
+  return {
+    gridTemplateColumns: `repeat(${config.value.cols}, ${size}px)`,
+    gridTemplateRows: `repeat(${config.value.rows}, ${size}px)`,
+  }
+})
 
 function createBoard() {
   const {rows, cols} = config.value
@@ -228,27 +233,32 @@ onUnmounted(() => {
 <style scoped>
 .minesweeper-wrapper {
   position: relative;
-  display: inline-block;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: auto;
 }
 
 .mine-info {
   display: flex;
-  gap: 16px;
-  margin-right: 16px;
+  gap: 12px;
+  margin-right: 12px;
 }
 
 .info-item {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  min-width: 56px;
+  min-width: 48px;
 }
 
 .difficulty-select {
-  padding: 8px 14px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-primary);
   background: var(--bg-card);
   cursor: pointer;
@@ -361,5 +371,63 @@ onUnmounted(() => {
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .mine-info {
+    gap: 8px;
+    margin-right: 8px;
+  }
+
+  .info-item {
+    font-size: 14px;
+    min-width: 40px;
+  }
+
+  .difficulty-select {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .mine-cell {
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .mine-info {
+    gap: 4px;
+    margin-right: 4px;
+  }
+
+  .info-item {
+    font-size: 12px;
+    min-width: 32px;
+  }
+
+  .mine-cell {
+    width: 24px;
+    height: 24px;
+    font-size: 10px;
+    border-radius: 2px;
+  }
+
+  .cell-mine {
+    font-size: 12px;
+  }
+
+  .cell-flag {
+    font-size: 10px;
+  }
+
+  .overlay-emoji {
+    font-size: 36px;
+  }
+
+  .overlay-text {
+    font-size: 16px;
+  }
 }
 </style>

@@ -90,7 +90,7 @@ function getGamesByCategory(category) {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
   gap: 16px;
 }
 
@@ -104,7 +104,34 @@ function getGamesByCategory(category) {
   }
 
   .game-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 32px 16px 24px;
+  }
+
+  .hero-title {
+    font-size: 28px;
+  }
+
+  .hero-subtitle {
+    font-size: 15px;
+  }
+
+  .hero-desc {
+    font-size: 13px;
+  }
+
+  .game-grid {
     grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .section-title {
+    font-size: 18px;
   }
 }
 </style>

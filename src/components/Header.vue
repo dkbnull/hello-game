@@ -7,10 +7,40 @@
       </router-link>
       <nav class="header-nav">
         <router-link to="/" class="nav-link">首页</router-link>
+        <button class="fullscreen-btn" @click="toggleFullscreen" :title="isFullscreen ? '退出全屏' : '全屏'">
+          <span v-if="isFullscreen">⛶</span>
+          <span v-else>⛶</span>
+        </button>
       </nav>
     </div>
   </header>
 </template>
+
+<script setup>
+import { ref, onMounted, onUnmounted } from 'vue'
+
+const isFullscreen = ref(false)
+
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {})
+  } else {
+    document.exitFullscreen().catch(() => {})
+  }
+}
+
+function onFullscreenChange() {
+  isFullscreen.value = !!document.fullscreenElement
+}
+
+onMounted(() => {
+  document.addEventListener('fullscreenchange', onFullscreenChange)
+})
+
+onUnmounted(() => {
+  document.removeEventListener('fullscreenchange', onFullscreenChange)
+})
+</script>
 
 <style scoped>
 .app-header {
@@ -21,6 +51,7 @@
   top: 0;
   z-index: 100;
   box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  flex-shrink: 0;
 }
 
 .header-inner {
@@ -55,6 +86,7 @@
 .header-nav {
   display: flex;
   gap: 8px;
+  align-items: center;
 }
 
 .nav-link {
@@ -68,6 +100,26 @@
 
 .nav-link:hover,
 .nav-link.router-link-exact-active {
+  color: var(--primary);
+  background: rgba(108, 92, 231, 0.08);
+}
+
+.fullscreen-btn {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: 20px;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.fullscreen-btn:hover {
   color: var(--primary);
   background: rgba(108, 92, 231, 0.08);
 }

@@ -29,10 +29,10 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
 
 <style scoped>
 .question-char {
-  font-size: 80px;
+  font-size: 72px;
   font-weight: 700;
   color: var(--primary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .question-hint {
@@ -41,7 +41,32 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
 }
 
 .option-pinyin {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .question-char {
+    font-size: 56px;
+  }
+
+  .option-pinyin {
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .question-char {
+    font-size: 44px;
+    margin-bottom: 4px;
+  }
+
+  .question-hint {
+    font-size: 14px;
+  }
+
+  .option-pinyin {
+    font-size: 16px;
+  }
 }
 </style>

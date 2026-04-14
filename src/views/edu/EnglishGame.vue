@@ -29,8 +29,8 @@ const WORD_BANK = GRADE1_ENGLISH.map(w => ({
 
 <style scoped>
 .question-emoji {
-  font-size: 72px;
-  margin-bottom: 12px;
+  font-size: 64px;
+  margin-bottom: 8px;
 }
 
 .question-hint {
@@ -40,8 +40,33 @@ const WORD_BANK = GRADE1_ENGLISH.map(w => ({
 }
 
 .option-word {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   text-transform: lowercase;
+}
+
+@media (max-width: 768px) {
+  .question-emoji {
+    font-size: 48px;
+  }
+
+  .option-word {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .question-emoji {
+    font-size: 40px;
+    margin-bottom: 4px;
+  }
+
+  .question-hint {
+    font-size: 14px;
+  }
+
+  .option-word {
+    font-size: 13px;
+  }
 }
 </style>

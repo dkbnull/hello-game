@@ -77,10 +77,16 @@ const boxSize = computed(() => {
 const removeRatios = {easy: 0.35, medium: 0.5, hard: 0.65}
 
 const cellSize = computed(() => {
-  if (gridSize.value <= 5) return 52
-  if (gridSize.value <= 6) return 48
-  if (gridSize.value <= 7) return 44
-  return 40
+  const s = gridSize.value
+  const w = window.innerWidth
+  let base
+  if (s <= 5) base = 52
+  else if (s <= 6) base = 48
+  else if (s <= 7) base = 44
+  else base = 40
+  if (w <= 480) base = Math.min(base, 32)
+  else if (w <= 768) base = Math.min(base, 38)
+  return base
 })
 
 const boardStyle = computed(() => ({
@@ -248,6 +254,9 @@ newGame()
   display: flex;
   flex-direction: column;
   align-items: center;
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
 }
 
 .sudoku-board-area {
@@ -256,10 +265,10 @@ newGame()
 }
 
 .diff-select {
-  padding: 8px 14px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-primary);
   background: var(--bg-card);
   cursor: pointer;
@@ -284,7 +293,7 @@ newGame()
   align-items: center;
   justify-content: center;
   background: var(--bg-card);
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.15s;
@@ -314,16 +323,16 @@ newGame()
 .number-pad {
   display: flex;
   gap: 6px;
-  margin-top: 16px;
+  margin-top: 12px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .num-btn {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-sm);
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   background: var(--bg-card);
   color: var(--text-primary);
@@ -377,5 +386,47 @@ newGame()
   font-size: 20px;
   font-weight: 600;
   margin-bottom: 16px;
+}
+
+@media (max-width: 768px) {
+  .diff-select {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .sudoku-cell {
+    font-size: 16px;
+  }
+
+  .num-btn {
+    width: 36px;
+    height: 36px;
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sudoku-cell {
+    font-size: 14px;
+  }
+
+  .num-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
+
+  .number-pad {
+    gap: 4px;
+    margin-top: 8px;
+  }
+
+  .overlay-emoji {
+    font-size: 36px;
+  }
+
+  .overlay-text {
+    font-size: 16px;
+  }
 }
 </style>

@@ -181,13 +181,19 @@ newGame()
 .match-wrapper {
   position: relative;
   display: inline-block;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  overflow: auto;
 }
 
 .mode-select {
-  padding: 8px 14px;
+  padding: 6px 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 15px;
+  font-size: 14px;
   color: var(--text-primary);
   background: var(--bg-card);
   cursor: pointer;
@@ -199,7 +205,7 @@ newGame()
 }
 
 .score-display {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
   margin-left: 8px;
@@ -207,16 +213,16 @@ newGame()
 
 .match-board {
   display: grid;
-  gap: 8px;
-  padding: 12px;
+  gap: 6px;
+  padding: 10px;
   background: var(--bg-secondary);
   border-radius: var(--radius);
   border: 3px solid var(--border);
 }
 
 .match-tile {
-  width: 80px;
-  height: 80px;
+  width: 72px;
+  height: 72px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -265,17 +271,17 @@ newGame()
 }
 
 .tile-icon {
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1;
 }
 
 .tile-label {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-primary);
-  margin-top: 4px;
+  margin-top: 3px;
   text-align: center;
-  max-width: 72px;
+  max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -308,18 +314,61 @@ newGame()
   margin-bottom: 16px;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
+  .mode-select {
+    padding: 4px 8px;
+    font-size: 13px;
+  }
+
+  .score-display {
+    font-size: 14px;
+  }
+
   .match-tile {
     width: 60px;
     height: 60px;
   }
 
   .tile-icon {
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .tile-label {
     font-size: 11px;
+  }
+}
+
+@media (max-width: 480px) {
+  .match-tile {
+    width: 48px;
+    height: 48px;
+  }
+
+  .tile-icon {
+    font-size: 16px;
+  }
+
+  .tile-label {
+    font-size: 9px;
+    max-width: 44px;
+  }
+
+  .match-board {
+    gap: 4px;
+    padding: 6px;
+  }
+
+  .score-display {
+    font-size: 12px;
+    margin-left: 4px;
+  }
+
+  .overlay-emoji {
+    font-size: 36px;
+  }
+
+  .overlay-text {
+    font-size: 16px;
   }
 }
 </style>

@@ -221,24 +221,28 @@ onUnmounted(() => {
 <style scoped>
 .game2048-wrapper {
   position: relative;
-  display: inline-block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  min-height: 0;
 }
 
 .score-display,
 .best-display {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-right: 12px;
+  margin-right: 10px;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, 80px);
-  grid-template-rows: repeat(4, 80px);
-  gap: 8px;
+  grid-template-columns: repeat(4, 72px);
+  grid-template-rows: repeat(4, 72px);
+  gap: 6px;
   background: #bbada0;
-  padding: 8px;
+  padding: 6px;
   border-radius: var(--radius);
   touch-action: none;
 }
@@ -260,7 +264,7 @@ onUnmounted(() => {
   justify-content: center;
   border-radius: 6px;
   font-weight: 700;
-  font-size: 28px;
+  font-size: 26px;
   transition: all 0.12s;
 }
 
@@ -297,35 +301,35 @@ onUnmounted(() => {
 .tile-128 {
   background: #edcf72;
   color: #f9f6f2;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .tile-256 {
   background: #edcc61;
   color: #f9f6f2;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .tile-512 {
   background: #edc850;
   color: #f9f6f2;
-  font-size: 24px;
+  font-size: 22px;
 }
 
 .tile-1024 {
   background: #edc53f;
   color: #f9f6f2;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .tile-2048 {
   background: #edc22e;
   color: #f9f6f2;
-  font-size: 20px;
+  font-size: 18px;
 }
 
 .game-tip {
-  margin-top: 12px;
+  margin-top: 10px;
   text-align: center;
   color: var(--text-light);
   font-size: 13px;
@@ -372,5 +376,78 @@ onUnmounted(() => {
   font-size: 16px;
   margin-bottom: 16px;
   color: rgba(255, 255, 255, 0.8);
+}
+
+@media (max-width: 768px) {
+  .score-display,
+  .best-display {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(4, 64px);
+    grid-template-rows: repeat(4, 64px);
+    gap: 5px;
+    padding: 5px;
+  }
+
+  .tile {
+    font-size: 22px;
+  }
+
+  .tile-128,
+  .tile-256,
+  .tile-512 {
+    font-size: 18px;
+  }
+
+  .tile-1024,
+  .tile-2048 {
+    font-size: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-display,
+  .best-display {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .game-board {
+    grid-template-columns: repeat(4, 56px);
+    grid-template-rows: repeat(4, 56px);
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .tile {
+    font-size: 18px;
+  }
+
+  .tile-128,
+  .tile-256,
+  .tile-512 {
+    font-size: 15px;
+  }
+
+  .tile-1024,
+  .tile-2048 {
+    font-size: 12px;
+  }
+
+  .game-tip {
+    font-size: 11px;
+    margin-top: 6px;
+  }
+
+  .overlay-emoji {
+    font-size: 36px;
+  }
+
+  .overlay-text {
+    font-size: 16px;
+  }
 }
 </style>

@@ -29,8 +29,8 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
 
 <style scoped>
 .question-emoji {
-  font-size: 72px;
-  margin-bottom: 12px;
+  font-size: 64px;
+  margin-bottom: 8px;
 }
 
 .question-hint {
@@ -39,7 +39,32 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
 }
 
 .option-char {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .question-emoji {
+    font-size: 48px;
+  }
+
+  .option-char {
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .question-emoji {
+    font-size: 40px;
+    margin-bottom: 4px;
+  }
+
+  .question-hint {
+    font-size: 14px;
+  }
+
+  .option-char {
+    font-size: 18px;
+  }
 }
 </style>

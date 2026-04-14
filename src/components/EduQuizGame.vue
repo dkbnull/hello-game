@@ -267,48 +267,59 @@ defineExpose({startGame, score, correctCount})
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .score-display,
 .progress-display,
 .timer-display {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-right: 12px;
+  margin-right: 10px;
 }
 
 .start-screen,
 .result-screen {
   text-align: center;
-  padding: 40px 20px;
+  padding: 24px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-emoji,
 .result-emoji {
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 56px;
+  margin-bottom: 12px;
 }
 
 .start-screen h2,
 .result-screen h2 {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 22px;
+  margin-bottom: 6px;
   color: var(--text-primary);
 }
 
 .start-screen p,
 .result-screen p {
   color: var(--text-secondary);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .config-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .config-row {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .config-label {
@@ -316,18 +327,18 @@ defineExpose({startGame, score, correctCount})
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .round-options {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .round-btn {
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
@@ -348,17 +359,18 @@ defineExpose({startGame, score, correctCount})
 }
 
 .custom-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
+  width: 100%;
 }
 
 .custom-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 10px 16px;
+  padding: 8px 14px;
   background: var(--bg-game);
   cursor: pointer;
   font-size: 14px;
@@ -372,16 +384,16 @@ defineExpose({startGame, score, correctCount})
 }
 
 .custom-body {
-  padding: 12px 16px;
+  padding: 10px 14px;
 }
 
 .search-row {
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .search-input {
   width: 100%;
-  padding: 8px 12px;
+  padding: 7px 10px;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 14px;
@@ -395,7 +407,7 @@ defineExpose({startGame, score, correctCount})
 }
 
 .search-results {
-  max-height: 180px;
+  max-height: 150px;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -405,9 +417,9 @@ defineExpose({startGame, score, correctCount})
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 12px;
+  padding: 6px 10px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 13px;
   transition: background 0.15s;
 }
 
@@ -426,37 +438,46 @@ defineExpose({startGame, score, correctCount})
 }
 
 .no-result {
-  padding: 12px;
+  padding: 10px;
   color: var(--text-secondary);
   font-size: 13px;
   text-align: center;
 }
 
 .custom-summary {
-  margin-top: 8px;
+  margin-top: 6px;
   font-size: 13px;
   color: var(--primary);
   font-weight: 600;
 }
 
+.quiz-area {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .question-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 32px;
+  padding: 24px;
   text-align: center;
   box-shadow: var(--shadow);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
+  flex-shrink: 0;
 }
 
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
+  flex: 1;
 }
 
 .option-btn {
-  padding: 20px;
-  font-size: 24px;
+  padding: 16px;
+  font-size: 22px;
   font-weight: 600;
   border-radius: var(--radius);
   background: var(--bg-card);
@@ -481,5 +502,68 @@ defineExpose({startGame, score, correctCount})
   background: #f8d7da;
   border-color: var(--danger);
   color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .score-display,
+  .progress-display,
+  .timer-display {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .start-emoji,
+  .result-emoji {
+    font-size: 48px;
+  }
+
+  .question-card {
+    padding: 16px;
+    margin-bottom: 10px;
+  }
+
+  .option-btn {
+    padding: 12px;
+    font-size: 18px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-display,
+  .progress-display,
+  .timer-display {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .start-screen,
+  .result-screen {
+    padding: 16px 8px;
+  }
+
+  .start-emoji,
+  .result-emoji {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .start-screen h2,
+  .result-screen h2 {
+    font-size: 18px;
+  }
+
+  .question-card {
+    padding: 12px;
+    margin-bottom: 8px;
+  }
+
+  .option-btn {
+    padding: 10px;
+    font-size: 16px;
+  }
+
+  .options-grid {
+    gap: 6px;
+  }
 }
 </style>

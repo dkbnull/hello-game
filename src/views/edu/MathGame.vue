@@ -241,47 +241,58 @@ function startGame() {
   width: 100%;
   max-width: 480px;
   margin: 0 auto;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .score-display,
 .progress-display,
 .timer-display {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-right: 12px;
+  margin-right: 10px;
 }
 
 .combo-display {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   color: var(--accent);
-  margin-right: 12px;
+  margin-right: 10px;
 }
 
 .start-screen,
 .result-screen {
   text-align: center;
-  padding: 40px 20px;
+  padding: 24px 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .start-emoji,
 .result-emoji {
-  font-size: 64px;
-  margin-bottom: 16px;
+  font-size: 56px;
+  margin-bottom: 12px;
 }
 
 .start-screen h2,
 .result-screen h2 {
-  font-size: 24px;
-  margin-bottom: 8px;
+  font-size: 22px;
+  margin-bottom: 6px;
   color: var(--text-primary);
 }
 
 .start-screen p,
 .result-screen p {
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .result-score {
@@ -291,11 +302,11 @@ function startGame() {
 }
 
 .config-section {
-  margin-bottom: 20px;
+  margin-bottom: 16px;
 }
 
 .config-row {
-  margin-bottom: 12px;
+  margin-bottom: 10px;
 }
 
 .config-label {
@@ -303,20 +314,20 @@ function startGame() {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 8px;
+  margin-bottom: 6px;
 }
 
 .round-options,
 .diff-options {
   display: flex;
-  gap: 8px;
+  gap: 6px;
   justify-content: center;
   flex-wrap: wrap;
 }
 
 .round-btn,
 .diff-btn {
-  padding: 6px 16px;
+  padding: 5px 14px;
   border-radius: 20px;
   font-size: 13px;
   font-weight: 500;
@@ -341,20 +352,20 @@ function startGame() {
 .question-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 40px;
+  padding: 28px;
   text-align: center;
   box-shadow: var(--shadow);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 }
 
 .question-text {
-  font-size: 48px;
+  font-size: 40px;
   font-weight: 700;
   color: var(--text-primary);
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 12px;
+  gap: 10px;
 }
 
 .operator {
@@ -382,12 +393,12 @@ function startGame() {
 .options-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 10px;
 }
 
 .option-btn {
-  padding: 20px;
-  font-size: 28px;
+  padding: 16px;
+  font-size: 24px;
   font-weight: 700;
   border-radius: var(--radius);
   background: var(--bg-card);
@@ -412,5 +423,88 @@ function startGame() {
   background: #f8d7da;
   border-color: var(--danger);
   color: var(--danger);
+}
+
+@media (max-width: 768px) {
+  .score-display,
+  .progress-display,
+  .timer-display {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .combo-display {
+    font-size: 14px;
+    margin-right: 6px;
+  }
+
+  .start-emoji,
+  .result-emoji {
+    font-size: 48px;
+  }
+
+  .question-card {
+    padding: 20px;
+    margin-bottom: 12px;
+  }
+
+  .question-text {
+    font-size: 32px;
+    gap: 8px;
+  }
+
+  .option-btn {
+    padding: 12px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .score-display,
+  .progress-display,
+  .timer-display {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .combo-display {
+    font-size: 12px;
+    margin-right: 4px;
+  }
+
+  .start-screen,
+  .result-screen {
+    padding: 16px 8px;
+  }
+
+  .start-emoji,
+  .result-emoji {
+    font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .start-screen h2,
+  .result-screen h2 {
+    font-size: 18px;
+  }
+
+  .question-card {
+    padding: 16px;
+    margin-bottom: 8px;
+  }
+
+  .question-text {
+    font-size: 26px;
+    gap: 6px;
+  }
+
+  .option-btn {
+    padding: 10px;
+    font-size: 18px;
+  }
+
+  .options-grid {
+    gap: 6px;
+  }
 }
 </style>
