@@ -9,14 +9,20 @@ export const GAME_SECTIONS = [
         title: '趣味早教',
         icon: '🌟',
     },
+    {
+        key: 'ninja',
+        title: '火影忍者',
+        icon: '⚔️',
+    },
 ]
 
 export const GAMES = [
     {
         to: '/minesweeper',
         icon: '💣',
-        iconBg: 'linear-gradient(135deg, #6c5ce7, #a29bfe)',
+        iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '扫雷',
+        pinyin: 'saolei',
         description: '经典扫雷游戏，锻炼逻辑推理能力',
         category: 'classic',
         tag: '经典',
@@ -24,8 +30,9 @@ export const GAMES = [
     {
         to: '/sudoku',
         icon: '🔢',
-        iconBg: 'linear-gradient(135deg, #00b894, #55efc4)',
+        iconBg: 'rgba(0, 184, 148, 0.1)',
         title: '数独',
+        pinyin: 'shudu',
         description: '填入数字，每行每列每宫不重复',
         category: 'classic',
         tag: '经典',
@@ -33,8 +40,9 @@ export const GAMES = [
     {
         to: '/game2048',
         icon: '🧩',
-        iconBg: 'linear-gradient(135deg, #fdcb6e, #e17055)',
+        iconBg: 'rgba(253, 203, 110, 0.1)',
         title: '2048',
+        pinyin: '2048',
         description: '滑动合并数字，挑战最高分',
         category: 'classic',
         tag: '经典',
@@ -42,8 +50,9 @@ export const GAMES = [
     {
         to: '/match',
         icon: '🀄',
-        iconBg: 'linear-gradient(135deg, #6c5ce7, #fd79a8)',
+        iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '消消乐',
+        pinyin: 'xiaoxiaole',
         description: '配对消除，语文数学英语三种模式',
         category: 'classic',
         tag: '经典',
@@ -51,8 +60,9 @@ export const GAMES = [
     {
         to: '/literacy',
         icon: '📝',
-        iconBg: 'linear-gradient(135deg, #e17055, #fd79a8)',
+        iconBg: 'rgba(225, 112, 85, 0.1)',
         title: '识字达人',
+        pinyin: 'shizidaren',
         description: '看图识字，轻松认识常用汉字',
         category: 'edu',
         tag: '早教',
@@ -60,8 +70,9 @@ export const GAMES = [
     {
         to: '/pinyin',
         icon: '🎵',
-        iconBg: 'linear-gradient(135deg, #00cec9, #81ecec)',
+        iconBg: 'rgba(0, 206, 201, 0.1)',
         title: '拼音学习',
+        pinyin: 'pinyinxuexi',
         description: '声母韵母趣味学习，打好拼音基础',
         category: 'edu',
         tag: '早教',
@@ -69,8 +80,9 @@ export const GAMES = [
     {
         to: '/english',
         icon: '🌍',
-        iconBg: 'linear-gradient(135deg, #0984e3, #74b9ff)',
+        iconBg: 'rgba(9, 132, 227, 0.1)',
         title: '英语启蒙',
+        pinyin: 'yingyuqimeng',
         description: '趣味英语单词学习，轻松入门',
         category: 'edu',
         tag: '早教',
@@ -78,10 +90,21 @@ export const GAMES = [
     {
         to: '/math',
         icon: '➕',
-        iconBg: 'linear-gradient(135deg, #fd79a8, #fdcb6e)',
+        iconBg: 'rgba(253, 121, 168, 0.1)',
         title: '加减乐园',
+        pinyin: 'jiajianleyuan',
         description: '趣味加减法练习，提升数学能力',
         category: 'edu',
         tag: '早教',
+    },
+    {
+        to: '/naruto-seal',
+        icon: '⚡',
+        iconBg: 'rgba(225, 112, 85, 0.1)',
+        title: '忍者结印',
+        pinyin: 'renzhejieyin',
+        description: '摄像头手势识别，体验火影结印忍术',
+        category: 'ninja',
+        tag: '忍者',
     },
 ]

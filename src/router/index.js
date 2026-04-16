@@ -54,6 +54,12 @@ const routes = [
         component: () => import('../views/classic/MatchGame.vue'),
         meta: {title: '消消乐', category: 'classic'},
     },
+    {
+        path: '/naruto-seal',
+        name: 'NarutoSeal',
+        component: () => import('../views/classic/NarutoSealGame.vue'),
+        meta: {title: '火影忍者', category: 'ninja'},
+    },
 ]
 
 const router = createRouter({
