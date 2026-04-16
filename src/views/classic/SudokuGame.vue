@@ -1,16 +1,28 @@
 <template>
-  <GamePage title="数独">
+  <GamePage title="数独" icon="🔢">
     <template #actions>
-      <select v-model="gridSize" class="diff-select" @change="onSizeChange">
-        <option v-for="s in SIZES" :key="s" :value="s">{{ s }}×{{ s }}</option>
-      </select>
-      <select v-model="difficulty" class="diff-select" @change="newGame">
-        <option value="easy">简单</option>
-        <option value="medium">中等</option>
-        <option value="hard">困难</option>
-      </select>
-      <button class="btn btn-secondary btn-sm" @click="hint">提示</button>
-      <button class="btn btn-primary btn-sm" @click="newGame">新游戏</button>
+      <div class="action-group">
+        <select v-model="gridSize" class="action-select equal-width-action" @change="onSizeChange">
+          <option v-for="s in SIZES" :key="s" :value="s">{{ s }}×{{ s }}</option>
+        </select>
+        <select v-model="difficulty" class="action-select equal-width-action" @change="newGame">
+          <option value="easy">简单</option>
+          <option value="medium">中等</option>
+          <option value="hard">困难</option>
+        </select>
+      </div>
+      <div class="action-group">
+        <button class="btn-action equal-width-action" @click="newGame">重新开始</button>
+        <button class="btn-secondary-action equal-width-action hint-button" @click="hint" :disabled="score <= 0">提示
+        </button>
+      </div>
+    </template>
+    <template #actionsBottom>
+      <div class="action-group">
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">👑</span> {{ bestScore }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ elapsedTime }}s</span>
+      </div>
     </template>
     <div class="sudoku-wrapper">
       <div class="sudoku-board-area">
@@ -54,7 +66,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import GamePage from '../../components/GamePage.vue'
 
 const SIZES = [4, 5, 6, 7, 8, 9]
@@ -65,6 +77,10 @@ const puzzle = ref([])
 const selectedIndex = ref(-1)
 const selectedNum = ref(0)
 const completed = ref(false)
+const score = ref(parseInt(localStorage.getItem('sudoku_score') || '0'))
+const bestScore = ref(parseInt(localStorage.getItem('sudoku_best') || '0'))
+const elapsedTime = ref(0)
+let timer = null
 
 const boxSize = computed(() => {
   const s = gridSize.value
@@ -207,15 +223,28 @@ function eraseNumber() {
 }
 
 function hint() {
+  if (score.value <= 0) return
   const emptyCells = puzzle.value.filter(c => !c.given && c.value !== c.solution)
   if (emptyCells.length === 0) return
   const cell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
   cell.value = cell.solution
+  score.value--
+  localStorage.setItem('sudoku_score', String(score.value))
   checkComplete()
 }
 
 function checkComplete() {
+  const wasComplete = completed.value
   completed.value = puzzle.value.every(c => c.value === c.solution)
+  if (completed.value && !wasComplete) {
+    score.value++
+    if (score.value > bestScore.value) {
+      bestScore.value = score.value
+      localStorage.setItem('sudoku_best', String(bestScore.value))
+    }
+    localStorage.setItem('sudoku_score', String(score.value))
+    stopTimer()
+  }
 }
 
 function cellClass(cell, index) {
@@ -242,14 +271,58 @@ function onSizeChange() {
   newGame()
 }
 
-function newGame() {
-  generatePuzzle()
+function startTimer() {
+  elapsedTime.value = 0
+  timer = setInterval(() => {
+    elapsedTime.value++
+  }, 1000)
 }
 
-newGame()
+function stopTimer() {
+  if (timer) {
+    clearInterval(timer)
+    timer = null
+  }
+}
+
+function newGame() {
+  stopTimer()
+  generatePuzzle()
+  startTimer()
+}
+
+onMounted(() => {
+  newGame()
+})
+
+onUnmounted(() => {
+  stopTimer()
+})
 </script>
 
 <style scoped>
+.equal-width-action {
+  min-width: 80px;
+  justify-content: center;
+  text-align: center;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.hint-button {
+  height: auto;
+  min-height: 40px;
+}
+
+.hint-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 .sudoku-wrapper {
   display: flex;
   flex-direction: column;
@@ -264,27 +337,11 @@ newGame()
   display: inline-block;
 }
 
-.diff-select {
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--bg-card);
-  cursor: pointer;
-  outline: none;
-}
-
-.diff-select:focus {
-  border-color: var(--primary);
-}
-
 .sudoku-board {
   display: grid;
   gap: 1px;
   background: var(--border);
   border: 3px solid var(--text-primary);
-  border-radius: 4px;
   overflow: hidden;
 }
 

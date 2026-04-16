@@ -1,9 +1,15 @@
 <template>
   <div class="game-page">
     <div class="game-center-area">
-      <h1 class="game-title">{{ title }}</h1>
-      <div class="game-actions">
+      <h1 class="game-title">
+        <span v-if="icon" class="title-icon">{{ icon }}</span>
+        {{ title }}
+      </h1>
+      <div v-if="$slots.actions" class="game-actions">
         <slot name="actions"></slot>
+      </div>
+      <div v-if="$slots.actionsBottom" class="game-actions-bottom">
+        <slot name="actionsBottom"></slot>
       </div>
       <div class="game-body">
         <slot></slot>
@@ -15,6 +21,7 @@
 <script setup>
 defineProps({
   title: {type: String, required: true},
+  icon: {type: String, default: ''},
 })
 </script>
 
@@ -41,12 +48,20 @@ defineProps({
 }
 
 .game-title {
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 8px;
   text-align: center;
+  margin-bottom: 10px;
   flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.title-icon {
+  font-size: 1.3em;
 }
 
 .game-actions {
@@ -54,9 +69,18 @@ defineProps({
   gap: 10px;
   align-items: center;
   justify-content: center;
-  margin-bottom: 12px;
   flex-wrap: wrap;
-  font-size: 16px;
+  margin-bottom: 8px;
+  flex-shrink: 0;
+}
+
+.game-actions-bottom {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
   flex-shrink: 0;
 }
 
@@ -76,23 +100,24 @@ defineProps({
 
   .game-title {
     font-size: 18px;
-    margin-bottom: 4px;
+    margin-bottom: 6px;
   }
 
   .game-actions {
-    margin-bottom: 8px;
     gap: 6px;
+    margin-bottom: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .game-title {
     font-size: 16px;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
   }
 
   .game-actions {
-    margin-bottom: 4px;
+    gap: 4px;
+    margin-bottom: 6px;
   }
 }
 </style>

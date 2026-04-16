@@ -1,10 +1,12 @@
 <template>
-  <GamePage :title="title">
+  <GamePage :title="title" :icon="icon">
     <template #actions>
-      <span class="score-display">得分：{{ score }}</span>
-      <span class="progress-display">{{ currentIndex + 1 }} / {{ effectiveRounds }}</span>
-      <span class="timer-display">⏱ {{ formattedTime }}</span>
-      <button class="btn btn-primary btn-sm" @click="startGame">重新开始</button>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span> {{
+          currentIndex + 1
+        }} / {{ effectiveRounds }}</span>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
+      <button class="btn-action equal-width-action" @click="startGame">重新开始</button>
     </template>
     <div class="edu-wrapper">
       <div v-if="!started" class="start-screen">
@@ -263,6 +265,12 @@ defineExpose({startGame, score, correctCount})
 </script>
 
 <style scoped>
+.equal-width-action {
+  min-width: 80px;
+  justify-content: center;
+  text-align: center;
+}
+
 .edu-wrapper {
   width: 100%;
   max-width: 480px;
@@ -273,15 +281,6 @@ defineExpose({startGame, score, correctCount})
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.score-display,
-.progress-display,
-.timer-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-right: 10px;
 }
 
 .start-screen,
@@ -338,9 +337,9 @@ defineExpose({startGame, score, correctCount})
 }
 
 .round-btn {
-  padding: 5px 14px;
+  padding: 8px 20px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   background: var(--bg-card);
   color: var(--text-secondary);
@@ -472,12 +471,11 @@ defineExpose({startGame, score, correctCount})
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  flex: 1;
 }
 
 .option-btn {
-  padding: 16px;
-  font-size: 22px;
+  padding: 14px;
+  font-size: 20px;
   font-weight: 600;
   border-radius: var(--radius);
   background: var(--bg-card);
@@ -505,13 +503,6 @@ defineExpose({startGame, score, correctCount})
 }
 
 @media (max-width: 768px) {
-  .score-display,
-  .progress-display,
-  .timer-display {
-    font-size: 14px;
-    margin-right: 6px;
-  }
-
   .start-emoji,
   .result-emoji {
     font-size: 48px;
@@ -523,19 +514,13 @@ defineExpose({startGame, score, correctCount})
   }
 
   .option-btn {
-    padding: 12px;
+    padding: 20px 10px;
     font-size: 18px;
+    min-height: 80px;
   }
 }
 
 @media (max-width: 480px) {
-  .score-display,
-  .progress-display,
-  .timer-display {
-    font-size: 12px;
-    margin-right: 4px;
-  }
-
   .start-screen,
   .result-screen {
     padding: 16px 8px;
@@ -558,8 +543,9 @@ defineExpose({startGame, score, correctCount})
   }
 
   .option-btn {
-    padding: 10px;
+    padding: 24px 10px;
     font-size: 16px;
+    min-height: 100px;
   }
 
   .options-grid {

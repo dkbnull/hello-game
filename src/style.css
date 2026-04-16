@@ -181,3 +181,76 @@ button:active {
     padding: 14px 32px;
     font-size: 16px;
 }
+
+.btn-action {
+    padding: 0 20px;
+    font-size: 14px;
+    font-weight: 600;
+    height: 38px;
+    line-height: 38px;
+    border-radius: var(--radius-sm);
+    background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+    transition: all 0.2s;
+}
+
+.btn-action:hover {
+    box-shadow: 0 4px 16px rgba(108, 92, 231, 0.4);
+    transform: translateY(-1px);
+}
+
+.btn-action:active {
+    transform: translateY(0) scale(0.97);
+}
+
+.btn-secondary-action {
+    background: var(--bg-game);
+    color: var(--text-primary);
+    box-shadow: none;
+    border: 1px solid var(--border);
+}
+
+.btn-secondary-action:hover {
+    background: var(--border);
+    box-shadow: none;
+    transform: none;
+}
+
+.stat-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 0 12px;
+    height: 38px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 600;
+    background: var(--bg-game);
+    color: var(--text-secondary);
+    border: 1px solid var(--border);
+}
+
+.stat-badge .stat-icon {
+    font-size: 16px;
+}
+
+.action-select {
+    padding: 0 12px;
+    height: 38px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-primary);
+    background: var(--bg-card);
+    cursor: pointer;
+    outline: none;
+    -webkit-appearance: none;
+    appearance: none;
+    transition: border-color 0.2s;
+}
+
+.action-select:focus {
+    border-color: var(--primary);
+}

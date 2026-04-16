@@ -1,11 +1,24 @@
 <template>
-  <GamePage title="2048">
+  <GamePage title="" icon="">
     <template #actions>
-      <span class="score-display">分数：{{ score }}</span>
-      <span class="best-display">最高：{{ bestScore }}</span>
-      <button class="btn btn-primary btn-sm" @click="newGame">重新开始</button>
     </template>
     <div class="game2048-wrapper">
+      <div class="game-header">
+        <div class="game-title-area">
+          <h1 class="game-title-2048">2048</h1>
+          <p class="game-subtitle">合并数字，合成 2048 方块！</p>
+        </div>
+        <div class="score-container">
+          <div class="score-box">
+            <span class="score-label">分数</span>
+            <span class="score-value">{{ score }}</span>
+          </div>
+          <div class="score-box">
+            <span class="score-label">最高</span>
+            <span class="score-value">{{ bestScore }}</span>
+          </div>
+        </div>
+      </div>
       <div class="game-board" @touchstart="onTouchStart" @touchend="onTouchEnd">
         <div v-for="(cell, index) in grid" :key="index" class="grid-cell">
           <transition name="tile" mode="out-in">
@@ -226,30 +239,79 @@ onUnmounted(() => {
   align-items: center;
   flex: 1;
   min-height: 0;
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
 }
 
-.score-display,
-.best-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-right: 10px;
+.game-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.game-title-area {
+  flex: 1;
+}
+
+.game-title-2048 {
+  font-size: 56px;
+  font-weight: bold;
+  color: #776e65;
+  margin: 0;
+  line-height: 1;
+}
+
+.game-subtitle {
+  font-size: 14px;
+  color: #776e65;
+  margin: 8px 0 0;
+}
+
+.score-container {
+  display: flex;
+  gap: 8px;
+}
+
+.score-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: #bbada0;
+  padding: 6px 16px;
+  border-radius: 4px;
+  min-width: 60px;
+}
+
+.score-label {
+  font-size: 11px;
+  font-weight: bold;
+  color: #eee4da;
+  text-transform: uppercase;
+}
+
+.score-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #fff;
 }
 
 .game-board {
   display: grid;
-  grid-template-columns: repeat(4, 72px);
-  grid-template-rows: repeat(4, 72px);
-  gap: 6px;
+  grid-template-columns: repeat(4, 80px);
+  grid-template-rows: repeat(4, 80px);
+  gap: 12px;
   background: #bbada0;
-  padding: 6px;
-  border-radius: var(--radius);
+  padding: 12px;
+  border-radius: 6px;
   touch-action: none;
 }
 
 .grid-cell {
   background: rgba(238, 228, 218, 0.35);
-  border-radius: 6px;
+  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -262,20 +324,19 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
-  font-weight: 700;
-  font-size: 26px;
+  border-radius: 4px;
+  font-weight: bold;
+  font-size: 40px;
   transition: all 0.12s;
+  color: #776e65;
 }
 
 .tile-2 {
   background: #eee4da;
-  color: #776e65;
 }
 
 .tile-4 {
   background: #ede0c8;
-  color: #776e65;
 }
 
 .tile-8 {
@@ -301,64 +362,65 @@ onUnmounted(() => {
 .tile-128 {
   background: #edcf72;
   color: #f9f6f2;
-  font-size: 22px;
+  font-size: 32px;
 }
 
 .tile-256 {
   background: #edcc61;
   color: #f9f6f2;
-  font-size: 22px;
+  font-size: 32px;
 }
 
 .tile-512 {
   background: #edc850;
   color: #f9f6f2;
-  font-size: 22px;
+  font-size: 32px;
 }
 
 .tile-1024 {
   background: #edc53f;
   color: #f9f6f2;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .tile-2048 {
   background: #edc22e;
   color: #f9f6f2;
-  font-size: 18px;
+  font-size: 24px;
 }
 
 .game-tip {
-  margin-top: 10px;
+  margin-top: 16px;
   text-align: center;
-  color: var(--text-light);
-  font-size: 13px;
+  color: #776e65;
+  font-size: 14px;
 }
 
 .game-tip kbd {
   display: inline-block;
-  padding: 2px 6px;
-  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border: 1px solid #bbada0;
   border-radius: 4px;
-  background: var(--bg-card);
+  background: #eee4da;
   font-size: 12px;
   margin: 0 2px;
+  font-weight: bold;
 }
 
 .game-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(238, 228, 218, 0.73);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius);
+  border-radius: 6px;
   z-index: 10;
 }
 
 .overlay-content {
   text-align: center;
-  color: #fff;
+  color: #776e65;
 }
 
 .overlay-emoji {
@@ -367,79 +429,100 @@ onUnmounted(() => {
 }
 
 .overlay-text {
-  font-size: 20px;
-  font-weight: 600;
+  font-size: 24px;
+  font-weight: bold;
   margin-bottom: 8px;
 }
 
 .overlay-score {
-  font-size: 16px;
+  font-size: 18px;
   margin-bottom: 16px;
-  color: rgba(255, 255, 255, 0.8);
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: #8f7a66;
+  color: #f9f6f2;
+}
+
+.btn-primary:hover {
+  background: #9f8b77;
 }
 
 @media (max-width: 768px) {
-  .score-display,
-  .best-display {
-    font-size: 14px;
-    margin-right: 6px;
+  .game-header {
+    flex-direction: column;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .game-title-area {
+    text-align: center;
+  }
+
+  .game-title-2048 {
+    font-size: 48px;
   }
 
   .game-board {
-    grid-template-columns: repeat(4, 64px);
-    grid-template-rows: repeat(4, 64px);
-    gap: 5px;
-    padding: 5px;
+    grid-template-columns: repeat(4, 68px);
+    grid-template-rows: repeat(4, 68px);
+    gap: 10px;
+    padding: 10px;
   }
 
   .tile {
-    font-size: 22px;
+    font-size: 32px;
   }
 
   .tile-128,
   .tile-256,
   .tile-512 {
-    font-size: 18px;
+    font-size: 26px;
   }
 
   .tile-1024,
   .tile-2048 {
-    font-size: 15px;
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .score-display,
-  .best-display {
-    font-size: 12px;
-    margin-right: 4px;
-  }
-
   .game-board {
-    grid-template-columns: repeat(4, 56px);
-    grid-template-rows: repeat(4, 56px);
-    gap: 4px;
-    padding: 4px;
+    grid-template-columns: repeat(4, 58px);
+    grid-template-rows: repeat(4, 58px);
+    gap: 8px;
+    padding: 8px;
   }
 
   .tile {
-    font-size: 18px;
+    font-size: 26px;
   }
 
   .tile-128,
   .tile-256,
   .tile-512 {
-    font-size: 15px;
+    font-size: 20px;
   }
 
   .tile-1024,
   .tile-2048 {
-    font-size: 12px;
+    font-size: 16px;
   }
 
   .game-tip {
-    font-size: 11px;
-    margin-top: 6px;
+    font-size: 12px;
+    margin-top: 12px;
   }
 
   .overlay-emoji {
@@ -447,7 +530,7 @@ onUnmounted(() => {
   }
 
   .overlay-text {
-    font-size: 16px;
+    font-size: 18px;
   }
 }
 </style>

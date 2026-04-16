@@ -8,8 +8,16 @@
       <nav class="header-nav">
         <router-link to="/" class="nav-link">首页</router-link>
         <button class="fullscreen-btn" @click="toggleFullscreen" :title="isFullscreen ? '退出全屏' : '全屏'">
-          <span v-if="isFullscreen">⛶</span>
-          <span v-else>⛶</span>
+          <svg class="fullscreen-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+               stroke-linecap="round" stroke-linejoin="round">
+            <template v-if="!isFullscreen">
+              <path d="M4 8V4h4M4 4l4 4M16 4h4v4M20 4l-4 4M4 16v4h4M4 20l4-4M16 20h4v-4M20 20l-4-4"/>
+            </template>
+            <template v-else>
+              <path
+                  d="M8 8L4 4M8 8H4M8 8V4M16 8L20 4M16 8h4M16 8V4M8 16L4 20M8 16H4M8 16v4M16 16L20 20M16 16h4M16 16v4"/>
+            </template>
+          </svg>
         </button>
       </nav>
     </div>
@@ -17,28 +25,41 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import {onMounted, onUnmounted, ref} from 'vue'
 
 const isFullscreen = ref(false)
 
 function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen().catch(() => {})
+  const doc = document.documentElement
+  if (!isFullscreen.value) {
+    if (doc.requestFullscreen) {
+      doc.requestFullscreen().catch(() => {
+      })
+    } else if (doc.webkitRequestFullscreen) {
+      doc.webkitRequestFullscreen()
+    }
   } else {
-    document.exitFullscreen().catch(() => {})
+    if (document.exitFullscreen) {
+      document.exitFullscreen().catch(() => {
+      })
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen()
+    }
   }
 }
 
 function onFullscreenChange() {
-  isFullscreen.value = !!document.fullscreenElement
+  isFullscreen.value = !!(document.fullscreenElement || document.webkitFullscreenElement)
 }
 
 onMounted(() => {
   document.addEventListener('fullscreenchange', onFullscreenChange)
+  document.addEventListener('webkitfullscreenchange', onFullscreenChange)
 })
 
 onUnmounted(() => {
   document.removeEventListener('fullscreenchange', onFullscreenChange)
+  document.removeEventListener('webkitfullscreenchange', onFullscreenChange)
 })
 </script>
 
@@ -113,14 +134,19 @@ onUnmounted(() => {
   justify-content: center;
   background: transparent;
   color: var(--text-secondary);
-  font-size: 20px;
   transition: all 0.2s;
   border: none;
   cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .fullscreen-btn:hover {
   color: var(--primary);
   background: rgba(108, 92, 231, 0.08);
+}
+
+.fullscreen-icon {
+  width: 20px;
+  height: 20px;
 }
 </style>

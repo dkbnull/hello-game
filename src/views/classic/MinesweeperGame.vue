@@ -1,18 +1,26 @@
 <template>
-  <GamePage title="扫雷">
+  <GamePage title="扫雷" icon="💣">
     <template #actions>
-      <div class="mine-info">
-        <span class="info-item">💣 {{ mineCount - flagCount }}</span>
-        <span class="info-item">⏱ {{ elapsedTime }}s</span>
+      <div class="action-group">
+        <select v-model="difficulty" class="action-select equal-width-action" @change="resetGame">
+          <option value="easy">初级 9×9</option>
+          <option value="medium">中级 16×16</option>
+          <option value="hard">高级 16×30</option>
+        </select>
       </div>
-      <select v-model="difficulty" class="difficulty-select" @change="resetGame">
-        <option value="easy">初级 9×9</option>
-        <option value="medium">中级 16×16</option>
-        <option value="hard">高级 16×30</option>
-      </select>
-      <button class="btn btn-primary btn-sm" @click="resetGame">重新开始</button>
     </template>
     <div class="minesweeper-wrapper">
+      <div class="minesweeper-header" :style="{ width: boardWidth }">
+        <div class="mine-counter">
+          <span class="counter-digit">{{ String(mineCount - flagCount).padStart(3, '0') }}</span>
+        </div>
+        <button class="face-button" @click="resetGame">
+          {{ faceEmoji }}
+        </button>
+        <div class="time-counter">
+          <span class="counter-digit">{{ String(elapsedTime).padStart(3, '0') }}</span>
+        </div>
+      </div>
       <div
           class="mine-board"
           :style="boardStyle"
@@ -66,13 +74,32 @@ let timer = null
 const config = computed(() => DIFFICULTIES[difficulty.value])
 const mineCount = computed(() => config.value.mines)
 
-const boardStyle = computed(() => {
+const faceEmoji = computed(() => {
+  if (gameOver.value) {
+    return won.value ? '😎' : '😵'
+  }
+  return '😊'
+})
+
+const cellSize = computed(() => {
   let size = 32
   if (window.innerWidth <= 480) size = 24
   else if (window.innerWidth <= 768) size = 28
+  return size
+})
+
+const boardWidth = computed(() => {
+  const cellWidth = cellSize.value
+  const cols = config.value.cols
+  const padding = 8
+  const border = 8
+  return `${cols * cellWidth + padding + border}px`
+})
+
+const boardStyle = computed(() => {
   return {
-    gridTemplateColumns: `repeat(${config.value.cols}, ${size}px)`,
-    gridTemplateRows: `repeat(${config.value.rows}, ${size}px)`,
+    gridTemplateColumns: `repeat(${config.value.cols}, ${cellSize.value}px)`,
+    gridTemplateRows: `repeat(${config.value.rows}, ${cellSize.value}px)`,
   }
 })
 
@@ -231,52 +258,96 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
+.equal-width-action {
+  min-width: 100px;
+  justify-content: center;
+  text-align: center;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .minesweeper-wrapper {
   position: relative;
   flex: 1;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   min-height: 0;
   overflow: auto;
 }
 
-.mine-info {
+.minesweeper-header {
   display: flex;
-  gap: 12px;
-  margin-right: 12px;
+  justify-content: space-between;
+  align-items: center;
+  width: fit-content;
+  min-width: 200px;
+  background: #c0c0c0;
+  border: 4px solid #808080;
+  padding: 8px 4px;
+  margin-bottom: 0;
 }
 
-.info-item {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  min-width: 48px;
+.mine-counter,
+.time-counter {
+  background: #000;
+  padding: 4px 8px;
+  border-top: 2px solid #808080;
+  border-right: 2px solid #ffffff;
+  border-bottom: 2px solid #ffffff;
+  border-left: 2px solid #808080;
+  min-width: 70px;
+  width: 70px;
+  text-align: center;
 }
 
-.difficulty-select {
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--bg-card);
+.counter-digit {
+  font-family: 'Courier New', monospace;
+  font-size: 24px;
+  font-weight: bold;
+  color: #ff0000;
+  letter-spacing: 2px;
+}
+
+.face-button {
+  background: #c0c0c0;
+  border-top: 3px solid #ffffff;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+  border-left: 3px solid #ffffff;
+  padding: 4px 10px;
+  font-size: 24px;
   cursor: pointer;
-  outline: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 70px;
+  width: 70px;
+  min-height: 44px;
 }
 
-.difficulty-select:focus {
-  border-color: var(--primary);
+.face-button:active {
+  border-top: 3px solid #808080;
+  border-right: 3px solid #ffffff;
+  border-bottom: 3px solid #ffffff;
+  border-left: 3px solid #808080;
 }
 
 .mine-board {
   display: grid;
-  gap: 2px;
-  background: var(--border);
-  padding: 2px;
-  border: 4px solid #636e72;
-  border-radius: var(--radius-sm);
+  gap: 0;
+  border-right: 4px solid #808080;
+  border-bottom: 4px solid #808080;
+  border-left: 4px solid #808080;
+  background: #c0c0c0;
+  padding: 4px;
   user-select: none;
+  overflow: hidden;
 }
 
 .mine-cell {
@@ -285,65 +356,71 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: #c8d6e5;
-  border-radius: 3px;
-  font-size: 14px;
-  font-weight: 700;
+  background: #c0c0c0;
+  border-top: 3px solid #ffffff;
+  border-right: 3px solid #808080;
+  border-bottom: 3px solid #808080;
+  border-left: 3px solid #ffffff;
+  font-size: 18px;
+  font-weight: bold;
   cursor: pointer;
-  transition: background 0.1s;
+  transition: none;
+  font-family: 'Arial', sans-serif;
 }
 
-.mine-cell:not(.revealed):hover {
-  background: #b2bec3;
+.mine-cell:not(.revealed):active {
+  border-color: #808080 #ffffff #ffffff #808080;
+  border-style: inset;
 }
 
 .mine-cell.revealed {
-  background: #dfe6e9;
+  background: #c0c0c0;
+  border: 1px solid #808080;
   cursor: default;
 }
 
 .mine-cell.exploded {
-  background: #ff7675;
+  background: #ff0000;
 }
 
 .cell-mine {
-  font-size: 16px;
+  font-size: 18px;
 }
 
 .cell-flag {
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .num-1 {
-  color: #0984e3;
+  color: #0000ff;
 }
 
 .num-2 {
-  color: #00b894;
+  color: #008000;
 }
 
 .num-3 {
-  color: #e17055;
+  color: #ff0000;
 }
 
 .num-4 {
-  color: #6c5ce7;
+  color: #000080;
 }
 
 .num-5 {
-  color: #d63031;
+  color: #800000;
 }
 
 .num-6 {
-  color: #00cec9;
+  color: #008080;
 }
 
 .num-7 {
-  color: #2d3436;
+  color: #000000;
 }
 
 .num-8 {
-  color: #636e72;
+  color: #808080;
 }
 
 .game-overlay {
@@ -392,7 +469,7 @@ onUnmounted(() => {
   .mine-cell {
     width: 28px;
     height: 28px;
-    font-size: 12px;
+    font-size: 16px;
   }
 }
 
@@ -410,16 +487,16 @@ onUnmounted(() => {
   .mine-cell {
     width: 24px;
     height: 24px;
-    font-size: 10px;
-    border-radius: 2px;
+    font-size: 14px;
+    border-width: 2px;
   }
 
   .cell-mine {
-    font-size: 12px;
+    font-size: 14px;
   }
 
   .cell-flag {
-    font-size: 10px;
+    font-size: 12px;
   }
 
   .overlay-emoji {

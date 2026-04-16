@@ -7,10 +7,36 @@
         </h1>
         <p class="hero-subtitle">寓教于乐，快乐成长 🎮📚</p>
         <p class="hero-desc">经典益智游戏 + 趣味早教学习，让小朋友在游戏中快乐学习</p>
+        <div class="search-box">
+          <span class="search-icon">🔍</span>
+          <input
+              v-model="searchQuery"
+              class="search-input"
+              type="text"
+              placeholder="搜索游戏（支持拼音）"
+          />
+          <span v-if="searchQuery" class="search-clear" @click="searchQuery = ''">✕</span>
+        </div>
       </div>
     </section>
 
-    <section v-for="section in GAME_SECTIONS" :key="section.key" class="game-section container">
+    <section v-if="searchQuery" class="game-section container">
+      <h2 class="section-title">
+        <span class="section-icon">🔍</span> 搜索结果
+      </h2>
+      <div v-if="filteredGames.length === 0" class="no-result">
+        未找到匹配的游戏
+      </div>
+      <div v-else class="game-grid">
+        <GameCard
+            v-for="game in filteredGames"
+            :key="game.to"
+            v-bind="game"
+        />
+      </div>
+    </section>
+
+    <section v-else v-for="section in GAME_SECTIONS" :key="section.key" class="game-section container">
       <h2 class="section-title">
         <span class="section-icon">{{ section.icon }}</span> {{ section.title }}
       </h2>
@@ -26,8 +52,23 @@
 </template>
 
 <script setup>
+import {computed, ref} from 'vue'
 import GameCard from '../components/GameCard.vue'
 import {GAME_SECTIONS, GAMES} from '../data/games'
+
+const searchQuery = ref('')
+
+const filteredGames = computed(() => {
+  const q = searchQuery.value.trim().toLowerCase()
+  if (!q) return []
+  return GAMES.filter(g => {
+    const titleMatch = g.title.toLowerCase().includes(q)
+    const pinyinMatch = g.pinyin.toLowerCase().includes(q)
+    const descMatch = g.description.toLowerCase().includes(q)
+    const tagMatch = g.tag.toLowerCase().includes(q)
+    return titleMatch || pinyinMatch || descMatch || tagMatch
+  })
+})
 
 function getGamesByCategory(category) {
   return GAMES.filter(g => g.category === category)
@@ -68,6 +109,64 @@ function getGamesByCategory(category) {
 .hero-desc {
   font-size: 15px;
   color: var(--text-secondary);
+  margin-bottom: 20px;
+}
+
+.search-box {
+  display: flex;
+  align-items: center;
+  max-width: 400px;
+  margin: 0 auto;
+  background: var(--bg-card);
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  padding: 8px 16px;
+  transition: border-color 0.2s;
+}
+
+.search-box:focus-within {
+  border-color: var(--primary);
+}
+
+.search-icon {
+  font-size: 16px;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  outline: none;
+  font-size: 15px;
+  background: transparent;
+  color: var(--text-primary);
+  font-family: var(--font-sans), serif;
+}
+
+.search-input::placeholder {
+  color: var(--text-light);
+}
+
+.search-clear {
+  cursor: pointer;
+  font-size: 14px;
+  color: var(--text-secondary);
+  padding: 2px 4px;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.search-clear:hover {
+  color: var(--text-primary);
+  background: var(--bg-game);
+}
+
+.no-result {
+  text-align: center;
+  padding: 40px 20px;
+  color: var(--text-secondary);
+  font-size: 15px;
 }
 
 .game-section {
@@ -90,8 +189,8 @@ function getGamesByCategory(category) {
 
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 16px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--spacing-lg);
 }
 
 @media (max-width: 768px) {
@@ -103,8 +202,12 @@ function getGamesByCategory(category) {
     font-size: 17px;
   }
 
+  .hero-desc {
+    margin-bottom: 16px;
+  }
+
   .game-grid {
-    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -123,11 +226,20 @@ function getGamesByCategory(category) {
 
   .hero-desc {
     font-size: 13px;
+    margin-bottom: 12px;
+  }
+
+  .search-box {
+    padding: 6px 12px;
+  }
+
+  .search-input {
+    font-size: 14px;
   }
 
   .game-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: var(--spacing-sm);
   }
 
   .section-title {

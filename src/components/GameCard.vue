@@ -1,13 +1,13 @@
 <template>
   <router-link :to="to" class="game-card">
-    <div class="card-icon" :style="{ background: iconBg }">
-      <span class="icon-emoji">{{ icon }}</span>
+    <div class="card-preview" :style="{ background: iconBg }">
+      <span class="preview-emoji">{{ icon }}</span>
     </div>
     <div class="card-info">
-      <h3 class="card-title">{{ title }}</h3>
+      <h3 class="card-name">{{ title }}</h3>
       <p class="card-desc">{{ description }}</p>
+      <span class="card-btn" :class="category">{{ tag }}</span>
     </div>
-    <span class="card-tag" :class="category">{{ tag }}</span>
   </router-link>
 </template>
 
@@ -26,73 +26,70 @@ defineProps({
 <style scoped>
 .game-card {
   display: flex;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  background: var(--bg-card);
-  border-radius: var(--radius);
+  flex-direction: column;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--border);
-  box-shadow: var(--shadow);
+  overflow: hidden;
+  background: var(--bg-card);
   text-decoration: none;
   color: inherit;
-  transition: all 0.25s;
-  position: relative;
-  overflow: hidden;
+  transition: all 0.3s ease;
 }
 
 .game-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-hover);
-  border-color: var(--primary-light);
 }
 
-.card-icon {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--radius-sm);
+.card-preview {
+  height: 140px;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
 }
 
-.icon-emoji {
-  font-size: 28px;
+.preview-emoji {
+  font-size: 3.5rem;
 }
 
 .card-info {
-  flex: 1;
-  min-width: 0;
+  padding: var(--spacing-lg);
 }
 
-.card-title {
-  font-size: 16px;
+.card-name {
+  font-size: var(--font-size-xl);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 4px;
+  margin-bottom: var(--spacing-xs);
 }
 
 .card-desc {
-  font-size: 13px;
+  font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  line-height: 1.4;
+  line-height: 1.6;
+  margin-bottom: var(--spacing-md);
 }
 
-.card-tag {
-  padding: 4px 10px;
+.card-btn {
+  display: inline-block;
+  padding: 6px 16px;
   border-radius: 20px;
-  font-size: 12px;
+  font-size: var(--font-size-sm);
   font-weight: 500;
-  flex-shrink: 0;
 }
 
-.card-tag.classic {
+.card-btn.classic {
   background: rgba(108, 92, 231, 0.1);
   color: var(--primary);
 }
 
-.card-tag.edu {
+.card-btn.edu {
   background: rgba(0, 206, 201, 0.1);
   color: var(--secondary);
+}
+
+.card-btn.ninja {
+  background: rgba(253, 121, 168, 0.1);
+  color: var(--accent);
 }
 </style>

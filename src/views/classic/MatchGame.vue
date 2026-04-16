@@ -1,19 +1,28 @@
 <template>
-  <GamePage title="消消乐">
+  <GamePage title="消消乐" icon="🀄">
     <template #actions>
-      <select v-model="mode" class="mode-select" @change="newGame">
-        <option value="chinese">语文模式</option>
-        <option value="math">数学模式</option>
-        <option value="english">英语模式</option>
-      </select>
-      <select v-model="gridCols" class="mode-select" @change="newGame">
-        <option :value="4">4列</option>
-        <option :value="6">6列</option>
-        <option :value="8">8列</option>
-      </select>
-      <button class="btn btn-primary btn-sm" @click="newGame">新游戏</button>
-      <span class="score-display">得分：{{ score }}</span>
-      <span class="score-display">剩余：{{ remaining }}</span>
+      <div class="action-group">
+        <select v-model="mode" class="action-select equal-width-action" @change="newGame">
+          <option value="chinese">语文模式</option>
+          <option value="math">数学模式</option>
+          <option value="english">英语模式</option>
+        </select>
+        <select v-model="gridCols" class="action-select equal-width-action" @change="newGame">
+          <option :value="4">4列</option>
+          <option :value="6">6列</option>
+          <option :value="8">8列</option>
+        </select>
+      </div>
+      <div class="action-group">
+        <button class="btn-action equal-width-action" @click="newGame">重新开始</button>
+      </div>
+    </template>
+    <template #actionsBottom>
+      <div class="action-group">
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">🎯</span> {{ remaining }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ elapsedTime }}s</span>
+      </div>
     </template>
     <div class="match-wrapper">
       <div
@@ -49,7 +58,7 @@
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import GamePage from '../../components/GamePage.vue'
 import {GRADE1_CHARS} from '../../data/grade1Chars.js'
 import {GRADE1_ENGLISH} from '../../data/grade1English.js'
@@ -62,6 +71,8 @@ const score = ref(0)
 const remaining = ref(0)
 const gameOver = ref(false)
 const hintPair = ref([])
+const elapsedTime = ref(0)
+let timer = null
 
 const gridRows = computed(() => {
   const total = gridCols.value * gridCols.value
@@ -118,7 +129,22 @@ function generatePairs() {
   return pairs
 }
 
+function startTimer() {
+  elapsedTime.value = 0
+  timer = setInterval(() => {
+    elapsedTime.value++
+  }, 1000)
+}
+
+function stopTimer() {
+  if (timer) {
+    clearInterval(timer)
+    timer = null
+  }
+}
+
 function newGame() {
+  stopTimer()
   const pairs = generatePairs()
   const allTiles = shuffle(pairs.flat())
 
@@ -132,6 +158,7 @@ function newGame() {
   remaining.value = tiles.value.length
   gameOver.value = false
   hintPair.value = []
+  startTimer()
 }
 
 function selectTile(index) {
@@ -164,6 +191,7 @@ function selectTile(index) {
 
     if (remaining.value <= 0) {
       gameOver.value = true
+      stopTimer()
     }
   } else {
     hintPair.value = [selectedIndex.value, index]
@@ -174,41 +202,36 @@ function selectTile(index) {
   }
 }
 
-newGame()
+onMounted(() => {
+  newGame()
+})
+
+onUnmounted(() => {
+  stopTimer()
+})
 </script>
 
 <style scoped>
+.equal-width-action {
+  min-width: 80px;
+  justify-content: center;
+  text-align: center;
+}
+
+.action-group {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
 .match-wrapper {
   position: relative;
-  display: inline-block;
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: center;
   min-height: 0;
   overflow: auto;
-}
-
-.mode-select {
-  padding: 6px 12px;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 14px;
-  color: var(--text-primary);
-  background: var(--bg-card);
-  cursor: pointer;
-  outline: none;
-}
-
-.mode-select:focus {
-  border-color: var(--primary);
-}
-
-.score-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-left: 8px;
 }
 
 .match-board {
@@ -276,7 +299,7 @@ newGame()
 }
 
 .tile-label {
-  font-size: 12px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--text-primary);
   margin-top: 3px;
@@ -315,52 +338,38 @@ newGame()
 }
 
 @media (max-width: 768px) {
-  .mode-select {
-    padding: 4px 8px;
-    font-size: 13px;
-  }
-
-  .score-display {
-    font-size: 14px;
-  }
-
   .match-tile {
-    width: 60px;
-    height: 60px;
+    width: 64px;
+    height: 64px;
   }
 
   .tile-icon {
-    font-size: 20px;
+    font-size: 22px;
   }
 
   .tile-label {
-    font-size: 11px;
+    font-size: 14px;
   }
 }
 
 @media (max-width: 480px) {
   .match-tile {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
   }
 
   .tile-icon {
-    font-size: 16px;
+    font-size: 18px;
   }
 
   .tile-label {
-    font-size: 9px;
-    max-width: 44px;
+    font-size: 12px;
+    max-width: 48px;
   }
 
   .match-board {
     gap: 4px;
     padding: 6px;
-  }
-
-  .score-display {
-    font-size: 12px;
-    margin-left: 4px;
   }
 
   .overlay-emoji {

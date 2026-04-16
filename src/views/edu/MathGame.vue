@@ -1,11 +1,13 @@
 <template>
-  <GamePage title="加减乐园">
+  <GamePage title="加减乐园" icon="➕">
     <template #actions>
-      <span class="score-display">得分：{{ score }}</span>
-      <span class="combo-display" v-if="combo > 1">连击 ×{{ combo }}</span>
-      <span class="progress-display">{{ currentIndex + 1 }} / {{ selectedRounds }}</span>
-      <span class="timer-display">⏱ {{ formattedTime }}</span>
-      <button class="btn btn-primary btn-sm" @click="startGame">重新开始</button>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+      <span class="stat-badge equal-width-action" v-if="combo > 1"><span class="stat-icon">🔥</span> ×{{ combo }}</span>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span> {{
+          currentIndex + 1
+        }} / {{ selectedRounds }}</span>
+      <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
+      <button class="btn-action equal-width-action" @click="startGame">重新开始</button>
     </template>
     <div class="math-wrapper">
       <div v-if="!started" class="start-screen">
@@ -237,6 +239,12 @@ function startGame() {
 </script>
 
 <style scoped>
+.equal-width-action {
+  min-width: 80px;
+  justify-content: center;
+  text-align: center;
+}
+
 .math-wrapper {
   width: 100%;
   max-width: 480px;
@@ -247,22 +255,6 @@ function startGame() {
   min-height: 0;
   overflow-y: auto;
   overflow-x: hidden;
-}
-
-.score-display,
-.progress-display,
-.timer-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--text-primary);
-  margin-right: 10px;
-}
-
-.combo-display {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--accent);
-  margin-right: 10px;
 }
 
 .start-screen,
@@ -327,9 +319,9 @@ function startGame() {
 
 .round-btn,
 .diff-btn {
-  padding: 5px 14px;
+  padding: 8px 20px;
   border-radius: 20px;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
   background: var(--bg-card);
   color: var(--text-secondary);
@@ -426,18 +418,6 @@ function startGame() {
 }
 
 @media (max-width: 768px) {
-  .score-display,
-  .progress-display,
-  .timer-display {
-    font-size: 14px;
-    margin-right: 6px;
-  }
-
-  .combo-display {
-    font-size: 14px;
-    margin-right: 6px;
-  }
-
   .start-emoji,
   .result-emoji {
     font-size: 48px;
@@ -454,24 +434,13 @@ function startGame() {
   }
 
   .option-btn {
-    padding: 12px;
+    padding: 20px 10px;
     font-size: 20px;
+    min-height: 80px;
   }
 }
 
 @media (max-width: 480px) {
-  .score-display,
-  .progress-display,
-  .timer-display {
-    font-size: 12px;
-    margin-right: 4px;
-  }
-
-  .combo-display {
-    font-size: 12px;
-    margin-right: 4px;
-  }
-
   .start-screen,
   .result-screen {
     padding: 16px 8px;
@@ -499,8 +468,9 @@ function startGame() {
   }
 
   .option-btn {
-    padding: 10px;
+    padding: 24px 10px;
     font-size: 18px;
+    min-height: 100px;
   }
 
   .options-grid {
