@@ -2,24 +2,29 @@ export const GAME_SECTIONS = [
     {
         key: 'classic',
         title: '经典益智',
-        icon: '🎯',
+        icon: '/icons/section-classic.svg',
     },
     {
         key: 'edu',
         title: '趣味早教',
-        icon: '🌟',
+        icon: '/icons/section-edu.svg',
     },
     {
         key: 'ninja',
         title: '火影忍者',
-        icon: '⚔️',
+        icon: '/icons/section-ninja.svg',
+    },
+    {
+        key: 'fun',
+        title: '趣味测试',
+        icon: '/icons/section-fun.svg',
     },
 ]
 
 export const GAMES = [
     {
         to: '/minesweeper',
-        icon: '💣',
+        icon: '/icons/minesweeper.svg',
         iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '扫雷',
         pinyin: 'saolei',
@@ -29,7 +34,7 @@ export const GAMES = [
     },
     {
         to: '/sudoku',
-        icon: '🔢',
+        icon: '/icons/sudoku.svg',
         iconBg: 'rgba(0, 184, 148, 0.1)',
         title: '数独',
         pinyin: 'shudu',
@@ -39,7 +44,7 @@ export const GAMES = [
     },
     {
         to: '/game2048',
-        icon: '🧩',
+        icon: '/icons/game2048.svg',
         iconBg: 'rgba(253, 203, 110, 0.1)',
         title: '2048',
         pinyin: '2048',
@@ -49,7 +54,7 @@ export const GAMES = [
     },
     {
         to: '/match',
-        icon: '🀄',
+        icon: '/icons/match.svg',
         iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '消消乐',
         pinyin: 'xiaoxiaole',
@@ -59,7 +64,7 @@ export const GAMES = [
     },
     {
         to: '/literacy',
-        icon: '📝',
+        icon: '/icons/literacy.svg',
         iconBg: 'rgba(225, 112, 85, 0.1)',
         title: '识字达人',
         pinyin: 'shizidaren',
@@ -69,7 +74,7 @@ export const GAMES = [
     },
     {
         to: '/pinyin',
-        icon: '🎵',
+        icon: '/icons/pinyin.svg',
         iconBg: 'rgba(0, 206, 201, 0.1)',
         title: '拼音学习',
         pinyin: 'pinyinxuexi',
@@ -79,7 +84,7 @@ export const GAMES = [
     },
     {
         to: '/english',
-        icon: '🌍',
+        icon: '/icons/english.svg',
         iconBg: 'rgba(9, 132, 227, 0.1)',
         title: '英语启蒙',
         pinyin: 'yingyuqimeng',
@@ -89,7 +94,7 @@ export const GAMES = [
     },
     {
         to: '/math',
-        icon: '➕',
+        icon: '/icons/math.svg',
         iconBg: 'rgba(253, 121, 168, 0.1)',
         title: '加减乐园',
         pinyin: 'jiajianleyuan',
@@ -99,12 +104,22 @@ export const GAMES = [
     },
     {
         to: '/naruto-seal',
-        icon: '⚡',
+        icon: '/icons/naruto.svg',
         iconBg: 'rgba(225, 112, 85, 0.1)',
         title: '忍者结印',
         pinyin: 'renzhejieyin',
         description: '摄像头手势识别，体验火影结印忍术',
         category: 'ninja',
         tag: '忍者',
+    },
+    {
+        to: '/fortune',
+        icon: '/icons/fortune.svg',
+        iconBg: 'rgba(253, 203, 110, 0.1)',
+        title: '算命运势',
+        pinyin: 'suanmingyushi',
+        description: '输入信息，测算你的命运与运势',
+        category: 'fun',
+        tag: '趣味',
     },
 ]

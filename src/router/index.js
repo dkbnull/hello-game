@@ -60,6 +60,12 @@ const routes = [
         component: () => import('../views/classic/NarutoSealGame.vue'),
         meta: {title: '火影忍者', category: 'ninja'},
     },
+    {
+        path: '/fortune',
+        name: 'Fortune',
+        component: () => import('../views/fun/FortuneGame.vue'),
+        meta: {title: '算命运势', category: 'fun'},
+    },
 ]
 
 const router = createRouter({
