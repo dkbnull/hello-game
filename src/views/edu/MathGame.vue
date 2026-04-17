@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="加减乐园" icon="➕">
+  <GamePage title="加减乐园">
     <template #actions>
       <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
       <span class="stat-badge equal-width-action" v-if="combo > 1"><span class="stat-icon">🔥</span> ×{{ combo }}</span>
@@ -11,7 +11,7 @@
     </template>
     <div class="math-wrapper">
       <div v-if="!started" class="start-screen">
-        <div class="start-emoji">➕</div>
+        <img src="/icons/math.svg" alt="加减乐园" class="start-svg"/>
         <h2>加减乐园</h2>
         <p>趣味加减法，提升数学能力</p>
         <div class="config-section">
@@ -81,6 +81,7 @@
 <script setup>
 import {computed, onUnmounted, ref} from 'vue'
 import GamePage from '../../components/GamePage.vue'
+import {randInt, shuffle} from '../../utils/helpers'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
 
@@ -136,19 +137,6 @@ function stopTimer() {
 onUnmounted(() => {
   stopTimer()
 })
-
-function randInt(min, max) {
-  return Math.floor(Math.random() * (max - min + 1)) + min
-}
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 function generateQuestion() {
   const max = MAX_NUM[selectedDiff.value]
@@ -268,9 +256,14 @@ function startGame() {
   justify-content: center;
 }
 
-.start-emoji,
 .result-emoji {
   font-size: 56px;
+  margin-bottom: 12px;
+}
+
+.start-svg {
+  width: 100px;
+  height: 100px;
   margin-bottom: 12px;
 }
 
@@ -418,7 +411,6 @@ function startGame() {
 }
 
 @media (max-width: 768px) {
-  .start-emoji,
   .result-emoji {
     font-size: 48px;
   }
@@ -434,9 +426,9 @@ function startGame() {
   }
 
   .option-btn {
-    padding: 20px 10px;
-    font-size: 20px;
-    min-height: 80px;
+    padding: 28px 14px;
+    font-size: 44px;
+    min-height: 120px;
   }
 }
 
@@ -446,9 +438,14 @@ function startGame() {
     padding: 16px 8px;
   }
 
-  .start-emoji,
   .result-emoji {
     font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .start-svg {
+    width: 72px;
+    height: 72px;
     margin-bottom: 8px;
   }
 
@@ -468,8 +465,8 @@ function startGame() {
   }
 
   .option-btn {
-    padding: 24px 10px;
-    font-size: 18px;
+    padding: 24px 12px;
+    font-size: 48px;
     min-height: 100px;
   }
 

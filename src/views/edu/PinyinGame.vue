@@ -1,7 +1,7 @@
 <template>
   <EduQuizGame
       title="拼音学习"
-      icon="🎵"
+      icon="/icons/pinyin.svg"
       description="选择正确的拼音，打好拼音基础"
       :word-bank="WORD_BANK"
       answer-key="pinyin"
@@ -66,7 +66,7 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
   }
 
   .option-pinyin {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 </style>

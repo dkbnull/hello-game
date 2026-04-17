@@ -1,5 +1,5 @@
 <template>
-  <GamePage :title="title" :icon="icon">
+  <GamePage :title="title">
     <template #actions>
       <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
       <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span> {{
@@ -10,7 +10,7 @@
     </template>
     <div class="edu-wrapper">
       <div v-if="!started" class="start-screen">
-        <div class="start-emoji">{{ icon }}</div>
+        <img :src="icon" :alt="title" class="start-svg"/>
         <h2>{{ title }}</h2>
         <p>{{ description }}</p>
 
@@ -100,6 +100,7 @@
 <script setup>
 import {computed, onUnmounted, ref} from 'vue'
 import GamePage from './GamePage.vue'
+import {shuffle} from '../utils/helpers'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
 
@@ -183,15 +184,6 @@ function stopTimer() {
 onUnmounted(() => {
   stopTimer()
 })
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 function generateQuestions() {
   const customPool = [...customItems.value]
@@ -294,9 +286,14 @@ defineExpose({startGame, score, correctCount})
   justify-content: center;
 }
 
-.start-emoji,
 .result-emoji {
   font-size: 56px;
+  margin-bottom: 12px;
+}
+
+.start-svg {
+  width: 100px;
+  height: 100px;
   margin-bottom: 12px;
 }
 
@@ -503,7 +500,6 @@ defineExpose({startGame, score, correctCount})
 }
 
 @media (max-width: 768px) {
-  .start-emoji,
   .result-emoji {
     font-size: 48px;
   }
@@ -514,9 +510,9 @@ defineExpose({startGame, score, correctCount})
   }
 
   .option-btn {
-    padding: 20px 10px;
-    font-size: 18px;
-    min-height: 80px;
+    padding: 28px 14px;
+    font-size: 36px;
+    min-height: 120px;
   }
 }
 
@@ -526,9 +522,14 @@ defineExpose({startGame, score, correctCount})
     padding: 16px 8px;
   }
 
-  .start-emoji,
   .result-emoji {
     font-size: 40px;
+    margin-bottom: 8px;
+  }
+
+  .start-svg {
+    width: 72px;
+    height: 72px;
     margin-bottom: 8px;
   }
 
@@ -543,8 +544,8 @@ defineExpose({startGame, score, correctCount})
   }
 
   .option-btn {
-    padding: 24px 10px;
-    font-size: 16px;
+    padding: 24px 12px;
+    font-size: 40px;
     min-height: 100px;
   }
 

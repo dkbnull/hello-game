@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="数独" icon="🔢">
+  <GamePage title="数独">
     <template #actions>
       <div class="action-group">
         <select v-model="gridSize" class="action-select equal-width-action" @change="onSizeChange">
@@ -68,6 +68,7 @@
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from 'vue'
 import GamePage from '../../components/GamePage.vue'
+import {shuffle} from '../../utils/helpers'
 
 const SIZES = [4, 5, 6, 7, 8, 9]
 
@@ -125,15 +126,6 @@ function cellBorderStyle(index) {
   }
 
   return style
-}
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
 }
 
 function isValid(board, row, col, num, size, bs) {
@@ -383,6 +375,7 @@ onUnmounted(() => {
   margin-top: 12px;
   justify-content: center;
   flex-wrap: wrap;
+  max-width: 500px;
 }
 
 .num-btn {
@@ -467,15 +460,19 @@ onUnmounted(() => {
     font-size: 14px;
   }
 
-  .num-btn {
-    width: 32px;
-    height: 32px;
-    font-size: 13px;
+  .number-pad {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 6px;
+    margin-top: 8px;
+    max-width: 340px;
   }
 
-  .number-pad {
-    gap: 4px;
-    margin-top: 8px;
+  .num-btn {
+    width: 48px;
+    height: 48px;
+    aspect-ratio: 1;
+    font-size: 22px;
   }
 
   .overlay-emoji {

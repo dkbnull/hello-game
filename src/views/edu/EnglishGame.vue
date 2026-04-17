@@ -1,7 +1,7 @@
 <template>
   <EduQuizGame
       title="英语启蒙"
-      icon="🌍"
+      icon="/icons/english.svg"
       description="看图选单词，轻松学英语"
       :word-bank="WORD_BANK"
       answer-key="word"
@@ -66,7 +66,7 @@ const WORD_BANK = GRADE1_ENGLISH.map(w => ({
   }
 
   .option-word {
-    font-size: 13px;
+    font-size: 16px;
   }
 }
 </style>

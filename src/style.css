@@ -254,3 +254,42 @@ button:active {
 .action-select:focus {
     border-color: var(--primary);
 }
+
+.equal-width-action {
+    min-width: 80px;
+    justify-content: center;
+    text-align: center;
+}
+
+.action-group {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.game-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-sm);
+    z-index: 10;
+}
+
+.overlay-content {
+    text-align: center;
+    color: #fff;
+}
+
+.overlay-emoji {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.overlay-text {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 16px;
+}

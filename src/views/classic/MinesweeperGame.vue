@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="扫雷" icon="💣">
+  <GamePage title="扫雷">
     <template #actions>
       <div class="action-group">
         <select v-model="difficulty" class="action-select equal-width-action" @change="resetGame">

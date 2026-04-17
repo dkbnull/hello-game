@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="消消乐" icon="🀄">
+  <GamePage title="消消乐">
     <template #actions>
       <div class="action-group">
         <select v-model="mode" class="action-select equal-width-action" @change="newGame">
@@ -62,6 +62,7 @@ import {computed, onMounted, onUnmounted, ref} from 'vue'
 import GamePage from '../../components/GamePage.vue'
 import {GRADE1_CHARS} from '../../data/grade1Chars.js'
 import {GRADE1_ENGLISH} from '../../data/grade1English.js'
+import {shuffle} from '../../utils/helpers'
 
 const mode = ref('chinese')
 const gridCols = ref(6)
@@ -82,15 +83,6 @@ const gridRows = computed(() => {
 const boardStyle = computed(() => ({
   gridTemplateColumns: `repeat(${gridCols.value}, 1fr)`,
 }))
-
-function shuffle(arr) {
-  const a = [...arr]
-  for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [a[i], a[j]] = [a[j], a[i]]
-  }
-  return a
-}
 
 function generatePairs() {
   const total = gridCols.value * gridCols.value

@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="忍者结印" icon="⚡">
+  <GamePage title="忍者结印">
     <template #actions>
       <button class="btn-action naruto-action-btn" @click="toggleCamera">
         {{ cameraActive ? '关闭摄像头' : '开启摄像头' }}
@@ -10,7 +10,7 @@
     </template>
     <div class="naruto-container">
       <div v-if="!cameraActive" class="camera-prompt">
-        <span class="prompt-emoji">⚡</span>
+        <img src="/icons/naruto.svg" alt="忍者结印" class="prompt-svg"/>
         <p class="prompt-text">点击「开启摄像头」开始结印修炼</p>
         <div class="seal-guide">
           <h3>结印手势指南</h3>
@@ -550,8 +550,10 @@ onUnmounted(() => {
   gap: 16px;
 }
 
-.prompt-emoji {
-  font-size: 4rem;
+.prompt-svg {
+  width: 100px;
+  height: 100px;
+  margin-bottom: 12px;
 }
 
 .prompt-text {

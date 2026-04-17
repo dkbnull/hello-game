@@ -1,10 +1,7 @@
 <template>
   <div class="game-page">
     <div class="game-center-area">
-      <h1 class="game-title">
-        <span v-if="icon" class="title-icon">{{ icon }}</span>
-        {{ title }}
-      </h1>
+      <h1 class="game-title">{{ title }}</h1>
       <div v-if="$slots.actions" class="game-actions">
         <slot name="actions"></slot>
       </div>
@@ -21,7 +18,6 @@
 <script setup>
 defineProps({
   title: {type: String, required: true},
-  icon: {type: String, default: ''},
 })
 </script>
 
@@ -54,14 +50,6 @@ defineProps({
   text-align: center;
   margin-bottom: 10px;
   flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-}
-
-.title-icon {
-  font-size: 1.3em;
 }
 
 .game-actions {

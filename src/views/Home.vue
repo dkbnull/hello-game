@@ -38,7 +38,8 @@
 
     <section v-else v-for="section in GAME_SECTIONS" :key="section.key" class="game-section container">
       <h2 class="section-title">
-        <span class="section-icon">{{ section.icon }}</span> {{ section.title }}
+        <img :src="section.icon" :alt="section.title" class="section-svg"/>
+        {{ section.title }}
       </h2>
       <div class="game-grid">
         <GameCard
@@ -185,6 +186,12 @@ function getGamesByCategory(category) {
 
 .section-icon {
   font-size: 22px;
+}
+
+.section-svg {
+  width: 28px;
+  height: 28px;
+  vertical-align: middle;
 }
 
 .game-grid {

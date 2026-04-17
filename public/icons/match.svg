@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+    <circle cx="64" cy="64" r="56" fill="rgba(108,92,231,0.1)"/>
+    <rect x="24" y="32" width="34" height="34" rx="6" fill="#6c5ce7" opacity="0.8"/>
+    <text x="30" y="55" font-size="18" font-weight="700" fill="#fff" font-family="sans-serif">猫</text>
+    <rect x="70" y="32" width="34" height="34" rx="6" fill="#a29bfe" opacity="0.8"/>
+    <text x="76" y="55" font-size="18" font-weight="700" fill="#fff" font-family="sans-serif">māo</text>
+    <rect x="24" y="74" width="34" height="34" rx="6" fill="#00b894" opacity="0.8"/>
+    <text x="30" y="97" font-size="18" font-weight="700" fill="#fff" font-family="sans-serif">狗</text>
+    <rect x="70" y="74" width="34" height="34" rx="6" fill="#55efc4" opacity="0.8"/>
+    <text x="76" y="97" font-size="18" font-weight="700" fill="#fff" font-family="sans-serif">gǒu</text>
+</svg>

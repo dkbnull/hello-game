@@ -1,7 +1,7 @@
 <template>
   <EduQuizGame
       title="识字达人"
-      icon="📝"
+      icon="/icons/literacy.svg"
       description="看图选字，认识常见汉字"
       :word-bank="WORD_BANK"
       answer-key="word"
@@ -64,7 +64,7 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
   }
 
   .option-char {
-    font-size: 18px;
+    font-size: 22px;
   }
 }
 </style>

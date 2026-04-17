@@ -1,7 +1,7 @@
 <template>
   <router-link :to="to" class="game-card">
     <div class="card-preview" :style="{ background: iconBg }">
-      <span class="preview-emoji">{{ icon }}</span>
+      <img :src="icon" :alt="title" class="preview-svg"/>
     </div>
     <div class="card-info">
       <h3 class="card-name">{{ title }}</h3>
@@ -48,8 +48,9 @@ defineProps({
   justify-content: center;
 }
 
-.preview-emoji {
-  font-size: 3.5rem;
+.preview-svg {
+  width: 100px;
+  height: 100px;
 }
 
 .card-info {
@@ -91,5 +92,10 @@ defineProps({
 .card-btn.ninja {
   background: rgba(253, 121, 168, 0.1);
   color: var(--accent);
+}
+
+.card-btn.fun {
+  background: rgba(253, 203, 110, 0.1);
+  color: var(--warning);
 }
 </style>

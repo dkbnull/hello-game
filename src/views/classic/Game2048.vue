@@ -1,5 +1,5 @@
 <template>
-  <GamePage title="" icon="">
+  <GamePage title="">
     <template #actions>
     </template>
     <div class="game2048-wrapper">

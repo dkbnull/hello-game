@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+    <circle cx="64" cy="64" r="56" fill="rgba(9,132,227,0.1)"/>
+    <circle cx="64" cy="64" r="32" fill="#0984e3" opacity="0.15"/>
+    <ellipse cx="64" cy="64" rx="32" ry="32" fill="none" stroke="#0984e3" stroke-width="2.5"/>
+    <ellipse cx="64" cy="64" rx="14" ry="32" fill="none" stroke="#0984e3" stroke-width="2"/>
+    <line x1="32" y1="50" x2="96" y2="50" stroke="#0984e3" stroke-width="1.5"/>
+    <line x1="32" y1="78" x2="96" y2="78" stroke="#0984e3" stroke-width="1.5"/>
+    <text x="50" y="70" font-size="18" font-weight="700" fill="#0984e3" font-family="sans-serif">ABC</text>
+</svg>
