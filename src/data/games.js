@@ -1,30 +1,46 @@
+import sectionClassicIcon from '@/assets/icons/section-classic.svg'
+import sectionEduIcon from '@/assets/icons/section-edu.svg'
+import sectionNinjaIcon from '@/assets/icons/section-ninja.svg'
+import sectionFunIcon from '@/assets/icons/section-fun.svg'
+import minesweeperIcon from '@/assets/icons/minesweeper.svg'
+import sudokuIcon from '@/assets/icons/sudoku.svg'
+import game2048Icon from '@/assets/icons/game2048.svg'
+import matchIcon from '@/assets/icons/match.svg'
+import literacyIcon from '@/assets/icons/literacy.svg'
+import pinyinIcon from '@/assets/icons/pinyin.svg'
+import englishIcon from '@/assets/icons/english.svg'
+import mathIcon from '@/assets/icons/math.svg'
+import narutoIcon from '@/assets/icons/naruto.svg'
+import nmtiIcon from '@/assets/icons/nmti.svg'
+import fortuneIcon from '@/assets/icons/fortune.svg'
+
 export const GAME_SECTIONS = [
     {
         key: 'classic',
         title: '经典益智',
-        icon: '/icons/section-classic.svg',
+        icon: sectionClassicIcon,
     },
     {
         key: 'edu',
         title: '趣味早教',
-        icon: '/icons/section-edu.svg',
+        icon: sectionEduIcon,
     },
     {
         key: 'ninja',
         title: '火影忍者',
-        icon: '/icons/section-ninja.svg',
+        icon: sectionNinjaIcon,
     },
     {
         key: 'fun',
         title: '趣味测试',
-        icon: '/icons/section-fun.svg',
+        icon: sectionFunIcon,
     },
 ]
 
 export const GAMES = [
     {
         to: '/minesweeper',
-        icon: '/icons/minesweeper.svg',
+        icon: minesweeperIcon,
         iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '扫雷',
         pinyin: 'saolei',
@@ -34,7 +50,7 @@ export const GAMES = [
     },
     {
         to: '/sudoku',
-        icon: '/icons/sudoku.svg',
+        icon: sudokuIcon,
         iconBg: 'rgba(0, 184, 148, 0.1)',
         title: '数独',
         pinyin: 'shudu',
@@ -44,7 +60,7 @@ export const GAMES = [
     },
     {
         to: '/game2048',
-        icon: '/icons/game2048.svg',
+        icon: game2048Icon,
         iconBg: 'rgba(253, 203, 110, 0.1)',
         title: '2048',
         pinyin: '2048',
@@ -54,7 +70,7 @@ export const GAMES = [
     },
     {
         to: '/match',
-        icon: '/icons/match.svg',
+        icon: matchIcon,
         iconBg: 'rgba(108, 92, 231, 0.1)',
         title: '消消乐',
         pinyin: 'xiaoxiaole',
@@ -64,7 +80,7 @@ export const GAMES = [
     },
     {
         to: '/literacy',
-        icon: '/icons/literacy.svg',
+        icon: literacyIcon,
         iconBg: 'rgba(225, 112, 85, 0.1)',
         title: '识字达人',
         pinyin: 'shizidaren',
@@ -74,7 +90,7 @@ export const GAMES = [
     },
     {
         to: '/pinyin',
-        icon: '/icons/pinyin.svg',
+        icon: pinyinIcon,
         iconBg: 'rgba(0, 206, 201, 0.1)',
         title: '拼音学习',
         pinyin: 'pinyinxuexi',
@@ -84,7 +100,7 @@ export const GAMES = [
     },
     {
         to: '/english',
-        icon: '/icons/english.svg',
+        icon: englishIcon,
         iconBg: 'rgba(9, 132, 227, 0.1)',
         title: '英语启蒙',
         pinyin: 'yingyuqimeng',
@@ -94,7 +110,7 @@ export const GAMES = [
     },
     {
         to: '/math',
-        icon: '/icons/math.svg',
+        icon: mathIcon,
         iconBg: 'rgba(253, 121, 168, 0.1)',
         title: '加减乐园',
         pinyin: 'jiajianleyuan',
@@ -104,7 +120,7 @@ export const GAMES = [
     },
     {
         to: '/naruto-seal',
-        icon: '/icons/naruto.svg',
+        icon: narutoIcon,
         iconBg: 'rgba(225, 112, 85, 0.1)',
         title: '忍者结印',
         pinyin: 'renzhejieyin',
@@ -113,8 +129,18 @@ export const GAMES = [
         tag: '忍者',
     },
     {
+        to: '/nmti',
+        icon: nmtiIcon,
+        iconBg: 'rgba(108, 92, 231, 0.1)',
+        title: '牛马测试',
+        pinyin: 'niumaceshi',
+        description: '测测你的牛马人格，打工魂燃烧吧',
+        category: 'fun',
+        tag: '趣味',
+    },
+    {
         to: '/fortune',
-        icon: '/icons/fortune.svg',
+        icon: fortuneIcon,
         iconBg: 'rgba(253, 203, 110, 0.1)',
         title: '算命运势',
         pinyin: 'suanmingyushi',

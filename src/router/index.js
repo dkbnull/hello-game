@@ -61,6 +61,12 @@ const routes = [
         meta: {title: '火影忍者', category: 'ninja'},
     },
     {
+        path: '/nmti',
+        name: 'Nmti',
+        component: () => import('../views/fun/NmtiGame.vue'),
+        meta: {title: '牛马测试', category: 'fun'},
+    },
+    {
         path: '/fortune',
         name: 'Fortune',
         component: () => import('../views/fun/FortuneGame.vue'),
