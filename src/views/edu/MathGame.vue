@@ -9,32 +9,32 @@
       <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
       <button class="btn-action equal-width-action" @click="startGame">重新开始</button>
     </template>
-    <div class="math-wrapper">
-      <div v-if="!started" class="start-screen">
-        <img :src="mathIcon" alt="加减乐园" class="start-svg"/>
+    <div class="edu-game-wrapper">
+      <div v-if="!started" class="edu-start-screen">
+        <img :src="mathIcon" alt="加减乐园" class="edu-start-svg"/>
         <h2>加减乐园</h2>
         <p>趣味加减法，提升数学能力</p>
-        <div class="config-section">
-          <div class="config-row">
-            <label class="config-label">题目数量</label>
-            <div class="round-options">
+        <div class="edu-config-section">
+          <div class="edu-config-row">
+            <label class="edu-config-label">题目数量</label>
+            <div class="edu-options-group">
               <button
                   v-for="r in ROUND_OPTIONS"
                   :key="r"
-                  class="round-btn"
+                  class="edu-select-btn"
                   :class="{ active: selectedRounds === r }"
                   @click="selectedRounds = r"
               >{{ r }}题
               </button>
             </div>
           </div>
-          <div class="config-row">
-            <label class="config-label">难度选择</label>
-            <div class="diff-options">
+          <div class="edu-config-row">
+            <label class="edu-config-label">难度选择</label>
+            <div class="edu-options-group">
               <button
                   v-for="d in difficulties"
                   :key="d.value"
-                  class="diff-btn"
+                  class="edu-select-btn"
                   :class="{ active: selectedDiff === d.value }"
                   @click="selectedDiff = d.value"
               >{{ d.label }}
@@ -44,17 +44,17 @@
         </div>
         <button class="btn btn-primary btn-lg" @click="startGame">开始练习</button>
       </div>
-      <div v-else-if="finished" class="result-screen">
-        <div class="result-emoji">🌟</div>
+      <div v-else-if="finished" class="edu-result-screen">
+        <div class="edu-result-emoji">🌟</div>
         <h2>练习完成！</h2>
         <p>正确率：{{ correctCount }} / {{ selectedRounds }}</p>
         <p>用时：{{ formattedTime }}</p>
-        <p class="result-score">总分：{{ score }}</p>
+        <p class="edu-result-score">总分：{{ score }}</p>
         <button class="btn btn-primary btn-lg" @click="startGame">再来一轮</button>
       </div>
-      <div v-else class="quiz-area">
-        <div class="question-card">
-          <div class="question-text">
+      <div v-else class="edu-quiz-area">
+        <div class="edu-question-card">
+          <div class="edu-question-text">
             {{ currentQuestion.num1 }}
             <span class="operator">{{ currentQuestion.operator }}</span>
             {{ currentQuestion.num2 }}
@@ -62,11 +62,11 @@
             <span class="answer-slot">?</span>
           </div>
         </div>
-        <div class="options-grid">
+        <div class="edu-options-grid">
           <button
               v-for="(opt, i) in currentOptions"
               :key="i"
-              class="option-btn"
+              class="edu-option-btn"
               :class="optionClass(i)"
               @click="selectOption(i)"
               :disabled="answered"
@@ -234,126 +234,6 @@ function startGame() {
   text-align: center;
 }
 
-.math-wrapper {
-  width: 100%;
-  max-width: 480px;
-  margin: 0 auto;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-  overflow-y: auto;
-  overflow-x: hidden;
-}
-
-.start-screen,
-.result-screen {
-  text-align: center;
-  padding: 24px 16px;
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-}
-
-.result-emoji {
-  font-size: 56px;
-  margin-bottom: 12px;
-}
-
-.start-svg {
-  width: 100px;
-  height: 100px;
-  margin-bottom: 12px;
-}
-
-.start-screen h2,
-.result-screen h2 {
-  font-size: 22px;
-  margin-bottom: 6px;
-  color: var(--text-primary);
-}
-
-.start-screen p,
-.result-screen p {
-  color: var(--text-secondary);
-  margin-bottom: 12px;
-}
-
-.result-score {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--primary);
-}
-
-.config-section {
-  margin-bottom: 16px;
-}
-
-.config-row {
-  margin-bottom: 10px;
-}
-
-.config-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  margin-bottom: 6px;
-}
-
-.round-options,
-.diff-options {
-  display: flex;
-  gap: 6px;
-  justify-content: center;
-  flex-wrap: wrap;
-}
-
-.round-btn,
-.diff-btn {
-  padding: 8px 20px;
-  border-radius: 20px;
-  font-size: 15px;
-  font-weight: 500;
-  background: var(--bg-card);
-  color: var(--text-secondary);
-  border: 2px solid var(--border);
-  transition: all 0.2s;
-}
-
-.round-btn:hover,
-.diff-btn:hover {
-  border-color: var(--primary-light);
-}
-
-.round-btn.active,
-.diff-btn.active {
-  background: var(--primary);
-  color: #fff;
-  border-color: var(--primary);
-}
-
-.question-card {
-  background: var(--bg-card);
-  border-radius: var(--radius-lg);
-  padding: 28px;
-  text-align: center;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-}
-
-.question-text {
-  font-size: 40px;
-  font-weight: 700;
-  color: var(--text-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-}
-
 .operator {
   color: var(--primary);
 }
@@ -373,106 +253,6 @@ function startGame() {
   }
   50% {
     opacity: 0.4;
-  }
-}
-
-.options-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
-}
-
-.option-btn {
-  padding: 16px;
-  font-size: 24px;
-  font-weight: 700;
-  border-radius: var(--radius);
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border: 2px solid var(--border);
-  transition: all 0.2s;
-}
-
-.option-btn:hover:not(:disabled) {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: var(--shadow);
-}
-
-.option-btn.correct {
-  background: #d4edda;
-  border-color: var(--success);
-  color: var(--success);
-}
-
-.option-btn.wrong {
-  background: #f8d7da;
-  border-color: var(--danger);
-  color: var(--danger);
-}
-
-@media (max-width: 768px) {
-  .result-emoji {
-    font-size: 48px;
-  }
-
-  .question-card {
-    padding: 20px;
-    margin-bottom: 12px;
-  }
-
-  .question-text {
-    font-size: 32px;
-    gap: 8px;
-  }
-
-  .option-btn {
-    padding: 28px 14px;
-    font-size: 44px;
-    min-height: 120px;
-  }
-}
-
-@media (max-width: 480px) {
-  .start-screen,
-  .result-screen {
-    padding: 16px 8px;
-  }
-
-  .result-emoji {
-    font-size: 40px;
-    margin-bottom: 8px;
-  }
-
-  .start-svg {
-    width: 72px;
-    height: 72px;
-    margin-bottom: 8px;
-  }
-
-  .start-screen h2,
-  .result-screen h2 {
-    font-size: 18px;
-  }
-
-  .question-card {
-    padding: 16px;
-    margin-bottom: 8px;
-  }
-
-  .question-text {
-    font-size: 26px;
-    gap: 6px;
-  }
-
-  .option-btn {
-    padding: 24px 12px;
-    font-size: 48px;
-    min-height: 100px;
-  }
-
-  .options-grid {
-    gap: 6px;
   }
 }
 </style>

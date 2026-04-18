@@ -7,11 +7,11 @@
       answer-key="word"
   >
     <template #question="{ question }">
-      <div class="question-emoji">{{ question.emoji }}</div>
-      <div class="question-hint">{{ question.hint }}</div>
+      <div class="edu-question-primary">{{ question.emoji }}</div>
+      <div class="edu-question-hint">{{ question.hint }}</div>
     </template>
     <template #option="{ option }">
-      <span class="option-char">{{ option }}</span>
+      <span class="edu-option-content">{{ option }}</span>
     </template>
   </EduQuizGame>
 </template>
@@ -27,45 +27,3 @@ const WORD_BANK = GRADE1_CHARS.map(c => ({
   hint: c.hint,
 }))
 </script>
-
-<style scoped>
-.question-emoji {
-  font-size: 64px;
-  margin-bottom: 8px;
-}
-
-.question-hint {
-  font-size: 16px;
-  color: var(--text-secondary);
-}
-
-.option-char {
-  font-size: 24px;
-  font-weight: 700;
-}
-
-@media (max-width: 768px) {
-  .question-emoji {
-    font-size: 48px;
-  }
-
-  .option-char {
-    font-size: 20px;
-  }
-}
-
-@media (max-width: 480px) {
-  .question-emoji {
-    font-size: 40px;
-    margin-bottom: 4px;
-  }
-
-  .question-hint {
-    font-size: 14px;
-  }
-
-  .option-char {
-    font-size: 22px;
-  }
-}
-</style>

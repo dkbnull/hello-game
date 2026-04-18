@@ -4,7 +4,7 @@
       <button class="btn-action naruto-action-btn" @click="toggleCamera">
         {{ cameraActive ? '关闭摄像头' : '开启摄像头' }}
       </button>
-      <button v-if="cameraActive" class="btn-secondary-action naruto-action-btn" @click="resetJutsu">
+      <button v-if="cameraActive" class="btn-action btn-secondary-action naruto-action-btn" @click="resetJutsu">
         清除忍术
       </button>
     </template>
@@ -518,6 +518,7 @@ onUnmounted(() => {
 <style scoped>
 .naruto-action-btn {
   min-width: 120px;
+  height: 40px;
 }
 
 .smoke-particle,

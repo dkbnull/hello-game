@@ -293,3 +293,272 @@ button:active {
     font-weight: 600;
     margin-bottom: 16px;
 }
+
+.edu-game-wrapper {
+    width: 100%;
+    max-width: 480px;
+    margin: 0 auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.edu-start-screen,
+.edu-result-screen {
+    text-align: center;
+    padding: 24px 16px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.edu-result-emoji {
+    font-size: 56px;
+    margin-bottom: 12px;
+}
+
+.edu-start-svg {
+    width: 160px;
+    height: 160px;
+    margin-bottom: 12px;
+}
+
+.edu-start-screen h2,
+.edu-result-screen h2 {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
+
+.edu-start-screen p,
+.edu-result-screen p {
+    color: var(--text-secondary);
+    margin-bottom: 16px;
+}
+
+.edu-result-score {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.edu-config-section {
+    margin-bottom: 16px;
+    width: 100%;
+}
+
+.edu-config-row {
+    margin-bottom: 10px;
+}
+
+.edu-config-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+}
+
+.edu-options-group {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.edu-select-btn {
+    padding: 8px 20px;
+    border-radius: 20px;
+    font-size: 15px;
+    font-weight: 500;
+    background: var(--bg-card);
+    color: var(--text-secondary);
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+}
+
+.edu-select-btn:hover {
+    border-color: var(--primary-light);
+}
+
+.edu-select-btn.active {
+    background: var(--primary);
+    color: #fff;
+    border-color: var(--primary);
+}
+
+.edu-quiz-area {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+}
+
+.edu-question-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-lg);
+    padding: 24px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    margin-bottom: 16px;
+    flex-shrink: 0;
+}
+
+.edu-question-primary {
+    font-size: 72px;
+    font-weight: 700;
+    color: var(--primary);
+    margin-bottom: 8px;
+}
+
+.edu-question-hint {
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text-secondary);
+}
+
+.edu-question-text {
+    font-size: 40px;
+    font-weight: 700;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.edu-options-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.edu-option-btn {
+    padding: 14px;
+    font-size: 24px;
+    font-weight: 600;
+    border-radius: var(--radius);
+    background: var(--bg-card);
+    color: var(--text-primary);
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+}
+
+.edu-option-btn:hover:not(:disabled) {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow);
+}
+
+.edu-option-btn.correct {
+    background: #d4edda;
+    border-color: var(--success);
+    color: var(--success);
+}
+
+.edu-option-btn.wrong {
+    background: #f8d7da;
+    border-color: var(--danger);
+    color: var(--danger);
+}
+
+.edu-option-content {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+@media (max-width: 768px) {
+    .edu-result-emoji {
+        font-size: 52px;
+    }
+
+    .edu-start-svg {
+        width: 120px;
+        height: 120px;
+    }
+
+    .edu-question-card {
+        padding: 20px;
+        margin-bottom: 12px;
+    }
+
+    .edu-option-content {
+        font-size: 32px;
+    }
+
+    .edu-option-btn {
+        padding: 20px 14px;
+        font-size: 32px;
+        min-height: 100px;
+    }
+}
+
+@media (max-width: 480px) {
+    .edu-start-screen,
+    .edu-result-screen {
+        padding: 16px 8px;
+    }
+
+    .edu-result-emoji {
+        font-size: 48px;
+        margin-bottom: 8px;
+    }
+
+    .edu-start-svg {
+        width: 96px;
+        height: 96px;
+        margin-bottom: 8px;
+    }
+
+    .edu-start-screen h2,
+    .edu-result-screen h2 {
+        font-size: 20px;
+    }
+
+    .edu-config-label {
+        font-size: 15px;
+    }
+
+    .edu-select-btn {
+        font-size: 16px;
+        padding: 10px 22px;
+    }
+
+    .edu-question-primary {
+        margin-bottom: 4px;
+    }
+
+    .edu-question-hint {
+        font-size: 14px;
+    }
+
+    .edu-question-text {
+        font-size: 48px;
+        gap: 6px;
+    }
+
+    .edu-question-card {
+        padding: 16px;
+        margin-bottom: 8px;
+    }
+
+    .edu-option-content {
+        font-size: 40px;
+    }
+
+    .edu-option-btn {
+        padding: 20px 12px;
+        font-size: 40px;
+        min-height: 100px;
+    }
+
+    .edu-options-grid {
+        gap: 6px;
+    }
+}
