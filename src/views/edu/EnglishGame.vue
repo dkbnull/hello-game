@@ -1,7 +1,7 @@
 <template>
   <EduQuizGame
       title="英语启蒙"
-      icon="/icons/english.svg"
+      :icon="englishIcon"
       description="看图选单词，轻松学英语"
       :word-bank="WORD_BANK"
       answer-key="word"
@@ -17,8 +17,9 @@
 </template>
 
 <script setup>
-import EduQuizGame from '../../components/EduQuizGame.vue'
-import {GRADE1_ENGLISH} from '../../data/grade1English'
+import EduQuizGame from '@/components/EduQuizGame.vue'
+import {GRADE1_ENGLISH} from '@/data/grade1English'
+import englishIcon from '@/assets/icons/english.svg'
 
 const WORD_BANK = GRADE1_ENGLISH.map(w => ({
   word: w.word,

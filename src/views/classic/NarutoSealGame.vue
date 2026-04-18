@@ -10,7 +10,7 @@
     </template>
     <div class="naruto-container">
       <div v-if="!cameraActive" class="camera-prompt">
-        <img src="/icons/naruto.svg" alt="忍者结印" class="prompt-svg"/>
+        <img :src="narutoIcon" alt="忍者结印" class="prompt-svg"/>
         <p class="prompt-text">点击「开启摄像头」开始结印修炼</p>
         <div class="seal-guide">
           <h3>结印手势指南</h3>
@@ -94,7 +94,8 @@
 
 <script setup>
 import {nextTick, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
+import GamePage from '@/components/GamePage.vue'
+import narutoIcon from '@/assets/icons/naruto.svg'
 
 const JUTSU_LIST = [
   {

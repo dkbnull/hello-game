@@ -5,7 +5,7 @@
     </template>
     <div class="fortune-wrapper">
       <div v-if="!result" class="input-screen">
-        <img src="/icons/fortune.svg" alt="算命" class="start-svg"/>
+        <img :src="fortuneIcon" alt="算命" class="start-svg"/>
         <h2>算命运势</h2>
         <p>输入信息，测算你的命运与运势</p>
 
@@ -135,9 +135,10 @@
 
 <script setup>
 import {computed, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
-import {FORTUNE_TYPES, generateFortune, ZODIAC_SIGNS} from '../../data/fortune'
-import {saveAsImage} from '../../utils/saveImage'
+import GamePage from '@/components/GamePage.vue'
+import {FORTUNE_TYPES, generateFortune, ZODIAC_SIGNS} from '@/data/fortune'
+import {saveAsImage} from '@/utils/saveImage'
+import fortuneIcon from '@/assets/icons/fortune.svg'
 
 const name = ref('')
 const zodiac = ref('')

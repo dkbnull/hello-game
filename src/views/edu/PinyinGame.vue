@@ -1,7 +1,7 @@
 <template>
   <EduQuizGame
       title="拼音学习"
-      icon="/icons/pinyin.svg"
+      :icon="pinyinIcon"
       description="选择正确的拼音，打好拼音基础"
       :word-bank="WORD_BANK"
       answer-key="pinyin"
@@ -17,8 +17,9 @@
 </template>
 
 <script setup>
-import EduQuizGame from '../../components/EduQuizGame.vue'
-import {GRADE1_CHARS} from '../../data/grade1Chars'
+import EduQuizGame from '@/components/EduQuizGame.vue'
+import {GRADE1_CHARS} from '@/data/grade1Chars'
+import pinyinIcon from '@/assets/icons/pinyin.svg'
 
 const WORD_BANK = GRADE1_CHARS.map(c => ({
   char: c.char,

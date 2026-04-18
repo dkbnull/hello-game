@@ -11,7 +11,7 @@
     </template>
     <div class="math-wrapper">
       <div v-if="!started" class="start-screen">
-        <img src="/icons/math.svg" alt="加减乐园" class="start-svg"/>
+        <img :src="mathIcon" alt="加减乐园" class="start-svg"/>
         <h2>加减乐园</h2>
         <p>趣味加减法，提升数学能力</p>
         <div class="config-section">
@@ -80,8 +80,9 @@
 
 <script setup>
 import {computed, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
-import {randInt, shuffle} from '../../utils/helpers'
+import GamePage from '@/components/GamePage.vue'
+import {randInt, shuffle} from '@/utils/helpers'
+import mathIcon from '@/assets/icons/math.svg'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
 
