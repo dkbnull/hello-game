@@ -50,7 +50,7 @@
 
 <script setup>
 import {onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
+import GamePage from '@/components/GamePage.vue'
 
 const SIZE = 4
 const grid = ref([])

@@ -81,7 +81,7 @@
 <script setup>
 import {computed, onUnmounted, ref} from 'vue'
 import GamePage from '@/components/GamePage.vue'
-import {randInt, shuffle} from '@/utils/helpers'
+import {randInt, shuffle} from '@/utils/helpers.js'
 import mathIcon from '@/assets/icons/math.svg'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]

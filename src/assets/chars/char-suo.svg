@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <rect x="20" y="25" width="60" height="50" rx="5" fill="#FFF8DC" stroke="#DAA520" stroke-width="2"/>
+    <rect x="25" y="30" width="50" height="8" rx="2" fill="#E8E8E8"/>
+    <rect x="25" y="42" width="50" height="8" rx="2" fill="#E8E8E8"/>
+    <rect x="25" y="54" width="50" height="8" rx="2" fill="#E8E8E8"/>
+    <text x="50" y="37" font-size="8" text-anchor="middle" fill="#666" font-family="Arial">所</text>
+    <text x="50" y="49" font-size="8" text-anchor="middle" fill="#666" font-family="Arial">以</text>
+    <text x="50" y="61" font-size="8" text-anchor="middle" fill="#666" font-family="Arial">…</text>
+    <path d="M75 50 L85 50" stroke="#DAA520" stroke-width="2" marker-end="url(#arrow3)"/>
+    <defs>
+        <marker id="arrow3" markerWidth="6" markerHeight="4" refX="5" refY="2" orient="auto">
+            <polygon points="0 0, 6 2, 0 4" fill="#DAA520"/>
+        </marker>
+    </defs>
+</svg>

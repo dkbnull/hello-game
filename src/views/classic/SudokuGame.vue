@@ -67,8 +67,8 @@
 
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
-import {shuffle} from '../../utils/helpers'
+import GamePage from '@/components/GamePage.vue'
+import {shuffle} from '@/utils/helpers.js'
 
 const SIZES = [4, 5, 6, 7, 8, 9]
 

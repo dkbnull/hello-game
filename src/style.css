@@ -439,6 +439,12 @@ button:active {
     gap: 10px;
 }
 
+.edu-question-image {
+    width: 64px;
+    height: 64px;
+    object-fit: contain;
+}
+
 .edu-option-btn {
     padding: 14px;
     font-size: 24px;

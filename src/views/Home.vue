@@ -54,8 +54,8 @@
 
 <script setup>
 import {computed, ref} from 'vue'
-import GameCard from '../components/GameCard.vue'
-import {GAME_SECTIONS, GAMES} from '../data/games'
+import GameCard from '@/components/GameCard.vue'
+import {GAME_SECTIONS, GAMES} from '@/data/games.js'
 
 const searchQuery = ref('')
 

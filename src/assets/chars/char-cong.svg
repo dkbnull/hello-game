@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+    <circle cx="70" cy="50" r="18" fill="#FF6B6B" opacity="0.3"/>
+    <circle cx="70" cy="50" r="12" fill="#FF6B6B" opacity="0.5"/>
+    <circle cx="70" cy="50" r="6" fill="#FF6B6B"/>
+    <path d="M52 50 L30 50" stroke="#4A90D9" stroke-width="3" marker-end="url(#arrow2)"/>
+    <text x="25" y="55" font-size="14" font-weight="bold" text-anchor="middle" fill="#4A90D9"
+          font-family="Arial, sans-serif">从
+    </text>
+    <defs>
+        <marker id="arrow2" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#4A90D9"/>
+        </marker>
+    </defs>
+</svg>

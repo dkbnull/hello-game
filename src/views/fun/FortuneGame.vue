@@ -136,8 +136,8 @@
 <script setup>
 import {computed, ref} from 'vue'
 import GamePage from '@/components/GamePage.vue'
-import {FORTUNE_TYPES, generateFortune, ZODIAC_SIGNS} from '@/data/fortune'
-import {saveAsImage} from '@/utils/saveImage'
+import {FORTUNE_TYPES, generateFortune, ZODIAC_SIGNS} from '@/data/fortune.js'
+import {saveAsImage} from '@/utils/saveImage.js'
 import fortuneIcon from '@/assets/icons/fortune.svg'
 
 const name = ref('')

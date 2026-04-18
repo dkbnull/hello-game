@@ -146,8 +146,8 @@
 
 <script setup>
 import {computed, ref} from 'vue'
-import {calculateResult, personalityTypes, questions, specialPersonalityTypes} from '@/data/nmti'
-import {saveAsImage} from '@/utils/saveImage'
+import {calculateResult, personalityTypes, questions, specialPersonalityTypes} from '@/data/nmti.js'
+import {saveAsImage} from '@/utils/saveImage.js'
 
 const phase = ref('intro')
 const currentIndex = ref(0)

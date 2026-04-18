@@ -41,7 +41,10 @@
             @click="selectTile(index)"
         >
           <template v-if="!tile.matched">
-            <div class="tile-icon">{{ tile.icon }}</div>
+            <div class="tile-icon">
+              <img v-if="tile.image" :src="tile.image" :alt="tile.label" class="tile-icon-image"/>
+              <template v-else>{{ tile.icon }}</template>
+            </div>
             <div class="tile-label">{{ tile.label }}</div>
           </template>
         </div>
@@ -59,10 +62,10 @@
 
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
-import {GRADE1_CHARS} from '../../data/grade1Chars.js'
-import {GRADE1_ENGLISH} from '../../data/grade1English.js'
-import {shuffle} from '../../utils/helpers'
+import GamePage from '@/components/GamePage.vue'
+import {GRADE1_CHARS} from '@/data/grade1Chars.js'
+import {GRADE1_ENGLISH} from '@/data/grade1English.js'
+import {shuffle} from '@/utils/helpers.js'
 
 const mode = ref('chinese')
 const gridCols = ref(6)
@@ -92,8 +95,8 @@ function generatePairs() {
   if (mode.value === 'chinese') {
     const chars = shuffle(GRADE1_CHARS).slice(0, pairCount)
     pairs = chars.map(c => [
-      {icon: c.emoji, label: c.char, pairId: c.char},
-      {icon: c.emoji, label: c.pinyin, pairId: c.char},
+      {icon: c.emoji, image: c.image || null, label: c.char, pairId: c.char},
+      {icon: c.emoji, image: c.image || null, label: c.pinyin, pairId: c.char},
     ])
   } else if (mode.value === 'math') {
     const mathPairs = []
@@ -113,8 +116,8 @@ function generatePairs() {
   } else {
     const words = shuffle(GRADE1_ENGLISH).slice(0, pairCount)
     pairs = words.map((w, i) => [
-      {icon: w.emoji, label: w.word, pairId: `en_${i}`},
-      {icon: w.emoji, label: w.chinese, pairId: `en_${i}`},
+      {icon: w.emoji, image: w.image || null, label: w.word, pairId: `en_${i}`},
+      {icon: w.emoji, image: w.image || null, label: w.chinese, pairId: `en_${i}`},
     ])
   }
 
@@ -288,6 +291,12 @@ onUnmounted(() => {
 .tile-icon {
   font-size: 24px;
   line-height: 1;
+}
+
+.tile-icon-image {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
 }
 
 .tile-label {

@@ -54,7 +54,7 @@
 
 <script setup>
 import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '../../components/GamePage.vue'
+import GamePage from '@/components/GamePage.vue'
 
 const DIFFICULTIES = {
   easy: {rows: 9, cols: 9, mines: 10},

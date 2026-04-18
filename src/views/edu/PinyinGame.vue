@@ -18,7 +18,7 @@
 
 <script setup>
 import EduQuizGame from '@/components/EduQuizGame.vue'
-import {GRADE1_CHARS} from '@/data/grade1Chars'
+import {GRADE1_CHARS} from '@/data/grade1Chars.js'
 import pinyinIcon from '@/assets/icons/pinyin.svg'
 
 const WORD_BANK = GRADE1_CHARS.map(c => ({
