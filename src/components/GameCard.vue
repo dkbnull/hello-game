@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="to" class="game-card">
+  <router-link :to="to" class="game-card" v-track="{ category: 'game_card', action: 'click', label: title }">
     <div class="card-preview" :style="{ background: iconBg }">
       <img :src="icon" :alt="title" class="preview-svg"/>
     </div>
