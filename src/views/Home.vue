@@ -49,15 +49,30 @@
         />
       </div>
     </section>
+
+    <transition name="back-top-fade">
+      <button
+          v-if="showBackToTop"
+          @click="backToTop"
+          class="back-to-top"
+          aria-label="回到顶部"
+      >
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"
+             fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="18 15 12 9 6 15"/>
+        </svg>
+      </button>
+    </transition>
   </div>
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
+import {computed, onMounted, onUnmounted, ref} from 'vue'
 import GameCard from '@/components/GameCard.vue'
 import {GAME_SECTIONS, GAMES} from '@/data/games.js'
 
 const searchQuery = ref('')
+const showBackToTop = ref(false)
 
 const filteredGames = computed(() => {
   const q = searchQuery.value.trim().toLowerCase()
@@ -74,6 +89,22 @@ const filteredGames = computed(() => {
 function getGamesByCategory(category) {
   return GAMES.filter(g => g.category === category)
 }
+
+const handleScroll = () => {
+  showBackToTop.value = window.scrollY > 300
+}
+
+const backToTop = () => {
+  window.scrollTo({top: 0, behavior: 'smooth'})
+}
+
+onMounted(() => {
+  window.addEventListener('scroll', handleScroll)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll)
+})
 </script>
 
 <style scoped>
@@ -200,6 +231,34 @@ function getGamesByCategory(category) {
   gap: var(--spacing-lg);
 }
 
+.back-to-top {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.35);
+  transition: all 0.3s ease;
+  z-index: 1000;
+}
+
+.back-to-top:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.45);
+}
+
+.back-to-top:active {
+  transform: translateY(-1px) scale(0.97);
+}
+
 @media (max-width: 768px) {
   .hero-title {
     font-size: 32px;
@@ -215,6 +274,13 @@ function getGamesByCategory(category) {
 
   .game-grid {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .back-to-top {
+    bottom: 20px;
+    right: 20px;
+    width: 42px;
+    height: 42px;
   }
 }
 
