@@ -16,7 +16,7 @@
     <img src="https://img.shields.io/badge/License-Apache%202.0-blue">
 </p>
 
-一个寓教于乐的儿童游戏平台，集合经典益智游戏与趣味早教学习，帮助小朋友在游戏中快乐成长。
+Hello Game 是一个基于 Vue 3 + Vite 构建的寓教于乐儿童游戏平台，集合经典益智游戏和趣味早教学习，让小朋友在游戏中快乐学习。
 
 ## ✨ 功能特色
 
