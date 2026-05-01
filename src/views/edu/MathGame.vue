@@ -32,7 +32,7 @@
             <label class="edu-config-label">难度选择</label>
             <div class="edu-options-group">
               <button
-                  v-for="d in difficulties"
+                  v-for="d in DIFFICULTIES"
                   :key="d.value"
                   class="edu-select-btn"
                   :class="{ active: selectedDiff === d.value }"
@@ -65,7 +65,7 @@
         <div class="edu-options-grid">
           <button
               v-for="(opt, i) in currentOptions"
-              :key="i"
+              :key="opt"
               class="edu-option-btn"
               :class="optionClass(i)"
               @click="selectOption(i)"
@@ -79,14 +79,18 @@
 </template>
 
 <script setup>
-import {computed, onUnmounted, ref} from 'vue'
-import GamePage from '@/components/GamePage.vue'
 import {randInt, shuffle} from '@/utils/helpers.js'
+import {useTimer} from '@/composables/useTimer.js'
 import mathIcon from '@/assets/icons/math.svg'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
+const ANSWER_DELAY = 600
+const MAX_COMBO_MULTIPLIER = 5
+const SCORE_PER_CORRECT = 10
+const ADD_PROBABILITY = 0.4
+const WRONG_OPTION_RATIO = 0.4
 
-const difficulties = [
+const DIFFICULTIES = [
   {value: 'easy', label: '简单 (1-10)'},
   {value: 'medium', label: '中等 (1-20)'},
   {value: 'hard', label: '困难 (1-50)'},
@@ -107,41 +111,15 @@ const currentOptions = ref([])
 const answered = ref(false)
 const selectedIdx = ref(-1)
 
-const timerSeconds = ref(0)
-let timerInterval = null
-
-const formattedTime = computed(() => {
-  const m = Math.floor(timerSeconds.value / 60)
-  const s = timerSeconds.value % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-})
+const {formattedTime, startTimer, stopTimer} = useTimer()
 
 const currentQuestion = computed(() => questions.value[currentIndex.value] || {
   num1: 0, num2: 0, operator: '+', answer: 0,
 })
 
-function startTimer() {
-  stopTimer()
-  timerSeconds.value = 0
-  timerInterval = setInterval(() => {
-    timerSeconds.value++
-  }, 1000)
-}
-
-function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval)
-    timerInterval = null
-  }
-}
-
-onUnmounted(() => {
-  stopTimer()
-})
-
 function generateQuestion() {
   const max = MAX_NUM[selectedDiff.value]
-  const isAdd = Math.random() > 0.4
+  const isAdd = Math.random() > ADD_PROBABILITY
   let num1, num2, answer, operator
 
   if (isAdd) {
@@ -162,7 +140,7 @@ function generateQuestion() {
 function generateOptions(answer) {
   const opts = new Set([answer])
   while (opts.size < 4) {
-    const offset = randInt(1, Math.max(3, Math.floor(answer * 0.4)))
+    const offset = randInt(1, Math.max(3, Math.floor(answer * WRONG_OPTION_RATIO)))
     const wrong = answer + (Math.random() > 0.5 ? offset : -offset)
     if (wrong >= 0 && wrong !== answer) {
       opts.add(wrong)
@@ -191,8 +169,8 @@ function selectOption(idx) {
   const isCorrect = currentOptions.value[idx] === currentQuestion.value.answer
   if (isCorrect) {
     combo.value++
-    const bonus = Math.min(combo.value, 5)
-    score.value += 10 * bonus
+    const bonus = Math.min(combo.value, MAX_COMBO_MULTIPLIER)
+    score.value += SCORE_PER_CORRECT * bonus
     correctCount.value++
   } else {
     combo.value = 0
@@ -205,7 +183,7 @@ function selectOption(idx) {
       finished.value = true
       stopTimer()
     }
-  }, 600)
+  }, ANSWER_DELAY)
 }
 
 function optionClass(idx) {

@@ -49,13 +49,14 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '@/components/GamePage.vue'
+import {useGameStore} from '@/stores/useGameStore.js'
+
+const gameStore = useGameStore()
 
 const SIZE = 4
 const grid = ref([])
 const score = ref(0)
-const bestScore = ref(parseInt(localStorage.getItem('game2048_best') || '0'))
+const bestScore = ref(gameStore.getBestScore('game2048'))
 const gameOver = ref(false)
 const won = ref(false)
 let touchStartX = 0
@@ -148,10 +149,7 @@ function move(direction) {
   const changed = oldGrid.some((v, i) => v !== grid.value[i])
   if (changed) {
     score.value += totalScore
-    if (score.value > bestScore.value) {
-      bestScore.value = score.value
-      localStorage.setItem('game2048_best', String(bestScore.value))
-    }
+    gameStore.updateScore('game2048', score.value)
     addRandomTile()
     checkGameState()
   }

@@ -25,7 +25,6 @@
 </template>
 
 <script setup>
-import {onMounted, onUnmounted, ref} from 'vue'
 
 const isFullscreen = ref(false)
 

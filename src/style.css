@@ -8,35 +8,14 @@
     --warning: #fdcb6e;
     --danger: #e17055;
 
-    --color-primary: #42b883;
-    --color-primary-dark: #35495e;
-    --color-primary-hover: #38a169;
-    --color-primary-light: rgba(66, 184, 131, 0.1);
-    --color-primary-glow: rgba(66, 184, 131, 0.2);
-
-    --color-bg: #f5f5f5;
-    --color-bg-card: #ffffff;
-    --color-bg-sidebar: #f8f9fa;
-    --color-bg-code: #f0f0f0;
-    --color-bg-hover: rgba(0, 0, 0, 0.05);
-    --color-bg-tag: #f0f0f0;
-    --color-bg-footer: #f5f5f5;
-    --color-bg-hover: #f0f9f0;
-
-    --color-text: #333;
-    --color-text-secondary: #666;
-    --color-text-muted: #999;
-    --color-text-link: #42b883;
-
-    --color-border: #e0e0e0;
-    --color-border-sidebar: #e9ecef;
-
     --bg: #f8f9fa;
     --bg-card: #ffffff;
     --bg-game: #f1f2f6;
     --bg-secondary: #f1f2f6;
     --text-primary: #2d3436;
     --text-secondary: #636e72;
+    --text-muted: #999;
+    --text-on-primary: #ffffff;
     --text-light: #b2bec3;
     --border: #dfe6e9;
     --shadow: 0 2px 12px rgba(0, 0, 0, 0.08);

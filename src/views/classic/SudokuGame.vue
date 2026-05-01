@@ -66,9 +66,10 @@
 </template>
 
 <script setup>
-import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '@/components/GamePage.vue'
 import {shuffle} from '@/utils/helpers.js'
+import {useGameStore} from '@/stores/useGameStore.js'
+
+const gameStore = useGameStore()
 
 const SIZES = [4, 5, 6, 7, 8, 9]
 
@@ -78,8 +79,8 @@ const puzzle = ref([])
 const selectedIndex = ref(-1)
 const selectedNum = ref(0)
 const completed = ref(false)
-const score = ref(parseInt(localStorage.getItem('sudoku_score') || '0'))
-const bestScore = ref(parseInt(localStorage.getItem('sudoku_best') || '0'))
+const score = ref(gameStore.getScore('sudoku'))
+const bestScore = ref(gameStore.getBestScore('sudoku'))
 const elapsedTime = ref(0)
 let timer = null
 
@@ -221,7 +222,7 @@ function hint() {
   const cell = emptyCells[Math.floor(Math.random() * emptyCells.length)]
   cell.value = cell.solution
   score.value--
-  localStorage.setItem('sudoku_score', String(score.value))
+  gameStore.updateScore('sudoku', score.value)
   checkComplete()
 }
 
@@ -230,11 +231,7 @@ function checkComplete() {
   completed.value = puzzle.value.every(c => c.value === c.solution)
   if (completed.value && !wasComplete) {
     score.value++
-    if (score.value > bestScore.value) {
-      bestScore.value = score.value
-      localStorage.setItem('sudoku_best', String(bestScore.value))
-    }
-    localStorage.setItem('sudoku_score', String(score.value))
+    gameStore.updateScore('sudoku', score.value)
     stopTimer()
   }
 }

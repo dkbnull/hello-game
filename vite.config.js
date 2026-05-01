@@ -1,5 +1,8 @@
 import {defineConfig, loadEnv} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import VueDevTools from 'vite-plugin-vue-devtools'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
 import {fileURLToPath, URL} from 'node:url'
 import vitePluginSeoAnalytics from './plugins/vite-plugin-seo-analytics'
 
@@ -9,6 +12,16 @@ export default defineConfig(({mode}) => {
     return {
         plugins: [
             vue(),
+            VueDevTools(),
+            AutoImport({
+                imports: ['vue', 'vue-router', 'pinia'],
+                dts: 'src/auto-imports.d.ts',
+                vueTemplate: true,
+            }),
+            Components({
+                dirs: ['src/components'],
+                dts: 'src/components.d.ts',
+            }),
             vitePluginSeoAnalytics({
                 siteName: 'Hello Game',
                 siteUrl: 'https://game.wbnull.cn',
@@ -21,6 +34,20 @@ export default defineConfig(({mode}) => {
         resolve: {
             alias: {
                 '@': fileURLToPath(new URL('./src', import.meta.url)),
+            },
+        },
+        server: {
+            proxy: {},
+        },
+        build: {
+            rollupOptions: {
+                output: {
+                    manualChunks(id) {
+                        if (id.includes('node_modules/vue/') || id.includes('node_modules/vue-router/')) {
+                            return 'vue'
+                        }
+                    },
+                },
             },
         },
     }

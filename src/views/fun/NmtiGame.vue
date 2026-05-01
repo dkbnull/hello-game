@@ -1,151 +1,152 @@
 <template>
-  <div class="tool-container nmti-container">
-    <div v-if="phase === 'intro'" class="intro-section">
-      <div class="intro-card">
-        <div class="intro-icon">🐮</div>
-        <h3>NMTI来了!</h3>
-        <p class="intro-desc">
-          NMTI——牛马人格测试，通过31道灵魂拷问，测出你内心深处的牛马人格。
-          你是汗血宝马还是摸鱼咸鱼？是老黄牛还是精算狐狸？
-        </p>
-        <div class="intro-axes">
-          <div class="axis-item">
-            <span class="axis-icon">🐂</span>
-            <span class="axis-name">打工态度轴</span>
-            <span class="axis-detail">N 牛马打工 vs S 撒手不管</span>
+  <GamePage title="牛马测试">
+    <div class="nmti-container">
+      <div v-if="phase === 'intro'" class="intro-section">
+        <div class="intro-card">
+          <div class="intro-icon">🐮</div>
+          <h3>NMTI来了!</h3>
+          <p class="intro-desc">
+            NMTI——牛马人格测试，通过31道灵魂拷问，测出你内心深处的牛马人格。
+            你是汗血宝马还是摸鱼咸鱼？是老黄牛还是精算狐狸？
+          </p>
+          <div class="intro-axes">
+            <div class="axis-item">
+              <span class="axis-icon">🐂</span>
+              <span class="axis-name">打工态度轴</span>
+              <span class="axis-detail">N 牛马打工 vs S 撒手不管</span>
+            </div>
+            <div class="axis-item">
+              <span class="axis-icon">🐟</span>
+              <span class="axis-name">摸鱼劳模轴</span>
+              <span class="axis-detail">M 摸鱼大师 vs L 劳模标兵</span>
+            </div>
+            <div class="axis-item">
+              <span class="axis-icon">🎭</span>
+              <span class="axis-name">社交模式轴</span>
+              <span class="axis-detail">R 社牛显眼 vs T 社恐隐身</span>
+            </div>
+            <div class="axis-item">
+              <span class="axis-icon">🔥</span>
+              <span class="axis-name">卷躺态度轴</span>
+              <span class="axis-detail">I 内卷狂魔 vs O 佛系躺平</span>
+            </div>
           </div>
-          <div class="axis-item">
-            <span class="axis-icon">🐟</span>
-            <span class="axis-name">摸鱼劳模轴</span>
-            <span class="axis-detail">M 摸鱼大师 vs L 劳模标兵</span>
+          <div class="intro-tips">
+            <p>⚠️ 本测试仅供娱乐，测出什么牛马都是命，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。</p>
           </div>
-          <div class="axis-item">
-            <span class="axis-icon">🎭</span>
-            <span class="axis-name">社交模式轴</span>
-            <span class="axis-detail">R 社牛显眼 vs T 社恐隐身</span>
-          </div>
-          <div class="axis-item">
-            <span class="axis-icon">🔥</span>
-            <span class="axis-name">卷躺态度轴</span>
-            <span class="axis-detail">I 内卷狂魔 vs O 佛系躺平</span>
-          </div>
+          <button @click="startTest" class="action-btn primary start-btn">
+            开始测试
+          </button>
         </div>
-        <div class="intro-tips">
-          <p>⚠️ 本测试仅供娱乐，测出什么牛马都是命，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。</p>
-        </div>
-        <button @click="startTest" class="action-btn primary start-btn">
-          开始测试
-        </button>
-      </div>
-    </div>
-
-    <div v-if="phase === 'testing'" class="testing-section">
-      <div class="progress-bar-wrapper">
-        <div class="progress-bar">
-          <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
-        </div>
-        <span class="progress-text">{{ currentIndex + 1 }} / {{ questions.length }}</span>
       </div>
 
-      <transition name="slide" mode="out-in">
-        <div class="question-card" :key="currentIndex">
-          <div class="question-number">第 {{ currentIndex + 1 }} 题</div>
-          <div class="question-text">{{ currentQuestion.text }}</div>
-          <div class="options-list">
-            <button
-                v-for="option in currentQuestion.options"
-                :key="option.value"
-                @click="selectOption(option.value)"
-                class="option-btn"
-                :class="{ 'selected': answers[currentIndex] === option.value }"
-            >
-              <span class="option-label">{{ option.label }}</span>
-            </button>
+      <div v-if="phase === 'testing'" class="testing-section">
+        <div class="progress-bar-wrapper">
+          <div class="progress-bar">
+            <div class="progress-fill" :style="{ width: progressPercent + '%' }"></div>
           </div>
+          <span class="progress-text">{{ currentIndex + 1 }} / {{ questions.length }}</span>
         </div>
-      </transition>
 
-      <div class="nav-buttons">
-        <button
-            @click="prevQuestion"
-            class="action-btn secondary"
-            :disabled="currentIndex === 0"
-        >
-          上一题
-        </button>
-        <button
-            v-if="currentIndex < questions.length - 1"
-            @click="nextQuestion"
-            class="action-btn primary"
-            :disabled="!answers[currentIndex]"
-        >
-          下一题
-        </button>
-        <button
-            v-else
-            @click="submitTest"
-            class="action-btn primary submit-btn"
-            :disabled="!answers[currentIndex]"
-        >
-          查看结果
-        </button>
+        <transition name="slide" mode="out-in">
+          <div class="question-card" :key="currentIndex">
+            <div class="question-number">第 {{ currentIndex + 1 }} 题</div>
+            <div class="question-text">{{ currentQuestion.text }}</div>
+            <div class="options-list">
+              <button
+                  v-for="option in currentQuestion.options"
+                  :key="option.value"
+                  @click="selectOption(option.value)"
+                  class="option-btn"
+                  :class="{ 'selected': answers[currentIndex] === option.value }"
+              >
+                <span class="option-label">{{ option.label }}</span>
+              </button>
+            </div>
+          </div>
+        </transition>
+
+        <div class="nav-buttons">
+          <button
+              @click="prevQuestion"
+              class="action-btn secondary"
+              :disabled="currentIndex === 0"
+          >
+            上一题
+          </button>
+          <button
+              v-if="currentIndex < questions.length - 1"
+              @click="nextQuestion"
+              class="action-btn primary"
+              :disabled="!answers[currentIndex]"
+          >
+            下一题
+          </button>
+          <button
+              v-else
+              @click="submitTest"
+              class="action-btn primary submit-btn"
+              :disabled="!answers[currentIndex]"
+          >
+            查看结果
+          </button>
+        </div>
       </div>
-    </div>
 
-    <div v-if="phase === 'loading'" class="loading-section">
-      <div class="loading-card">
-        <div class="loading-spinner"></div>
-        <p class="loading-text">正在分析您的牛马人格...</p>
-        <p class="loading-sub">AI正在深度解读您的打工灵魂</p>
+      <div v-if="phase === 'loading'" class="loading-section">
+        <div class="loading-card">
+          <div class="loading-spinner"></div>
+          <p class="loading-text">正在分析您的牛马人格...</p>
+          <p class="loading-sub">AI正在深度解读您的打工灵魂</p>
+        </div>
       </div>
-    </div>
 
-    <div v-if="phase === 'result'" class="result-screen">
-      <div ref="resultCardRef" class="result-card">
-        <div class="result-header">
-          <span class="result-badge">NMTI</span>
-        </div>
-        <div class="result-type" :style="{ color: result.personality.color }">
-          <span class="result-emoji">{{ result.personality.emoji }}</span>
-          <h2 class="result-name">{{ result.personality.name }}</h2>
-        </div>
-        <div class="result-traits">
+      <div v-if="phase === 'result'" class="result-screen">
+        <div ref="resultCardRef" class="result-card">
+          <div class="result-header">
+            <span class="result-badge">NMTI</span>
+          </div>
+          <div class="result-type" :style="{ color: result.personality.color }">
+            <span class="result-emoji">{{ result.personality.emoji }}</span>
+            <h2 class="result-name">{{ result.personality.name }}</h2>
+          </div>
+          <div class="result-traits">
           <span v-for="trait in result.personality.traits" :key="trait" class="trait-tag"
                 :style="{ background: result.personality.color + '15', color: result.personality.color }">{{
               trait
             }}</span>
-        </div>
-        <p class="result-desc">{{ result.personality.description }}</p>
-        <div class="result-scores">
-          <div v-for="(scoreData, typeKey) in personalityScores" :key="typeKey" class="score-bar-item">
-            <div class="score-label">
+          </div>
+          <p class="result-desc">{{ result.personality.description }}</p>
+          <div class="result-scores">
+            <div v-for="(scoreData, typeKey) in personalityScores" :key="typeKey" class="score-bar-item">
+              <div class="score-label">
               <span class="score-type-name">
                 {{ scoreData.emoji }} {{ scoreData.name }}
               </span>
-              <span class="score-value">{{ scoreData.score }}分</span>
-            </div>
-            <div class="score-bar-bg">
-              <div class="score-bar-fill"
-                   :style="{ width: (scoreData.score / totalQuestions * 100) + '%', background: scoreData.color }"></div>
+                <span class="score-value">{{ scoreData.score }}分</span>
+              </div>
+              <div class="score-bar-bg">
+                <div class="score-bar-fill"
+                     :style="{ width: (scoreData.score / totalQuestions * 100) + '%', background: scoreData.color }"></div>
+              </div>
             </div>
           </div>
+          <div class="result-footer">Hello Game · NMTI 牛马人格测试</div>
         </div>
-        <div class="result-footer">Hello Game · NMTI 牛马人格测试</div>
-      </div>
-      <div class="result-actions">
-        <button @click="saveResult" class="action-btn primary">
-          保存为图片
-        </button>
-        <button @click="restartTest" class="action-btn secondary">
-          再测一次
-        </button>
+        <div class="result-actions">
+          <button @click="saveResult" class="action-btn primary">
+            保存为图片
+          </button>
+          <button @click="restartTest" class="action-btn secondary">
+            再测一次
+          </button>
+        </div>
       </div>
     </div>
-  </div>
+  </GamePage>
 </template>
 
 <script setup>
-import {computed, ref} from 'vue'
 import {calculateResult, personalityTypes, questions, specialPersonalityTypes} from '@/data/nmti.js'
 import {saveAsImage} from '@/utils/saveImage.js'
 
@@ -253,21 +254,21 @@ const saveResult = async () => {
 }
 
 .action-btn.primary {
-  background: #42b883;
+  background: var(--primary);
   color: white;
 }
 
 .action-btn.primary:hover:not(:disabled) {
-  background: #38a169;
+  background: var(--primary-dark);
 }
 
 .action-btn.secondary {
-  background: #f1f2f6;
-  color: #333;
+  background: var(--bg-game);
+  color: var(--text-primary);
 }
 
 .action-btn.secondary:hover:not(:disabled) {
-  background: #e2e8f0;
+  background: var(--border);
 }
 
 .nmti-container {
@@ -277,7 +278,7 @@ const saveResult = async () => {
 
 h2 {
   text-align: center;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1.5rem;
   font-size: 1.75rem;
   font-weight: bold;
@@ -289,9 +290,9 @@ h2 {
 }
 
 .intro-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 2.5rem;
   text-align: center;
   max-width: 560px;
@@ -305,12 +306,12 @@ h2 {
 
 .intro-card h3 {
   font-size: 1.5rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 1rem;
 }
 
 .intro-desc {
-  color: #666;
+  color: var(--text-secondary);
   line-height: 1.8;
   margin-bottom: 1.5rem;
   font-size: 0.95rem;
@@ -329,8 +330,8 @@ h2 {
   align-items: center;
   gap: 0.75rem;
   padding: 0.75rem 1rem;
-  background: #f8f9fa;
-  border-radius: 8px;
+  background: var(--bg-game);
+  border-radius: var(--radius-sm);
 }
 
 .axis-icon {
@@ -339,24 +340,24 @@ h2 {
 
 .axis-name {
   font-weight: 600;
-  color: #333;
+  color: var(--text-primary);
   min-width: 80px;
 }
 
 .axis-detail {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.85rem;
 }
 
 .intro-tips {
-  background: #fff8e1;
-  border-radius: 8px;
+  background: var(--bg-game);
+  border-radius: var(--radius-sm);
   padding: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .intro-tips p {
-  color: #856404;
+  color: var(--text-secondary);
   font-size: 0.85rem;
   line-height: 1.6;
   display: flex;
@@ -399,20 +400,20 @@ h2 {
 .progress-bar {
   flex: 1;
   height: 8px;
-  background: #e2e8f0;
+  background: var(--border);
   border-radius: 4px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, #42b883, #38a169);
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
   border-radius: 4px;
   transition: width 0.3s ease;
 }
 
 .progress-text {
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.875rem;
   white-space: nowrap;
   min-width: 60px;
@@ -420,9 +421,9 @@ h2 {
 }
 
 .question-card {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background: var(--bg-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
   padding: 2rem;
   min-height: 280px;
   display: flex;
@@ -432,7 +433,7 @@ h2 {
 }
 
 .question-number {
-  color: #42b883;
+  color: var(--primary);
   font-size: 0.875rem;
   font-weight: 600;
   margin-bottom: 0.75rem;
@@ -440,7 +441,7 @@ h2 {
 
 .question-text {
   font-size: 1.05rem;
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.8;
   margin-bottom: 1.5rem;
   white-space: pre-wrap;
@@ -457,27 +458,27 @@ h2 {
   width: 100%;
   max-width: 520px;
   padding: 1rem 1.25rem;
-  background: #f8f9fa;
-  border: 2px solid #e2e8f0;
-  border-radius: 8px;
+  background: var(--bg-game);
+  border: 2px solid var(--border);
+  border-radius: var(--radius-sm);
   cursor: pointer;
   text-align: left;
   transition: all 0.2s ease;
   font-size: 0.95rem;
-  color: #333;
+  color: var(--text-primary);
   line-height: 1.5;
   margin: 0 auto;
 }
 
 .option-btn:hover {
-  border-color: #42b883;
-  background: #f0fdf4;
+  border-color: var(--primary);
+  background: rgba(108, 92, 231, 0.05);
 }
 
 .option-btn.selected {
-  border-color: #42b883;
-  background: #ecfdf5;
-  color: #166534;
+  border-color: var(--primary);
+  background: rgba(108, 92, 231, 0.08);
+  color: var(--primary-dark);
   font-weight: 500;
 }
 
@@ -497,11 +498,11 @@ h2 {
 }
 
 .submit-btn {
-  background: #42b883 !important;
+  background: var(--primary) !important;
 }
 
 .submit-btn:hover:not(:disabled) {
-  background: #38a169 !important;
+  background: var(--primary-dark) !important;
 }
 
 .loading-section {
@@ -517,8 +518,8 @@ h2 {
 .loading-spinner {
   width: 60px;
   height: 60px;
-  border: 4px solid #e2e8f0;
-  border-top-color: #42b883;
+  border: 4px solid var(--border);
+  border-top-color: var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
   margin: 0 auto 1.5rem;
@@ -532,12 +533,12 @@ h2 {
 
 .loading-text {
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
   margin-bottom: 0.5rem;
 }
 
 .loading-sub {
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.875rem;
 }
 
@@ -550,10 +551,10 @@ h2 {
 }
 
 .result-card {
-  background: #fff;
-  border-radius: 12px;
+  background: var(--bg-card);
+  border-radius: var(--radius);
   padding: 28px 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--shadow);
   width: 100%;
   max-width: 520px;
   text-align: center;
@@ -569,7 +570,7 @@ h2 {
   padding: 4px 16px;
   border-radius: 20px;
   background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: #fff;
+  color: var(--text-on-primary);
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
@@ -609,7 +610,7 @@ h2 {
 .result-desc {
   font-size: 14px;
   line-height: 1.7;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 20px;
   text-align: left;
 }
@@ -632,7 +633,7 @@ h2 {
   justify-content: space-between;
   font-size: 13px;
   font-weight: 500;
-  color: #666;
+  color: var(--text-secondary);
   align-items: center;
 }
 
@@ -645,13 +646,13 @@ h2 {
 .score-value {
   font-weight: 700;
   font-size: 1.25rem;
-  color: #333;
+  color: var(--text-primary);
 }
 
 .score-bar-bg {
   height: 8px;
   border-radius: 4px;
-  background: #f3f4f6;
+  background: var(--bg-game);
   overflow: hidden;
 }
 
@@ -663,9 +664,9 @@ h2 {
 
 .result-footer {
   font-size: 12px;
-  color: #a0aec0;
+  color: var(--text-muted);
   padding-top: 12px;
-  border-top: 1px solid #e2e8f0;
+  border-top: 1px solid var(--border);
 }
 
 .result-actions {

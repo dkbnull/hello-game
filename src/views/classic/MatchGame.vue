@@ -61,8 +61,6 @@
 </template>
 
 <script setup>
-import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GamePage from '@/components/GamePage.vue'
 import {GRADE1_CHARS} from '@/data/grade1Chars.js'
 import {GRADE1_ENGLISH} from '@/data/grade1English.js'
 import {shuffle} from '@/utils/helpers.js'

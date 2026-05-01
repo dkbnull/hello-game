@@ -18,10 +18,13 @@
   </footer>
 </template>
 
+<script setup>
+</script>
+
 <style scoped>
 .footer {
-  background-color: var(--color-bg-footer);
-  border-top: 1px solid var(--color-border);
+  background-color: var(--bg);
+  border-top: 1px solid var(--border);
   padding: var(--spacing-md) 0 var(--spacing-md);
   margin-top: auto;
 }
@@ -31,7 +34,7 @@
   justify-content: space-between;
   align-items: center;
   font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  color: var(--text-secondary);
   margin: 0 auto;
   padding: 0 4rem;
 }
@@ -43,7 +46,7 @@
 
 .record-link {
   font-size: var(--font-size-xs);
-  color: var(--color-text-secondary);
+  color: var(--text-secondary);
   text-decoration: none;
   transition: var(--transition-fast);
   display: inline-flex;
@@ -52,7 +55,7 @@
 }
 
 .record-link:hover {
-  color: var(--color-primary);
+  color: var(--primary);
 }
 
 .record-icon {

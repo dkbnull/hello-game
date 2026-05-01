@@ -83,7 +83,7 @@
         <div class="edu-options-grid">
           <button
               v-for="(opt, i) in currentOptions"
-              :key="i"
+              :key="opt"
               class="edu-option-btn"
               :class="optionClass(i)"
               @click="selectOption(i)"
@@ -98,11 +98,13 @@
 </template>
 
 <script setup>
-import {computed, onUnmounted, ref} from 'vue'
-import GamePage from './GamePage.vue'
-import {shuffle} from '../utils/helpers'
+import {shuffle} from '@/utils/helpers'
+import {useTimer} from '@/composables/useTimer'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
+const ANSWER_DELAY = 800
+const MAX_SEARCH_RESULTS = 30
+const DEFAULT_SEARCH_LIMIT = 20
 
 const props = defineProps({
   title: {type: String, required: true},
@@ -122,33 +124,25 @@ const questions = ref([])
 const currentOptions = ref([])
 const answered = ref(false)
 const selectedIdx = ref(-1)
-
 const selectedRounds = ref(10)
 const showCustom = ref(false)
 const searchText = ref('')
 const customItems = ref([])
 
-const timerSeconds = ref(0)
-let timerInterval = null
+const {formattedTime, startTimer, stopTimer} = useTimer()
 
 const effectiveRounds = computed(() => selectedRounds.value)
-
-const formattedTime = computed(() => {
-  const m = Math.floor(timerSeconds.value / 60)
-  const s = timerSeconds.value % 60
-  return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`
-})
 
 const currentQuestion = computed(() => questions.value[currentIndex.value] || {})
 
 const filteredBank = computed(() => {
-  if (!searchText.value.trim()) return props.wordBank.slice(0, 20)
+  if (!searchText.value.trim()) return props.wordBank.slice(0, DEFAULT_SEARCH_LIMIT)
   const keyword = searchText.value.trim().toLowerCase()
   return props.wordBank.filter(item => {
     const val = String(item[props.answerKey]).toLowerCase()
     const hint = item.hint || item.chinese || ''
     return val.includes(keyword) || hint.toLowerCase().includes(keyword)
-  }).slice(0, 30)
+  }).slice(0, MAX_SEARCH_RESULTS)
 })
 
 function isCustomAdded(item) {
@@ -165,25 +159,6 @@ function toggleCustomItem(item) {
 
 function onSearch() {
 }
-
-function startTimer() {
-  stopTimer()
-  timerSeconds.value = 0
-  timerInterval = setInterval(() => {
-    timerSeconds.value++
-  }, 1000)
-}
-
-function stopTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval)
-    timerInterval = null
-  }
-}
-
-onUnmounted(() => {
-  stopTimer()
-})
 
 function generateQuestions() {
   const customPool = [...customItems.value]
@@ -229,7 +204,7 @@ function selectOption(idx) {
       finished.value = true
       stopTimer()
     }
-  }, 800)
+  }, ANSWER_DELAY)
 }
 
 function optionClass(idx) {

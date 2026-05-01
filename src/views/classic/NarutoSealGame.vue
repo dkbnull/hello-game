@@ -93,8 +93,6 @@
 </template>
 
 <script setup>
-import {nextTick, onUnmounted, ref} from 'vue'
-import GamePage from '@/components/GamePage.vue'
 import narutoIcon from '@/assets/icons/naruto.svg'
 
 const JUTSU_LIST = [

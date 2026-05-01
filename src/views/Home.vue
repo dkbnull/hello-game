@@ -67,8 +67,6 @@
 </template>
 
 <script setup>
-import {computed, onMounted, onUnmounted, ref} from 'vue'
-import GameCard from '@/components/GameCard.vue'
 import {GAME_SECTIONS, GAMES} from '@/data/games.js'
 
 const searchQuery = ref('')
