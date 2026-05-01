@@ -118,7 +118,7 @@ const routes = [
             {
                 path: 'naruto-seal',
                 name: 'NarutoSeal',
-                component: () => import('../views/classic/NarutoSealGame.vue'),
+                component: () => import('../views/ninja/NarutoSealGame.vue'),
                 meta: {
                     title: '忍者结印 - 火影忍者手势识别',
                     description: '火影忍者结印手势识别游戏，通过摄像头识别手势，体验火影忍者结印忍术。多种印法等你挑战！',
