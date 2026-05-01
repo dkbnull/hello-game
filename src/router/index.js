@@ -159,6 +159,17 @@ const routes = [
                     category: 'fun',
                 },
             },
+            {
+                path: 'food-picker',
+                name: 'FoodPicker',
+                component: () => import('../views/fun/FoodPicker.vue'),
+                meta: {
+                    title: '今天吃什么 - 美食随机抽取',
+                    description: '选择今天吃什么的随机抽取工具，支持早中晚餐选择、口味偏好和忌口设置，华丽动画效果帮你决定今天吃什么！',
+                    keywords: '今天吃什么,吃什么,美食推荐,随机选餐,午餐推荐,晚餐推荐,美食抽取',
+                    category: 'fun',
+                },
+            },
         ],
     },
     {

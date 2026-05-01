@@ -14,6 +14,7 @@ import narutoIcon from '@/assets/icons/naruto.svg'
 import nmtiIcon from '@/assets/icons/nmti.svg'
 import fortuneIcon from '@/assets/icons/fortune.svg'
 import salaryIcon from '@/assets/icons/salary.svg'
+import foodPickerIcon from '@/assets/icons/food-picker.svg'
 
 export const GAME_SECTIONS = [
     {
@@ -156,6 +157,16 @@ export const GAMES = [
         title: '实时工资',
         pinyin: 'shishigongzi',
         description: '按秒展示实时赚到的钱，金币掉落特效',
+        category: 'fun',
+        tag: '趣味',
+    },
+    {
+        to: '/food-picker',
+        icon: foodPickerIcon,
+        iconBg: 'rgba(255, 152, 0, 0.1)',
+        title: '今天吃什么',
+        pinyin: 'jintianchishenme',
+        description: '随机抽取美食，华丽动画帮你决定',
         category: 'fun',
         tag: '趣味',
     },
