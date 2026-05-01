@@ -13,6 +13,7 @@ import mathIcon from '@/assets/icons/math.svg'
 import narutoIcon from '@/assets/icons/naruto.svg'
 import nmtiIcon from '@/assets/icons/nmti.svg'
 import fortuneIcon from '@/assets/icons/fortune.svg'
+import salaryIcon from '@/assets/icons/salary.svg'
 
 export const GAME_SECTIONS = [
     {
@@ -145,6 +146,16 @@ export const GAMES = [
         title: '算命运势',
         pinyin: 'suanmingyushi',
         description: '输入信息，测算你的命运与运势',
+        category: 'fun',
+        tag: '趣味',
+    },
+    {
+        to: '/salary-counter',
+        icon: salaryIcon,
+        iconBg: 'rgba(255, 215, 0, 0.1)',
+        title: '实时工资',
+        pinyin: 'shishigongzi',
+        description: '按秒展示实时赚到的钱，金币掉落特效',
         category: 'fun',
         tag: '趣味',
     },

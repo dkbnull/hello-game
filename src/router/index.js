@@ -142,6 +142,17 @@ const routes = [
                     category: 'fun',
                 },
             },
+            {
+                path: 'salary-counter',
+                name: 'SalaryCounter',
+                component: () => import('../views/fun/SalaryCounter.vue'),
+                meta: {
+                    title: '实时工资 - 每秒赚钱计算器',
+                    description: '实时工资计算器，输入月薪和工作时间，按秒展示你实时赚到的钱。金币掉落特效，打工人必备！',
+                    keywords: '实时工资,工资计算器,每秒赚多少,打工人,薪资计算,在线计时工资',
+                    category: 'fun',
+                },
+            },
         ],
     },
     {
