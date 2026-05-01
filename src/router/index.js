@@ -109,6 +109,12 @@ const routes = [
                     category: 'classic',
                 },
             },
+        ],
+    },
+    {
+        path: '/',
+        component: () => import('../layouts/BareLayout.vue'),
+        children: [
             {
                 path: 'naruto-seal',
                 name: 'NarutoSeal',
