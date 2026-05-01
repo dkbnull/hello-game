@@ -79,8 +79,7 @@ const filteredGames = computed(() => {
     const titleMatch = g.title.toLowerCase().includes(q)
     const pinyinMatch = g.pinyin.toLowerCase().includes(q)
     const descMatch = g.description.toLowerCase().includes(q)
-    const tagMatch = g.tag.toLowerCase().includes(q)
-    return titleMatch || pinyinMatch || descMatch || tagMatch
+    return titleMatch || pinyinMatch || descMatch
   })
 })
 

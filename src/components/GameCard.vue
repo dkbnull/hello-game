@@ -6,7 +6,6 @@
     <div class="card-info">
       <h3 class="card-name">{{ title }}</h3>
       <p class="card-desc">{{ description }}</p>
-      <span class="card-btn" :class="category">{{ tag }}</span>
     </div>
   </router-link>
 </template>
@@ -19,7 +18,6 @@ defineProps({
   title: {type: String, required: true},
   description: {type: String, default: ''},
   category: {type: String, default: 'classic'},
-  tag: {type: String, default: ''},
 })
 </script>
 
@@ -42,23 +40,31 @@ defineProps({
 }
 
 .card-preview {
-  height: 140px;
+  height: 120px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .preview-svg {
-  width: 100px;
-  height: 100px;
+  width: 80px;
+  height: 80px;
+  transition: transform 0.3s ease;
+}
+
+.game-card:hover .preview-svg {
+  transform: scale(1.1);
 }
 
 .card-info {
-  padding: var(--spacing-lg);
+  padding: var(--spacing-md) var(--spacing-lg) var(--spacing-lg);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
 
 .card-name {
-  font-size: var(--font-size-xl);
+  font-size: var(--font-size-lg);
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: var(--spacing-xs);
@@ -67,35 +73,11 @@ defineProps({
 .card-desc {
   font-size: var(--font-size-sm);
   color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: var(--spacing-md);
-}
-
-.card-btn {
-  display: inline-block;
-  padding: 6px 16px;
-  border-radius: 20px;
-  font-size: var(--font-size-sm);
-  font-weight: 500;
-}
-
-.card-btn.classic {
-  background: rgba(108, 92, 231, 0.1);
-  color: var(--primary);
-}
-
-.card-btn.edu {
-  background: rgba(0, 206, 201, 0.1);
-  color: var(--secondary);
-}
-
-.card-btn.ninja {
-  background: rgba(253, 121, 168, 0.1);
-  color: var(--accent);
-}
-
-.card-btn.fun {
-  background: rgba(253, 203, 110, 0.1);
-  color: var(--warning);
+  line-height: 1.5;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 </style>

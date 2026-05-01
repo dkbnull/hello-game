@@ -48,7 +48,6 @@ export const GAMES = [
         pinyin: 'saolei',
         description: '经典扫雷游戏，锻炼逻辑推理能力',
         category: 'classic',
-        tag: '经典',
     },
     {
         to: '/sudoku',
@@ -58,7 +57,6 @@ export const GAMES = [
         pinyin: 'shudu',
         description: '填入数字，每行每列每宫不重复',
         category: 'classic',
-        tag: '经典',
     },
     {
         to: '/game2048',
@@ -68,7 +66,6 @@ export const GAMES = [
         pinyin: '2048',
         description: '滑动合并数字，挑战最高分',
         category: 'classic',
-        tag: '经典',
     },
     {
         to: '/match',
@@ -78,7 +75,6 @@ export const GAMES = [
         pinyin: 'xiaoxiaole',
         description: '配对消除，语文数学英语三种模式',
         category: 'classic',
-        tag: '经典',
     },
     {
         to: '/literacy',
@@ -88,7 +84,6 @@ export const GAMES = [
         pinyin: 'shizidaren',
         description: '看图识字，轻松认识常用汉字',
         category: 'edu',
-        tag: '早教',
     },
     {
         to: '/pinyin',
@@ -98,7 +93,6 @@ export const GAMES = [
         pinyin: 'pinyinxuexi',
         description: '声母韵母趣味学习，打好拼音基础',
         category: 'edu',
-        tag: '早教',
     },
     {
         to: '/english',
@@ -108,7 +102,6 @@ export const GAMES = [
         pinyin: 'yingyuqimeng',
         description: '趣味英语单词学习，轻松入门',
         category: 'edu',
-        tag: '早教',
     },
     {
         to: '/math',
@@ -118,7 +111,6 @@ export const GAMES = [
         pinyin: 'jiajianleyuan',
         description: '趣味加减法练习，提升数学能力',
         category: 'edu',
-        tag: '早教',
     },
     {
         to: '/naruto-seal',
@@ -128,7 +120,6 @@ export const GAMES = [
         pinyin: 'renzhejieyin',
         description: '摄像头手势识别，体验火影结印忍术',
         category: 'ninja',
-        tag: '忍者',
     },
     {
         to: '/nmti',
@@ -138,7 +129,6 @@ export const GAMES = [
         pinyin: 'niumaceshi',
         description: '测测你的牛马人格，打工魂燃烧吧',
         category: 'fun',
-        tag: '趣味',
     },
     {
         to: '/fortune',
@@ -148,7 +138,6 @@ export const GAMES = [
         pinyin: 'suanmingyushi',
         description: '输入信息，测算你的命运与运势',
         category: 'fun',
-        tag: '趣味',
     },
     {
         to: '/salary-counter',
@@ -158,7 +147,6 @@ export const GAMES = [
         pinyin: 'shishigongzi',
         description: '按秒展示实时赚到的钱，金币掉落特效',
         category: 'fun',
-        tag: '趣味',
     },
     {
         to: '/food-picker',
@@ -168,6 +156,5 @@ export const GAMES = [
         pinyin: 'jintianchishenme',
         description: '随机抽取美食，华丽动画帮你决定',
         category: 'fun',
-        tag: '趣味',
     },
 ]

@@ -92,7 +92,7 @@ function buildJsonLdSchemas(path, meta) {
             name: game.title,
             description: meta.description || game.description,
             url: `${_siteUrl}${game.to}`,
-            genre: game.tag,
+            genre: game.category,
             applicationCategory: 'Game',
             operatingSystem: 'Web Browser',
             offers: {
