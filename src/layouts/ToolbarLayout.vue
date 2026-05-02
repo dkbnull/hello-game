@@ -1,13 +1,13 @@
 <template>
   <div class="layout-toolbar" :class="{ 'is-fullscreen': isFullscreen }">
     <div class="game-toolbar">
-      <router-link to="/" class="toolbar-btn toolbar-back" title="返回首页">
+      <button class="toolbar-btn toolbar-back" title="返回首页" @click="goBack">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
              stroke-linecap="round" stroke-linejoin="round">
           <path d="M19 12H5M12 19l-7-7 7-7"/>
         </svg>
         <span>首页</span>
-      </router-link>
+      </button>
       <button class="toolbar-btn toolbar-fullscreen" @click="toggleFullscreen"
               :title="isFullscreen ? '退出全屏' : '全屏'">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
@@ -32,6 +32,15 @@
 import {useFullscreen} from '@/composables/useFullscreen.js'
 
 const {isFullscreen, toggleFullscreen} = useFullscreen()
+const router = useRouter()
+
+const goBack = () => {
+  if (window.history.length > 1) {
+    router.back()
+  } else {
+    router.push('/')
+  }
+}
 </script>
 
 <style scoped>

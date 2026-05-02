@@ -195,6 +195,12 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes,
+    scrollBehavior(to, from, savedPosition) {
+        if (savedPosition) {
+            return savedPosition
+        }
+        return {top: 0}
+    },
 })
 
 const DEFAULT_TITLE = 'Hello Game - 寓教于乐游戏平台'
