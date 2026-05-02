@@ -579,7 +579,7 @@ function resetAll() {
 
 .hero-section {
   position: relative;
-  padding: 20px 0 10px;
+  padding: 4px 0 10px;
   margin-bottom: 8px;
 }
 

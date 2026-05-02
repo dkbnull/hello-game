@@ -186,7 +186,7 @@ async function saveResult() {
 
 .input-screen {
   text-align: center;
-  padding: 24px 16px;
+  padding: 20px 16px;
   flex: 1;
   display: flex;
   flex-direction: column;

@@ -47,8 +47,8 @@ defineProps({
 }
 
 .preview-svg {
-  width: 80px;
-  height: 80px;
+  width: 100px;
+  height: 100px;
   transition: transform 0.3s ease;
 }
 

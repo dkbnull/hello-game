@@ -75,14 +75,6 @@ body {
     overflow-x: hidden;
 }
 
-:fullscreen {
-    overflow: hidden;
-}
-
-:-webkit-full-screen {
-    overflow: hidden;
-}
-
 a {
     color: var(--primary);
     text-decoration: none;

@@ -25,41 +25,9 @@
 </template>
 
 <script setup>
+import {useFullscreen} from '@/composables/useFullscreen.js'
 
-const isFullscreen = ref(false)
-
-function toggleFullscreen() {
-  const doc = document.documentElement
-  if (!isFullscreen.value) {
-    if (doc.requestFullscreen) {
-      doc.requestFullscreen().catch(() => {
-      })
-    } else if (doc.webkitRequestFullscreen) {
-      doc.webkitRequestFullscreen()
-    }
-  } else {
-    if (document.exitFullscreen) {
-      document.exitFullscreen().catch(() => {
-      })
-    } else if (document.webkitExitFullscreen) {
-      document.webkitExitFullscreen()
-    }
-  }
-}
-
-function onFullscreenChange() {
-  isFullscreen.value = !!(document.fullscreenElement || document.webkitFullscreenElement)
-}
-
-onMounted(() => {
-  document.addEventListener('fullscreenchange', onFullscreenChange)
-  document.addEventListener('webkitfullscreenchange', onFullscreenChange)
-})
-
-onUnmounted(() => {
-  document.removeEventListener('fullscreenchange', onFullscreenChange)
-  document.removeEventListener('webkitfullscreenchange', onFullscreenChange)
-})
+const {isFullscreen, toggleFullscreen} = useFullscreen()
 </script>
 
 <style scoped>

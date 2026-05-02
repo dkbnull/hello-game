@@ -577,6 +577,7 @@ onUnmounted(() => {
   height: 100%;
   min-height: 500px;
   gap: 16px;
+  padding-top: 20px;
 }
 
 .naruto-hero {
