@@ -1,8 +1,8 @@
 import {GAMES} from '@/data/games.js'
 
 const DEFAULT_TITLE = 'Hello Game - 寓教于乐游戏平台'
-const DEFAULT_DESCRIPTION = '经典益智游戏与趣味早教学习平台，包含扫雷、数独、2048、识字达人、拼音学习、英语启蒙等游戏，让小朋友在游戏中快乐成长'
-const DEFAULT_KEYWORDS = '儿童游戏,益智游戏,早教游戏,识字游戏,拼音学习,英语启蒙,数学游戏,扫雷,数独,2048,Hello Game'
+const DEFAULT_DESCRIPTION = 'Hello Game 是一个寓教于乐游戏平台，集合益智、休闲、早教与互动体验，包含扫雷、2048、数独、消消乐、识字达人、拼音学习、英语启蒙、加减乐园、忍者结印、今天吃什么等游戏，发现乐趣尽在游戏'
+const DEFAULT_KEYWORDS = '趣味游戏,益智游戏,休闲游戏,早教游戏,互动游戏,在线游戏,扫雷,2048,数独,消消乐,识字游戏,拼音学习,英语启蒙,数学游戏,忍者结印,今天吃什么,Hello Game'
 
 let _siteUrl = ''
 

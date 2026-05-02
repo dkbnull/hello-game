@@ -6,7 +6,7 @@
           <span class="hello">Hello</span> Game
         </h1>
         <p class="hero-subtitle">寓教于乐，快乐成长 🎮📚</p>
-        <p class="hero-desc">经典益智游戏 + 趣味早教学习，让小朋友在游戏中快乐学习</p>
+        <p class="hero-desc">集合益智、休闲、早教与互动体验的趣味游戏平台</p>
         <div class="search-box">
           <span class="search-icon">🔍</span>
           <input
@@ -36,7 +36,8 @@
       </div>
     </section>
 
-    <section v-else v-for="section in GAME_SECTIONS" :key="section.key" class="game-section container">
+    <section v-else v-for="section in GAME_SECTIONS" :key="section.key" :id="'section-' + section.key"
+             class="game-section container">
       <h2 class="section-title">
         <img :src="section.icon" :alt="section.title" class="section-svg"/>
         {{ section.title }}
@@ -200,6 +201,7 @@ onUnmounted(() => {
 
 .game-section {
   margin-bottom: 36px;
+  scroll-margin-top: var(--header-height);
 }
 
 .section-title {
