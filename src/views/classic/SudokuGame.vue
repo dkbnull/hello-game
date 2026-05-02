@@ -69,8 +69,10 @@
 <script setup>
 import {shuffle} from '@/utils/helpers.js'
 import {useGameStore} from '@/stores/useGameStore.js'
+import {useTimer} from '@/composables/useTimer.js'
 
 const gameStore = useGameStore()
+const {timerSeconds: elapsedTime, startTimer, stopTimer} = useTimer()
 
 const SIZES = [4, 5, 6, 7, 8, 9]
 
@@ -82,8 +84,6 @@ const selectedNum = ref(0)
 const completed = ref(false)
 const score = ref(gameStore.getScore('sudoku'))
 const bestScore = ref(gameStore.getBestScore('sudoku'))
-const elapsedTime = ref(0)
-let timer = null
 
 const boxSize = computed(() => {
   const s = gridSize.value
@@ -261,20 +261,6 @@ function onSizeChange() {
   newGame()
 }
 
-function startTimer() {
-  elapsedTime.value = 0
-  timer = setInterval(() => {
-    elapsedTime.value++
-  }, 1000)
-}
-
-function stopTimer() {
-  if (timer) {
-    clearInterval(timer)
-    timer = null
-  }
-}
-
 function newGame() {
   stopTimer()
   generatePuzzle()
@@ -291,18 +277,6 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-.equal-width-action {
-  min-width: 80px;
-  justify-content: center;
-  text-align: center;
-}
-
-.action-group {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
 .hint-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -436,97 +410,23 @@ onUnmounted(() => {
 }
 
 .game-overlay {
-  position: absolute;
-  inset: 0;
   background: rgba(255, 255, 255, 0.92);
   backdrop-filter: blur(8px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 0;
-  z-index: 10;
-  animation: sudokuOverlayIn 0.4s ease;
-}
-
-@keyframes sudokuOverlayIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .overlay-content {
-  text-align: center;
   color: #2a2a48;
-  animation: sudokuContentIn 0.5s ease 0.1s both;
-}
-
-@keyframes sudokuContentIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
-}
-
-.overlay-emoji {
-  font-size: 64px;
-  margin-bottom: 12px;
-  animation: sudokuEmojiBounce 0.6s ease 0.3s both;
-}
-
-@keyframes sudokuEmojiBounce {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 .overlay-text {
-  font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 8px;
   background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
-  background-size: 200% 200%;
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  animation: sudokuGradientShift 3s ease infinite;
-}
-
-@keyframes sudokuGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .overlay-time {
   font-size: 16px;
   margin-bottom: 20px;
   color: rgba(42, 42, 72, 0.6);
-}
-
-.overlay-btn {
-  background: linear-gradient(135deg, #6c5ce7, #a855f7) !important;
-  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4) !important;
-}
-
-.overlay-btn:hover {
-  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.55) !important;
-  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {

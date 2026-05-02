@@ -247,10 +247,10 @@ defineExpose({startGame, score, correctCount})
 </script>
 
 <style scoped>
-.equal-width-action {
-  min-width: 80px;
-  justify-content: center;
+.quiz-hero-title {
   text-align: center;
+  margin-bottom: 4px;
+  width: 100%;
 }
 
 .edu-hero {
@@ -268,18 +268,7 @@ defineExpose({startGame, score, correctCount})
   inset: -10px;
   border-radius: 50%;
   border: 3px solid rgba(108, 92, 231, 0.2);
-  animation: eduRingPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes eduRingPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.6;
-  }
-  50% {
-    transform: scale(1.15);
-    opacity: 0.2;
-  }
+  animation: ringPulse 2.5s ease-in-out infinite;
 }
 
 .edu-hero-title {
@@ -290,29 +279,14 @@ defineExpose({startGame, score, correctCount})
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: eduGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
   margin-bottom: 6px;
-}
-
-@keyframes eduGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .edu-hero-desc {
   color: var(--text-secondary);
   font-size: 14px;
   margin-bottom: 16px;
-}
-
-.quiz-hero-title {
-  text-align: center;
-  margin-bottom: 4px;
-  width: 100%;
 }
 
 .edu-start-btn {
@@ -332,16 +306,7 @@ defineExpose({startGame, score, correctCount})
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.15), transparent);
-  animation: eduBtnShine 3s ease-in-out infinite;
-}
-
-@keyframes eduBtnShine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
+  animation: btnShine 3s ease-in-out infinite;
 }
 
 .edu-start-btn:hover {

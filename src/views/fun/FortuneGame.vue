@@ -172,12 +172,6 @@ async function saveResult() {
 </script>
 
 <style scoped>
-.equal-width-action {
-  min-width: 80px;
-  justify-content: center;
-  text-align: center;
-}
-
 .fortune-wrapper {
   width: 100%;
   max-width: 520px;
@@ -211,18 +205,7 @@ async function saveResult() {
   inset: -8px;
   border-radius: 50%;
   border: 2px solid rgba(253, 203, 110, 0.25);
-  animation: fortuneRingPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes fortuneRingPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.6;
-  }
+  animation: ringPulse 2.5s ease-in-out infinite;
 }
 
 .start-svg {
@@ -239,17 +222,8 @@ async function saveResult() {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: fortuneGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
   margin-bottom: 6px;
-}
-
-@keyframes fortuneGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .fortune-hero-desc {
@@ -398,16 +372,7 @@ async function saveResult() {
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
-  animation: fortuneShine 3s ease-in-out infinite;
-}
-
-@keyframes fortuneShine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
+  animation: btnShine 3s ease-in-out infinite;
 }
 
 .fortune-start-btn:hover:not(:disabled) {

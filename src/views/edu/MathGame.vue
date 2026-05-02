@@ -219,12 +219,6 @@ function startGame() {
 </script>
 
 <style scoped>
-.equal-width-action {
-  min-width: 80px;
-  justify-content: center;
-  text-align: center;
-}
-
 .combo-badge {
   background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
   animation: comboPulse 0.6s ease infinite alternate;
@@ -250,18 +244,7 @@ function startGame() {
   inset: -8px;
   border-radius: 50%;
   border: 2px solid rgba(108, 92, 231, 0.2);
-  animation: mathRingPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes mathRingPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.6;
-  }
+  animation: ringPulse 2.5s ease-in-out infinite;
 }
 
 .math-hero-title {
@@ -272,17 +255,8 @@ function startGame() {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: mathGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
   margin-bottom: 6px;
-}
-
-@keyframes mathGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .math-hero-desc {
@@ -312,16 +286,7 @@ function startGame() {
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
-  animation: mathShine 3s ease-in-out infinite;
-}
-
-@keyframes mathShine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
+  animation: btnShine 3s ease-in-out infinite;
 }
 
 .math-start-btn:hover {
@@ -464,6 +429,6 @@ function startGame() {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: mathGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
 }
 </style>

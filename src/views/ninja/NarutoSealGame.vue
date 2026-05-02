@@ -590,18 +590,7 @@ onUnmounted(() => {
   inset: -10px;
   border-radius: 50%;
   border: 2px solid rgba(255, 107, 53, 0.2);
-  animation: narutoRingPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes narutoRingPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.6;
-  }
+  animation: ringPulse 2.5s ease-in-out infinite;
 }
 
 .prompt-svg {
@@ -618,17 +607,8 @@ onUnmounted(() => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: narutoGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
   margin-bottom: 4px;
-}
-
-@keyframes narutoGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .prompt-text {

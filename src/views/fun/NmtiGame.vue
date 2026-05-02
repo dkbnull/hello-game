@@ -314,18 +314,7 @@ const saveResult = async () => {
   inset: -10px;
   border-radius: 50%;
   border: 2px solid rgba(99, 102, 241, 0.2);
-  animation: nmtiRingPulse 2.5s ease-in-out infinite;
-}
-
-@keyframes nmtiRingPulse {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.1);
-    opacity: 0.6;
-  }
+  animation: ringPulse 2.5s ease-in-out infinite;
 }
 
 .intro-icon {
@@ -351,17 +340,8 @@ const saveResult = async () => {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  animation: nmtiGradientShift 4s ease infinite;
+  animation: gradientShift 4s ease infinite;
   margin-bottom: 1rem;
-}
-
-@keyframes nmtiGradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
 }
 
 .intro-desc {
@@ -444,16 +424,7 @@ const saveResult = async () => {
   width: 200%;
   height: 200%;
   background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.12) 50%, transparent 70%);
-  animation: nmtiShine 3s ease-in-out infinite;
-}
-
-@keyframes nmtiShine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
+  animation: btnShine 3s ease-in-out infinite;
 }
 
 .testing-section {
@@ -692,19 +663,7 @@ const saveResult = async () => {
   font-size: 56px;
   display: block;
   margin-bottom: 8px;
-  animation: nmtiEmojiBounce 0.6s ease 0.3s both;
-}
-
-@keyframes nmtiEmojiBounce {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
+  animation: emojiBounce 0.6s ease 0.3s both;
 }
 
 .result-name {

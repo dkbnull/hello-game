@@ -636,15 +636,6 @@ function resetAll() {
   animation: gradientShift 4s ease infinite;
 }
 
-@keyframes gradientShift {
-  0%, 100% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-}
-
 .hero-subtitle {
   color: var(--text-secondary);
   font-size: 14px;

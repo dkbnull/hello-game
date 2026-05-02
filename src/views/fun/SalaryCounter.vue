@@ -816,15 +816,6 @@ onUnmounted(() => {
   animation: btnShine 3s ease-in-out infinite;
 }
 
-@keyframes btnShine {
-  0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
-}
-
 .btn-gold:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 6px 24px rgba(255, 215, 0, 0.5);

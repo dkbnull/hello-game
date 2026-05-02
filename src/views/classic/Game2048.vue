@@ -491,66 +491,21 @@ onUnmounted(() => {
 }
 
 .game-overlay {
-  position: absolute;
-  inset: 0;
   background: rgba(238, 228, 218, 0.75);
   backdrop-filter: blur(6px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border-radius: 12px;
-  z-index: 10;
-  animation: g2048OverlayIn 0.4s ease;
-}
-
-@keyframes g2048OverlayIn {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
 }
 
 .overlay-content {
-  text-align: center;
   color: #776e65;
-  animation: g2048ContentIn 0.5s ease 0.1s both;
-}
-
-@keyframes g2048ContentIn {
-  from {
-    opacity: 0;
-    transform: scale(0.85) translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-  }
 }
 
 .overlay-emoji {
   font-size: 56px;
-  margin-bottom: 12px;
-  animation: g2048EmojiBounce 0.6s ease 0.3s both;
-}
-
-@keyframes g2048EmojiBounce {
-  0% {
-    transform: scale(0);
-  }
-  50% {
-    transform: scale(1.3);
-  }
-  100% {
-    transform: scale(1);
-  }
 }
 
 .overlay-text {
   font-size: 24px;
-  font-weight: 800;
-  margin-bottom: 8px;
 }
 
 .overlay-score {
@@ -566,7 +521,6 @@ onUnmounted(() => {
 
 .overlay-btn:hover {
   box-shadow: 0 6px 24px rgba(143, 122, 102, 0.5) !important;
-  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {
