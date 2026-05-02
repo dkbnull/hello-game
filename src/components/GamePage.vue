@@ -1,13 +1,23 @@
 <template>
   <div class="game-page">
     <div class="game-center-area">
-      <h1 class="game-title">{{ title }}</h1>
-      <div v-if="$slots.actions" class="game-actions">
-        <slot name="actions"></slot>
-      </div>
-      <div v-if="$slots.actionsBottom" class="game-actions-bottom">
-        <slot name="actionsBottom"></slot>
-      </div>
+      <template v-if="hero">
+        <div v-if="$slots.actions" class="game-actions">
+          <slot name="actions"></slot>
+        </div>
+        <div v-if="$slots.actionsBottom" class="game-actions-bottom">
+          <slot name="actionsBottom"></slot>
+        </div>
+      </template>
+      <template v-else>
+        <h1 class="game-title">{{ title }}</h1>
+        <div v-if="$slots.actions" class="game-actions">
+          <slot name="actions"></slot>
+        </div>
+        <div v-if="$slots.actionsBottom" class="game-actions-bottom">
+          <slot name="actionsBottom"></slot>
+        </div>
+      </template>
       <div class="game-body">
         <slot></slot>
       </div>
@@ -17,7 +27,8 @@
 
 <script setup>
 defineProps({
-  title: {type: String, required: true},
+  title: {type: String, default: ''},
+  hero: {type: Boolean, default: false},
 })
 </script>
 
@@ -46,10 +57,24 @@ defineProps({
 .game-title {
   font-size: 22px;
   font-weight: 700;
-  color: var(--text-primary);
   text-align: center;
   margin-bottom: 10px;
   flex-shrink: 0;
+  background: linear-gradient(135deg, #6c5ce7, #a855f7, #ec4899);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titleGradientShift 4s ease infinite;
+}
+
+@keyframes titleGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .game-actions {

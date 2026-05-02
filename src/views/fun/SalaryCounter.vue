@@ -1,11 +1,5 @@
 <template>
-  <GamePage title="实时工资">
-    <template #actions>
-      <button v-if="isRunning" class="btn-reset" @click="stopCounter">
-        <span class="btn-reset-icon">↺</span>
-        重新设置
-      </button>
-    </template>
+  <GamePage hero>
     <div class="salary-wrapper">
       <div v-if="!isRunning" class="input-screen">
         <div class="gold-icon-wrapper">
@@ -106,6 +100,7 @@
       </div>
 
       <div v-else class="counter-screen">
+        <h2 class="gold-title counter-gold-title">实时工资</h2>
         <div class="coin-canvas" ref="coinCanvasRef"></div>
 
         <div v-if="counterMode === 'smart'" class="work-status-bar" :class="workStatusClass">
@@ -172,6 +167,11 @@
             ></div>
           </div>
         </div>
+
+        <button class="btn-reset" @click="stopCounter">
+          <span class="btn-reset-icon">↺</span>
+          重新设置
+        </button>
       </div>
     </div>
   </GamePage>

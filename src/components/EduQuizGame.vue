@@ -1,18 +1,24 @@
 <template>
-  <GamePage :title="title">
+  <GamePage hero>
     <template #actions>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span> {{
-          currentIndex + 1
-        }} / {{ effectiveRounds }}</span>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
-      <button class="btn-action equal-width-action" @click="startGame">重新开始</button>
+      <template v-if="started">
+        <h2 class="edu-hero-title quiz-hero-title">{{ title }}</h2>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span>
+          {{ currentIndex + 1 }} / {{ effectiveRounds }}
+        </span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
+        <button class="btn-action equal-width-action" @click="backToStart">重新开始</button>
+      </template>
     </template>
     <div class="edu-game-wrapper">
       <div v-if="!started" class="edu-start-screen">
-        <img :src="icon" :alt="title" class="edu-start-svg"/>
-        <h2>{{ title }}</h2>
-        <p>{{ description }}</p>
+        <div class="edu-hero">
+          <img :src="icon" :alt="title" class="edu-start-svg"/>
+          <div class="edu-hero-ring"></div>
+        </div>
+        <h2 class="edu-hero-title">{{ title }}</h2>
+        <p class="edu-hero-desc">{{ description }}</p>
 
         <div class="edu-config-section">
           <div class="edu-config-row">
@@ -66,7 +72,10 @@
           </div>
         </div>
 
-        <button class="btn btn-primary btn-lg" @click="startGame">开始学习</button>
+        <button class="btn btn-primary btn-lg edu-start-btn" @click="startGame">
+          <span class="edu-start-btn-icon">🚀</span>
+          开始学习
+        </button>
       </div>
       <div v-else-if="finished" class="edu-result-screen">
         <div class="edu-result-emoji">🌟</div>
@@ -74,7 +83,7 @@
         <p>正确率：{{ correctCount }} / {{ effectiveRounds }}</p>
         <p>用时：{{ formattedTime }}</p>
         <slot name="result-extra" :score="score"></slot>
-        <button class="btn btn-primary btn-lg" @click="startGame">再来一轮</button>
+        <button class="btn btn-primary btn-lg" @click="backToStart">再来一轮</button>
       </div>
       <div v-else class="edu-quiz-area">
         <div class="edu-question-card">
@@ -218,6 +227,12 @@ function optionClass(idx) {
   }
 }
 
+function backToStart() {
+  started.value = false
+  finished.value = false
+  stopTimer()
+}
+
 function startGame() {
   started.value = true
   finished.value = false
@@ -238,33 +253,145 @@ defineExpose({startGame, score, correctCount})
   text-align: center;
 }
 
+.edu-hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 140px;
+  height: 140px;
+  margin-bottom: 12px;
+}
+
+.edu-hero-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 3px solid rgba(108, 92, 231, 0.2);
+  animation: eduRingPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes eduRingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 0.2;
+  }
+}
+
+.edu-hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: eduGradientShift 4s ease infinite;
+  margin-bottom: 6px;
+}
+
+@keyframes eduGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.edu-hero-desc {
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.quiz-hero-title {
+  text-align: center;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.edu-start-btn {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+  border: none !important;
+  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.35) !important;
+  transition: all 0.3s ease !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.edu-start-btn::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: eduBtnShine 3s ease-in-out infinite;
+}
+
+@keyframes eduBtnShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+.edu-start-btn:hover {
+  box-shadow: 0 6px 24px rgba(108, 92, 231, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+.edu-start-btn-icon {
+  font-size: 18px;
+}
+
 .custom-section {
   margin-bottom: 16px;
   border: 1px solid var(--border);
   border-radius: var(--radius);
   overflow: hidden;
   width: 100%;
+  transition: border-color 0.3s;
+}
+
+.custom-section:hover {
+  border-color: rgba(108, 92, 231, 0.3);
 }
 
 .custom-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 14px;
-  background: var(--bg-game);
+  padding: 10px 14px;
+  background: linear-gradient(135deg, var(--bg-game), var(--bg-card));
   cursor: pointer;
   font-size: 14px;
   font-weight: 600;
   color: var(--text-primary);
+  transition: all 0.3s;
+}
+
+.custom-header:hover {
+  background: linear-gradient(135deg, var(--bg-card), var(--bg-game));
 }
 
 .toggle-icon {
   font-size: 12px;
   color: var(--text-secondary);
+  transition: transform 0.3s;
 }
 
 .custom-body {
   padding: 10px 14px;
+  overflow-x: hidden;
 }
 
 .search-row {
@@ -273,17 +400,19 @@ defineExpose({startGame, score, correctCount})
 
 .search-input {
   width: 100%;
-  padding: 7px 10px;
-  border: 1px solid var(--border);
+  padding: 10px 14px;
+  border: 2px solid var(--border);
   border-radius: var(--radius-sm);
   font-size: 14px;
   outline: none;
   background: var(--bg-card);
   color: var(--text-primary);
+  transition: all 0.3s ease;
 }
 
 .search-input:focus {
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
 }
 
 .search-results {
@@ -297,24 +426,27 @@ defineExpose({startGame, score, correctCount})
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 6px 10px;
+  padding: 8px 10px;
   cursor: pointer;
   font-size: 13px;
-  transition: background 0.15s;
+  transition: all 0.2s;
 }
 
 .search-item:hover {
-  background: var(--bg-game);
+  background: rgba(108, 92, 231, 0.05);
 }
 
 .search-item.added {
-  background: #f0edff;
+  background: linear-gradient(135deg, #f0edff, #e8e4ff);
 }
 
 .add-tag {
   font-size: 12px;
   color: var(--primary);
-  font-weight: 500;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: rgba(108, 92, 231, 0.08);
 }
 
 .no-result {

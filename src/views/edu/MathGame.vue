@@ -1,19 +1,26 @@
 <template>
-  <GamePage title="加减乐园">
+  <GamePage hero>
     <template #actions>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
-      <span class="stat-badge equal-width-action" v-if="combo > 1"><span class="stat-icon">🔥</span> ×{{ combo }}</span>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span> {{
-          currentIndex + 1
-        }} / {{ selectedRounds }}</span>
-      <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
-      <button class="btn-action equal-width-action" @click="startGame">重新开始</button>
+      <template v-if="started">
+        <h2 class="math-hero-title quiz-hero-title">加减乐园</h2>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⭐</span> {{ score }}</span>
+        <span class="stat-badge equal-width-action combo-badge" v-if="combo > 1">
+          <span class="stat-icon">🔥</span> ×{{ combo }}</span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">📝</span>
+          {{ currentIndex + 1 }} / {{ selectedRounds }}
+        </span>
+        <span class="stat-badge equal-width-action"><span class="stat-icon">⏱</span> {{ formattedTime }}</span>
+        <button class="btn-action equal-width-action" @click="backToStart">重新开始</button>
+      </template>
     </template>
     <div class="edu-game-wrapper">
       <div v-if="!started" class="edu-start-screen">
-        <img :src="mathIcon" alt="加减乐园" class="edu-start-svg"/>
-        <h2>加减乐园</h2>
-        <p>趣味加减法，提升数学能力</p>
+        <div class="math-hero">
+          <img :src="mathIcon" alt="加减乐园" class="edu-start-svg"/>
+          <div class="math-hero-ring"></div>
+        </div>
+        <h2 class="math-hero-title">加减乐园</h2>
+        <p class="math-hero-desc">趣味加减法，提升数学能力</p>
         <div class="edu-config-section">
           <div class="edu-config-row">
             <label class="edu-config-label">题目数量</label>
@@ -42,18 +49,18 @@
             </div>
           </div>
         </div>
-        <button class="btn btn-primary btn-lg" @click="startGame">开始练习</button>
+        <button class="btn btn-primary btn-lg math-start-btn" @click="startGame">开始练习</button>
       </div>
       <div v-else-if="finished" class="edu-result-screen">
         <div class="edu-result-emoji">🌟</div>
-        <h2>练习完成！</h2>
+        <h2 class="math-result-title">练习完成！</h2>
         <p>正确率：{{ correctCount }} / {{ selectedRounds }}</p>
         <p>用时：{{ formattedTime }}</p>
         <p class="edu-result-score">总分：{{ score }}</p>
-        <button class="btn btn-primary btn-lg" @click="startGame">再来一轮</button>
+        <button class="btn btn-primary btn-lg math-start-btn" @click="backToStart">再来一轮</button>
       </div>
       <div v-else class="edu-quiz-area">
-        <div class="edu-question-card">
+        <div class="edu-question-card math-question-card">
           <div class="edu-question-text">
             {{ currentQuestion.num1 }}
             <span class="operator">{{ currentQuestion.operator }}</span>
@@ -62,11 +69,11 @@
             <span class="answer-slot">?</span>
           </div>
         </div>
-        <div class="edu-options-grid">
+        <div class="edu-options-grid math-options-grid">
           <button
               v-for="(opt, i) in currentOptions"
               :key="opt"
-              class="edu-option-btn"
+              class="edu-option-btn math-option-btn"
               :class="optionClass(i)"
               @click="selectOption(i)"
               :disabled="answered"
@@ -193,6 +200,12 @@ function optionClass(idx) {
   return {correct: isCorrect, wrong: isSelected && !isCorrect}
 }
 
+function backToStart() {
+  started.value = false
+  finished.value = false
+  stopTimer()
+}
+
 function startGame() {
   started.value = true
   finished.value = false
@@ -212,8 +225,119 @@ function startGame() {
   text-align: center;
 }
 
+.combo-badge {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+  animation: comboPulse 0.6s ease infinite alternate;
+}
+
+@keyframes comboPulse {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.08);
+  }
+}
+
+.math-hero {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.math-hero-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(108, 92, 231, 0.2);
+  animation: mathRingPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes mathRingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.6;
+  }
+}
+
+.math-hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: mathGradientShift 4s ease infinite;
+  margin-bottom: 6px;
+}
+
+@keyframes mathGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.math-hero-desc {
+  color: var(--text-light);
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+
+.quiz-hero-title {
+  text-align: center;
+  margin-bottom: 4px;
+  width: 100%;
+}
+
+.math-start-btn {
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe) !important;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.35) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.math-start-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+  animation: mathShine 3s ease-in-out infinite;
+}
+
+@keyframes mathShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+.math-start-btn:hover {
+  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.45) !important;
+  transform: translateY(-2px) !important;
+}
+
+.math-question-card {
+  background: linear-gradient(135deg, #f5f2ff, #ede8ff) !important;
+  border: 2px solid rgba(108, 92, 231, 0.2) !important;
+}
+
 .operator {
-  color: var(--primary);
+  color: #6c5ce7;
+  font-weight: 800;
+  text-shadow: 0 0 8px rgba(108, 92, 231, 0.3);
 }
 
 .equals {
@@ -221,16 +345,125 @@ function startGame() {
 }
 
 .answer-slot {
-  color: var(--accent);
-  animation: blink 1s infinite;
+  color: #a29bfe;
+  animation: mathBlink 1s infinite;
+  font-weight: 800;
 }
 
-@keyframes blink {
+@keyframes mathBlink {
   0%, 100% {
     opacity: 1;
   }
   50% {
-    opacity: 0.4;
+    opacity: 0.3;
   }
+}
+
+.combo-fire {
+  animation: mathFireWiggle 0.5s ease infinite alternate;
+  display: inline-block;
+}
+
+@keyframes mathFireWiggle {
+  from {
+    transform: rotate(-5deg) scale(1);
+  }
+  to {
+    transform: rotate(5deg) scale(1.15);
+  }
+}
+
+@keyframes mathComboPop {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.math-options-grid {
+  gap: 12px !important;
+}
+
+.math-option-btn {
+  background: linear-gradient(145deg, #f5f2ff, #ede8ff) !important;
+  border: 2px solid rgba(108, 92, 231, 0.15) !important;
+  font-size: 22px !important;
+  font-weight: 800 !important;
+  border-radius: 14px !important;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
+.math-option-btn:hover:not(:disabled) {
+  border-color: rgba(108, 92, 231, 0.5) !important;
+  transform: translateY(-3px) scale(1.02) !important;
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.2) !important;
+}
+
+.math-option-btn:active:not(:disabled) {
+  transform: translateY(-1px) scale(0.98) !important;
+}
+
+.math-option-btn.correct {
+  background: linear-gradient(135deg, #00b894, #00cec9) !important;
+  color: #fff !important;
+  border-color: #00b894 !important;
+  box-shadow: 0 4px 20px rgba(0, 184, 148, 0.4) !important;
+  animation: mathCorrectPop 0.4s ease !important;
+}
+
+@keyframes mathCorrectPop {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.12);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.math-option-btn.wrong {
+  background: linear-gradient(135deg, #ff4444, #e74c3c) !important;
+  color: #fff !important;
+  border-color: #ff4444 !important;
+  box-shadow: 0 4px 16px rgba(255, 68, 68, 0.3) !important;
+  animation: mathWrongShake 0.4s ease !important;
+}
+
+@keyframes mathWrongShake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  20% {
+    transform: translateX(-6px);
+  }
+  40% {
+    transform: translateX(6px);
+  }
+  60% {
+    transform: translateX(-4px);
+  }
+  80% {
+    transform: translateX(4px);
+  }
+}
+
+.math-result-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6c5ce7, #a29bfe, #fd79a8);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: mathGradientShift 4s ease infinite;
 }
 </style>

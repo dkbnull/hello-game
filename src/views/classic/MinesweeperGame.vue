@@ -45,7 +45,8 @@
         <div class="overlay-content">
           <div class="overlay-emoji">{{ won ? '🎉' : '💥' }}</div>
           <div class="overlay-text">{{ won ? '恭喜通关！' : '踩到地雷了！' }}</div>
-          <button class="btn btn-primary" @click="resetGame">再来一局</button>
+          <div class="overlay-time">用时：{{ elapsedTime }}s</div>
+          <button class="btn btn-primary btn-lg overlay-btn" @click="resetGame">再来一局</button>
         </div>
       </div>
     </div>
@@ -379,130 +380,237 @@ onUnmounted(() => {
 
 .mine-cell.exploded {
   background: #ff0000;
+  animation: none;
+}
+
+@keyframes mineExplode {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(1.3);
+  }
+  60% {
+    transform: scale(0.9);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .cell-mine {
-  font-size: 18px;
+  font-size: 16px;
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.5));
 }
 
 .cell-flag {
-  font-size: 16px;
+  font-size: 14px;
+  animation: flagPlant 0.3s ease;
+}
+
+@keyframes flagPlant {
+  0% {
+    transform: scale(0) rotate(-30deg);
+  }
+  60% {
+    transform: scale(1.2) rotate(5deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+  }
 }
 
 .num-1 {
   color: #0000ff;
+  text-shadow: none;
 }
 
 .num-2 {
   color: #008000;
+  text-shadow: none;
 }
 
 .num-3 {
   color: #ff0000;
+  text-shadow: none;
 }
 
 .num-4 {
   color: #000080;
+  text-shadow: none;
 }
 
 .num-5 {
   color: #800000;
+  text-shadow: none;
 }
 
 .num-6 {
   color: #008080;
+  text-shadow: none;
 }
 
 .num-7 {
   color: #000000;
+  text-shadow: none;
 }
 
 .num-8 {
   color: #808080;
+  text-shadow: none;
 }
 
 .game-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(240, 236, 247, 0.88);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   z-index: 10;
+  animation: msOverlayIn 0.4s ease;
+}
+
+@keyframes msOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .overlay-content {
   text-align: center;
-  color: #fff;
+  color: #2a2a48;
+  animation: msContentIn 0.5s ease 0.1s both;
+}
+
+@keyframes msContentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .overlay-emoji {
-  font-size: 48px;
+  font-size: 64px;
   margin-bottom: 12px;
+  animation: msEmojiBounce 0.6s ease 0.3s both;
+}
+
+@keyframes msEmojiBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .overlay-text {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: msGradientShift 3s ease infinite;
+}
+
+@keyframes msGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.overlay-time {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: rgba(42, 42, 72, 0.6);
+}
+
+.overlay-btn {
+  background: linear-gradient(135deg, #6c5ce7, #a855f7) !important;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4) !important;
+}
+
+.overlay-btn:hover {
+  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.55) !important;
+  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {
-  .mine-info {
-    gap: 8px;
-    margin-right: 8px;
-  }
-
-  .info-item {
-    font-size: 14px;
-    min-width: 40px;
-  }
-
-  .difficulty-select {
-    padding: 4px 8px;
-    font-size: 13px;
-  }
-
   .mine-cell {
     width: 28px;
     height: 28px;
-    font-size: 16px;
+    font-size: 14px;
+  }
+
+  .counter-digit {
+    font-size: 20px;
+  }
+
+  .face-button {
+    min-width: 48px;
+    width: 48px;
+    font-size: 20px;
   }
 }
 
 @media (max-width: 480px) {
-  .mine-info {
-    gap: 4px;
-    margin-right: 4px;
-  }
-
-  .info-item {
-    font-size: 12px;
-    min-width: 32px;
-  }
-
   .mine-cell {
     width: 24px;
     height: 24px;
-    font-size: 14px;
-    border-width: 2px;
-  }
-
-  .cell-mine {
-    font-size: 14px;
-  }
-
-  .cell-flag {
     font-size: 12px;
   }
 
+  .cell-mine {
+    font-size: 12px;
+  }
+
+  .cell-flag {
+    font-size: 10px;
+  }
+
+  .counter-digit {
+    font-size: 18px;
+  }
+
+  .face-button {
+    min-width: 40px;
+    width: 40px;
+    font-size: 18px;
+    min-height: 36px;
+  }
+
+  .mine-counter,
+  .time-counter {
+    min-width: 56px;
+    width: 56px;
+    padding: 4px 6px;
+  }
+
   .overlay-emoji {
-    font-size: 36px;
+    font-size: 48px;
   }
 
   .overlay-text {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 </style>

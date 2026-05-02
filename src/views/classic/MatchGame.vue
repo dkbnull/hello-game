@@ -47,13 +47,15 @@
             </div>
             <div class="tile-label">{{ tile.label }}</div>
           </template>
+          <div v-if="tile.matched" class="tile-match-effect">✨</div>
         </div>
       </div>
       <div v-if="gameOver" class="game-overlay">
         <div class="overlay-content">
           <div class="overlay-emoji">🎉</div>
-          <div class="overlay-text">恭喜通关！得分：{{ score }}</div>
-          <button class="btn btn-primary" @click="newGame">再来一局</button>
+          <div class="overlay-text">恭喜通关！</div>
+          <div class="overlay-score">得分：{{ score }} | 用时：{{ elapsedTime }}s</div>
+          <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
         </div>
       </div>
     </div>
@@ -229,11 +231,12 @@ onUnmounted(() => {
 
 .match-board {
   display: grid;
-  gap: 6px;
-  padding: 10px;
-  background: var(--bg-secondary);
-  border-radius: var(--radius);
-  border: 3px solid var(--border);
+  gap: 8px;
+  padding: 14px;
+  background: linear-gradient(135deg, #f8f8f8, #f0f0f0);
+  border-radius: 16px;
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
 .match-tile {
@@ -243,52 +246,103 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  background: var(--bg-card);
-  border: 2px solid var(--border);
-  border-radius: var(--radius-sm);
+  background: linear-gradient(145deg, #ffffff, #f5f5f5);
+  border: 2px solid rgba(0, 0, 0, 0.06);
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   user-select: none;
+  position: relative;
+  overflow: hidden;
+}
+
+.match-tile::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(108, 92, 231, 0.08), transparent);
+  opacity: 0;
+  transition: opacity 0.3s;
 }
 
 .match-tile:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  border-color: rgba(108, 92, 231, 0.35);
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 6px 20px rgba(108, 92, 231, 0.12);
+}
+
+.match-tile:hover::before {
+  opacity: 1;
 }
 
 .match-tile.selected {
-  border-color: var(--primary);
-  background: #ede9fe;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.3);
+  border-color: #6c5ce7;
+  background: linear-gradient(145deg, #ede8ff, #ddd5ff);
+  box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2), 0 4px 16px rgba(108, 92, 231, 0.15);
+  transform: translateY(-2px) scale(1.05);
+  animation: matchSelected 0.8s ease-in-out infinite alternate;
+}
+
+@keyframes matchSelected {
+  from {
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.2), 0 4px 16px rgba(108, 92, 231, 0.15);
+  }
+  to {
+    box-shadow: 0 0 0 4px rgba(108, 92, 231, 0.3), 0 4px 24px rgba(108, 92, 231, 0.22);
+  }
 }
 
 .match-tile.matched {
   opacity: 0;
   pointer-events: none;
-  transform: scale(0.8);
+  transform: scale(0.5) rotate(10deg);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.tile-match-effect {
+  position: absolute;
+  font-size: 28px;
+  animation: matchPop 0.6s ease-out forwards;
+  pointer-events: none;
+}
+
+@keyframes matchPop {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.5);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(2);
+    opacity: 0;
+  }
 }
 
 .match-tile.hint {
-  border-color: var(--danger);
-  animation: shake 0.4s ease-in-out;
+  border-color: #e74c3c;
+  animation: matchShake 0.4s ease-in-out;
+  box-shadow: 0 0 12px rgba(231, 76, 60, 0.2);
 }
 
-@keyframes shake {
+@keyframes matchShake {
   0%, 100% {
     transform: translateX(0);
   }
   25% {
-    transform: translateX(-4px);
+    transform: translateX(-5px);
   }
   75% {
-    transform: translateX(4px);
+    transform: translateX(5px);
   }
 }
 
 .tile-icon {
   font-size: 24px;
   line-height: 1;
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
 }
 
 .tile-icon-image {
@@ -298,42 +352,110 @@ onUnmounted(() => {
 }
 
 .tile-label {
-  font-size: 16px;
-  font-weight: 600;
-  color: var(--text-primary);
+  font-size: 15px;
+  font-weight: 700;
+  color: #2a2a48;
   margin-top: 3px;
   text-align: center;
   max-width: 64px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  text-shadow: 0 1px 2px rgba(108, 92, 231, 0.06);
 }
 
 .game-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(240, 236, 247, 0.88);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius);
+  border-radius: 16px;
   z-index: 10;
+  animation: matchOverlayIn 0.4s ease;
+}
+
+@keyframes matchOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .overlay-content {
   text-align: center;
-  color: #fff;
+  color: #2a2a48;
+  animation: matchContentIn 0.5s ease 0.1s both;
+}
+
+@keyframes matchContentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .overlay-emoji {
-  font-size: 48px;
+  font-size: 64px;
   margin-bottom: 12px;
+  animation: matchEmojiBounce 0.6s ease 0.3s both;
+}
+
+@keyframes matchEmojiBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .overlay-text {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 26px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: matchGradientShift 3s ease infinite;
+}
+
+@keyframes matchGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.overlay-score {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: rgba(42, 42, 72, 0.7);
+}
+
+.overlay-btn {
+  background: linear-gradient(135deg, #6c5ce7, #a855f7) !important;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4) !important;
+}
+
+.overlay-btn:hover {
+  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.55) !important;
+  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {
@@ -347,7 +469,12 @@ onUnmounted(() => {
   }
 
   .tile-label {
-    font-size: 14px;
+    font-size: 13px;
+  }
+
+  .match-board {
+    gap: 6px;
+    padding: 10px;
   }
 }
 
@@ -355,6 +482,7 @@ onUnmounted(() => {
   .match-tile {
     width: 52px;
     height: 52px;
+    border-radius: 10px;
   }
 
   .tile-icon {
@@ -362,21 +490,21 @@ onUnmounted(() => {
   }
 
   .tile-label {
-    font-size: 12px;
+    font-size: 11px;
     max-width: 48px;
   }
 
   .match-board {
-    gap: 4px;
-    padding: 6px;
+    gap: 5px;
+    padding: 8px;
   }
 
   .overlay-emoji {
-    font-size: 36px;
+    font-size: 48px;
   }
 
   .overlay-text {
-    font-size: 16px;
+    font-size: 22px;
   }
 }
 </style>

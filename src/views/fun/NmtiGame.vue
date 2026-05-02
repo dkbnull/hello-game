@@ -1,10 +1,13 @@
 <template>
-  <GamePage title="牛马测试">
+  <GamePage hero>
     <div class="nmti-container">
       <div v-if="phase === 'intro'" class="intro-section">
         <div class="intro-card">
-          <div class="intro-icon">🐮</div>
-          <h3>NMTI来了!</h3>
+          <div class="nmti-hero">
+            <div class="intro-icon">🐮</div>
+            <div class="nmti-hero-ring"></div>
+          </div>
+          <h3 class="nmti-hero-title">NMTI来了!</h3>
           <p class="intro-desc">
             NMTI——牛马人格测试，通过31道灵魂拷问，测出你内心深处的牛马人格。
             你是汗血宝马还是摸鱼咸鱼？是老黄牛还是精算狐狸？
@@ -34,7 +37,7 @@
           <div class="intro-tips">
             <p>⚠️ 本测试仅供娱乐，测出什么牛马都是命，别拿它当诊断、面试、相亲、分手、招魂、算命或人生判决书。</p>
           </div>
-          <button @click="startTest" class="action-btn primary start-btn">
+          <button @click="startTest" class="action-btn primary start-btn nmti-start-btn">
             开始测试
           </button>
         </div>
@@ -69,7 +72,7 @@
         <div class="nav-buttons">
           <button
               @click="prevQuestion"
-              class="action-btn secondary"
+              class="action-btn secondary nmti-nav-btn"
               :disabled="currentIndex === 0"
           >
             上一题
@@ -77,7 +80,7 @@
           <button
               v-if="currentIndex < questions.length - 1"
               @click="nextQuestion"
-              class="action-btn primary"
+              class="action-btn primary nmti-nav-btn"
               :disabled="!answers[currentIndex]"
           >
             下一题
@@ -85,7 +88,7 @@
           <button
               v-else
               @click="submitTest"
-              class="action-btn primary submit-btn"
+              class="action-btn primary submit-btn nmti-submit-btn"
               :disabled="!answers[currentIndex]"
           >
             查看结果
@@ -134,10 +137,10 @@
           <div class="result-footer">Hello Game · NMTI 牛马人格测试</div>
         </div>
         <div class="result-actions">
-          <button @click="saveResult" class="action-btn primary">
+          <button @click="saveResult" class="action-btn primary nmti-start-btn">
             保存为图片
           </button>
-          <button @click="restartTest" class="action-btn secondary">
+          <button @click="restartTest" class="action-btn secondary nmti-nav-btn">
             再测一次
           </button>
         </div>
@@ -240,12 +243,12 @@ const saveResult = async () => {
   align-items: center;
   justify-content: center;
   padding: 0.625rem 1.25rem;
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 0.95rem;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   border: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .action-btn:disabled {
@@ -254,34 +257,34 @@ const saveResult = async () => {
 }
 
 .action-btn.primary {
-  background: var(--primary);
+  background: linear-gradient(135deg, #6366f1, #8b5cf6);
   color: white;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.3);
 }
 
 .action-btn.primary:hover:not(:disabled) {
-  background: var(--primary-dark);
+  box-shadow: 0 6px 24px rgba(99, 102, 241, 0.45);
+  transform: translateY(-2px);
+}
+
+.action-btn.primary:active:not(:disabled) {
+  transform: translateY(0);
 }
 
 .action-btn.secondary {
-  background: var(--bg-game);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
   color: var(--text-primary);
+  border: 2px solid var(--border);
 }
 
 .action-btn.secondary:hover:not(:disabled) {
-  background: var(--border);
+  border-color: rgba(99, 102, 241, 0.3);
+  transform: translateY(-2px);
 }
 
 .nmti-container {
   max-width: 700px;
   margin: 0 auto;
-}
-
-h2 {
-  text-align: center;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-  font-size: 1.75rem;
-  font-weight: bold;
 }
 
 .intro-section {
@@ -290,24 +293,75 @@ h2 {
 }
 
 .intro-card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1), var(--shadow);
   padding: 2.5rem;
   text-align: center;
   max-width: 560px;
   width: 100%;
+  border: 1px solid rgba(99, 102, 241, 0.08);
+}
+
+.nmti-hero {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.nmti-hero-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid rgba(99, 102, 241, 0.2);
+  animation: nmtiRingPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes nmtiRingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
 }
 
 .intro-icon {
   font-size: 4rem;
+  margin-bottom: 0;
+  animation: nmtiIconScale 3s ease-in-out infinite;
+}
+
+@keyframes nmtiIconScale {
+  0%, 100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.nmti-hero-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #6366f1, #ec4899, #8b5cf6);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: nmtiGradientShift 4s ease infinite;
   margin-bottom: 1rem;
 }
 
-.intro-card h3 {
-  font-size: 1.5rem;
-  color: var(--text-primary);
-  margin-bottom: 1rem;
+@keyframes nmtiGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .intro-desc {
@@ -320,7 +374,7 @@ h2 {
 .intro-axes {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 10px;
   margin-bottom: 1.5rem;
   text-align: left;
 }
@@ -329,9 +383,16 @@ h2 {
   display: flex;
   align-items: center;
   gap: 0.75rem;
-  padding: 0.75rem 1rem;
-  background: var(--bg-game);
-  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  background: linear-gradient(145deg, var(--bg-game), var(--bg-card));
+  border-radius: 12px;
+  border: 1px solid rgba(99, 102, 241, 0.06);
+  transition: all 0.25s;
+}
+
+.axis-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(99, 102, 241, 0.15);
 }
 
 .axis-icon {
@@ -339,7 +400,7 @@ h2 {
 }
 
 .axis-name {
-  font-weight: 600;
+  font-weight: 700;
   color: var(--text-primary);
   min-width: 80px;
 }
@@ -350,10 +411,11 @@ h2 {
 }
 
 .intro-tips {
-  background: var(--bg-game);
-  border-radius: var(--radius-sm);
+  background: linear-gradient(135deg, rgba(99, 102, 241, 0.04), rgba(236, 72, 153, 0.03));
+  border-radius: 12px;
   padding: 1rem;
   margin-bottom: 1.5rem;
+  border: 1px solid rgba(99, 102, 241, 0.06);
 }
 
 .intro-tips p {
@@ -365,18 +427,33 @@ h2 {
   gap: 0.5rem;
 }
 
-.tip-icon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  margin-top: 1px;
-}
-
-.start-btn {
+.nmti-start-btn {
   width: 100%;
   padding: 1rem;
   font-size: 1.1rem;
-  border-radius: 8px;
+  border-radius: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+.nmti-start-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.12) 50%, transparent 70%);
+  animation: nmtiShine 3s ease-in-out infinite;
+}
+
+@keyframes nmtiShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
 }
 
 .testing-section {
@@ -399,17 +476,28 @@ h2 {
 
 .progress-bar {
   flex: 1;
-  height: 8px;
-  background: var(--border);
-  border-radius: 4px;
+  height: 10px;
+  background: linear-gradient(145deg, var(--bg-game), var(--border));
+  border-radius: 5px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
-  border-radius: 4px;
-  transition: width 0.3s ease;
+  background: linear-gradient(90deg, #6366f1, #ec4899, #8b5cf6);
+  background-size: 200% 100%;
+  border-radius: 5px;
+  transition: width 0.4s ease;
+  animation: nmtiProgressGlow 2s ease infinite;
+}
+
+@keyframes nmtiProgressGlow {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .progress-text {
@@ -418,25 +506,28 @@ h2 {
   white-space: nowrap;
   min-width: 60px;
   text-align: right;
+  font-weight: 600;
 }
 
 .question-card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  box-shadow: var(--shadow);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
+  border-radius: 18px;
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.08), var(--shadow);
   padding: 2rem;
   min-height: 280px;
   display: flex;
   flex-direction: column;
   width: 520px;
   margin: 0 auto;
+  border: 1px solid rgba(99, 102, 241, 0.06);
 }
 
 .question-number {
-  color: var(--primary);
+  color: #6366f1;
   font-size: 0.875rem;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 0.75rem;
+  letter-spacing: 0.5px;
 }
 
 .question-text {
@@ -450,7 +541,7 @@ h2 {
 .options-list {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 10px;
   flex: 1;
 }
 
@@ -458,12 +549,12 @@ h2 {
   width: 100%;
   max-width: 520px;
   padding: 1rem 1.25rem;
-  background: var(--bg-game);
+  background: linear-gradient(145deg, var(--bg-game), var(--bg-card));
   border: 2px solid var(--border);
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   cursor: pointer;
   text-align: left;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   font-size: 0.95rem;
   color: var(--text-primary);
   line-height: 1.5;
@@ -471,15 +562,19 @@ h2 {
 }
 
 .option-btn:hover {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.05);
+  border-color: rgba(99, 102, 241, 0.4);
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.04), var(--bg-card));
+  transform: translateX(4px);
+  box-shadow: 0 4px 12px rgba(99, 102, 241, 0.1);
 }
 
 .option-btn.selected {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.08);
-  color: var(--primary-dark);
-  font-weight: 500;
+  border-color: #6366f1;
+  background: linear-gradient(145deg, rgba(99, 102, 241, 0.08), rgba(139, 92, 246, 0.04));
+  color: #4f46e5;
+  font-weight: 600;
+  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.15);
+  transform: translateX(4px);
 }
 
 .nav-buttons {
@@ -491,18 +586,15 @@ h2 {
   margin: 0 auto;
 }
 
-.nav-buttons .action-btn {
+.nmti-nav-btn {
   flex: 1;
   padding: 0.75rem;
   font-size: 0.95rem;
 }
 
-.submit-btn {
-  background: var(--primary) !important;
-}
-
-.submit-btn:hover:not(:disabled) {
-  background: var(--primary-dark) !important;
+.nmti-submit-btn {
+  background: linear-gradient(135deg, #6366f1, #ec4899) !important;
+  box-shadow: 0 4px 20px rgba(99, 102, 241, 0.35) !important;
 }
 
 .loading-section {
@@ -516,16 +608,17 @@ h2 {
 }
 
 .loading-spinner {
-  width: 60px;
-  height: 60px;
-  border: 4px solid var(--border);
-  border-top-color: var(--primary);
+  width: 64px;
+  height: 64px;
+  border: 4px solid rgba(99, 102, 241, 0.1);
+  border-top-color: #6366f1;
+  border-right-color: #ec4899;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: nmtiSpin 0.8s linear infinite;
   margin: 0 auto 1.5rem;
 }
 
-@keyframes spin {
+@keyframes nmtiSpin {
   to {
     transform: rotate(360deg);
   }
@@ -535,6 +628,7 @@ h2 {
   font-size: 1.25rem;
   color: var(--text-primary);
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .loading-sub {
@@ -548,17 +642,30 @@ h2 {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: nmtiResultIn 0.5s ease;
+}
+
+@keyframes nmtiResultIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .result-card {
-  background: var(--bg-card);
-  border-radius: var(--radius);
+  background: linear-gradient(145deg, var(--bg-card), #faf8ff);
+  border-radius: 20px;
   padding: 28px 24px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 32px rgba(99, 102, 241, 0.1), var(--shadow);
   width: 100%;
   max-width: 520px;
   text-align: center;
   margin-bottom: 16px;
+  border: 1px solid rgba(99, 102, 241, 0.08);
 }
 
 .result-header {
@@ -567,13 +674,14 @@ h2 {
 
 .result-badge {
   display: inline-block;
-  padding: 4px 16px;
+  padding: 5px 18px;
   border-radius: 20px;
   background: linear-gradient(135deg, #6366f1, #ec4899);
-  color: var(--text-on-primary);
+  color: #fff;
   font-size: 13px;
   font-weight: 700;
   letter-spacing: 2px;
+  box-shadow: 0 2px 10px rgba(99, 102, 241, 0.3);
 }
 
 .result-type {
@@ -584,6 +692,19 @@ h2 {
   font-size: 56px;
   display: block;
   margin-bottom: 8px;
+  animation: nmtiEmojiBounce 0.6s ease 0.3s both;
+}
+
+@keyframes nmtiEmojiBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .result-name {
@@ -601,10 +722,15 @@ h2 {
 }
 
 .trait-tag {
-  padding: 4px 12px;
+  padding: 5px 14px;
   border-radius: 16px;
   font-size: 13px;
   font-weight: 600;
+  transition: transform 0.2s;
+}
+
+.trait-tag:hover {
+  transform: translateY(-2px);
 }
 
 .result-desc {
@@ -618,14 +744,14 @@ h2 {
 .result-scores {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
   margin-bottom: 16px;
 }
 
 .score-bar-item {
   display: flex;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
 }
 
 .score-label {
@@ -650,23 +776,41 @@ h2 {
 }
 
 .score-bar-bg {
-  height: 8px;
-  border-radius: 4px;
-  background: var(--bg-game);
+  height: 10px;
+  border-radius: 5px;
+  background: linear-gradient(145deg, var(--bg-game), var(--border));
   overflow: hidden;
 }
 
 .score-bar-fill {
   height: 100%;
-  border-radius: 4px;
-  transition: width 0.5s ease;
+  border-radius: 5px;
+  transition: width 0.8s ease;
+  position: relative;
+}
+
+.score-bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  animation: nmtiBarShine 2s ease infinite;
+}
+
+@keyframes nmtiBarShine {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
 }
 
 .result-footer {
   font-size: 12px;
   color: var(--text-muted);
   padding-top: 12px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(99, 102, 241, 0.08);
 }
 
 .result-actions {
@@ -741,6 +885,10 @@ h2 {
 
   .intro-icon {
     font-size: 3rem;
+  }
+
+  .nmti-hero-title {
+    font-size: 22px;
   }
 
   .question-card {

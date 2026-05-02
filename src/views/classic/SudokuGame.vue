@@ -13,7 +13,7 @@
       </div>
       <div class="action-group">
         <button class="btn-action equal-width-action" @click="newGame">重新开始</button>
-        <button class="btn-secondary-action equal-width-action hint-button" @click="hint" :disabled="score <= 0">提示
+        <button class="btn-action equal-width-action hint-button" @click="hint" :disabled="score <= 0">提示
         </button>
       </div>
     </template>
@@ -42,13 +42,6 @@
             <span v-else-if="cell.value" class="cell-user">{{ cell.value }}</span>
           </div>
         </div>
-        <div v-if="completed" class="game-overlay">
-          <div class="overlay-content">
-            <div class="overlay-emoji">🎉</div>
-            <div class="overlay-text">恭喜完成！</div>
-            <button class="btn btn-primary" @click="newGame">再来一局</button>
-          </div>
-        </div>
       </div>
       <div class="number-pad">
         <button
@@ -60,6 +53,14 @@
         >{{ n }}
         </button>
         <button class="num-btn erase-btn" @click="eraseNumber">✕</button>
+      </div>
+      <div v-if="completed" class="game-overlay">
+        <div class="overlay-content">
+          <div class="overlay-emoji">🎉</div>
+          <div class="overlay-text">恭喜完成！</div>
+          <div class="overlay-time">用时：{{ elapsedTime }}s</div>
+          <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
+        </div>
       </div>
     </div>
   </GamePage>
@@ -302,11 +303,6 @@ onUnmounted(() => {
   align-items: center;
 }
 
-.hint-button {
-  height: auto;
-  min-height: 40px;
-}
-
 .hint-button:disabled {
   opacity: 0.5;
   cursor: not-allowed;
@@ -319,6 +315,7 @@ onUnmounted(() => {
   flex: 1;
   min-height: 0;
   overflow: auto;
+  position: relative;
 }
 
 .sudoku-board-area {
@@ -342,8 +339,12 @@ onUnmounted(() => {
   font-size: 18px;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.15s;
+  transition: all 0.2s;
   position: relative;
+}
+
+.sudoku-cell:hover {
+  background: #e8e8e8;
 }
 
 .sudoku-cell.highlighted {
@@ -352,103 +353,191 @@ onUnmounted(() => {
 
 .sudoku-cell.selected {
   background: #ddd6fe;
+  box-shadow: inset 0 0 0 1px #1976d2;
 }
 
 .sudoku-cell.error {
   background: #ffe0e0;
+  box-shadow: inset 0 0 0 1px rgba(255, 68, 68, 0.25);
+  animation: sudokuError 0.3s ease;
+}
+
+@keyframes sudokuError {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-3px);
+  }
+  75% {
+    transform: translateX(3px);
+  }
 }
 
 .cell-given {
-  color: var(--text-primary);
+  color: #2a2a48;
+  font-weight: 700;
+  text-shadow: 0 1px 2px rgba(108, 92, 231, 0.06);
 }
 
 .cell-user {
-  color: var(--primary);
+  color: #6c5ce7;
+  font-weight: 600;
+  text-shadow: 0 0 6px rgba(108, 92, 231, 0.12);
 }
 
 .number-pad {
   display: flex;
-  gap: 6px;
-  margin-top: 12px;
+  gap: 8px;
+  margin-top: 16px;
   justify-content: center;
   flex-wrap: wrap;
   max-width: 500px;
 }
 
 .num-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-sm);
-  font-size: 16px;
-  font-weight: 600;
-  background: var(--bg-card);
-  color: var(--text-primary);
-  border: 1px solid var(--border);
-  transition: all 0.15s;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: 700;
+  background: #ffffff;
+  color: #4a4a6a;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  transition: all 0.2s;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
 .num-btn:hover {
-  border-color: var(--primary);
-  color: var(--primary);
+  border-color: rgba(108, 92, 231, 0.35);
+  color: #6c5ce7;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(108, 92, 231, 0.12);
 }
 
 .num-btn.active {
-  background: var(--primary);
+  background: linear-gradient(135deg, #6c5ce7, #a855f7);
   color: #fff;
-  border-color: var(--primary);
+  border-color: #6c5ce7;
+  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.4);
+  transform: translateY(-2px);
 }
 
 .erase-btn {
-  font-size: 16px;
-  color: var(--danger);
+  color: #ff6b6b;
+  border-color: rgba(255, 107, 107, 0.2);
 }
 
 .erase-btn:hover {
-  border-color: var(--danger);
-  color: var(--danger);
+  border-color: rgba(255, 107, 107, 0.5);
+  color: #ff6b6b;
+  box-shadow: 0 4px 12px rgba(255, 107, 107, 0.2);
 }
 
 .game-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(8px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: var(--radius-sm);
+  border-radius: 0;
   z-index: 10;
+  animation: sudokuOverlayIn 0.4s ease;
+}
+
+@keyframes sudokuOverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .overlay-content {
   text-align: center;
-  color: #fff;
+  color: #2a2a48;
+  animation: sudokuContentIn 0.5s ease 0.1s both;
+}
+
+@keyframes sudokuContentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .overlay-emoji {
-  font-size: 48px;
+  font-size: 64px;
   margin-bottom: 12px;
+  animation: sudokuEmojiBounce 0.6s ease 0.3s both;
+}
+
+@keyframes sudokuEmojiBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .overlay-text {
-  font-size: 20px;
-  font-weight: 600;
-  margin-bottom: 16px;
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 8px;
+  background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: sudokuGradientShift 3s ease infinite;
+}
+
+@keyframes sudokuGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.overlay-time {
+  font-size: 16px;
+  margin-bottom: 20px;
+  color: rgba(42, 42, 72, 0.6);
+}
+
+.overlay-btn {
+  background: linear-gradient(135deg, #6c5ce7, #a855f7) !important;
+  box-shadow: 0 4px 20px rgba(108, 92, 231, 0.4) !important;
+}
+
+.overlay-btn:hover {
+  box-shadow: 0 6px 28px rgba(108, 92, 231, 0.55) !important;
+  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {
-  .diff-select {
-    padding: 4px 8px;
-    font-size: 13px;
-  }
-
   .sudoku-cell {
     font-size: 16px;
   }
 
   .num-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 14px;
+    width: 38px;
+    height: 38px;
+    font-size: 15px;
   }
 }
 
@@ -461,7 +550,7 @@ onUnmounted(() => {
     display: grid;
     grid-template-columns: repeat(5, 1fr);
     gap: 6px;
-    margin-top: 8px;
+    margin-top: 10px;
     max-width: 340px;
   }
 
@@ -469,15 +558,15 @@ onUnmounted(() => {
     width: 48px;
     height: 48px;
     aspect-ratio: 1;
-    font-size: 22px;
+    font-size: 20px;
   }
 
   .overlay-emoji {
-    font-size: 36px;
+    font-size: 48px;
   }
 
   .overlay-text {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 </style>

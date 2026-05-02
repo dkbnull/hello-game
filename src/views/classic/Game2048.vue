@@ -5,7 +5,12 @@
     <div class="game2048-wrapper">
       <div class="game-header">
         <div class="game-title-area">
-          <h1 class="game-title-2048">2048</h1>
+          <h1 class="game-title-2048">
+            <span class="title-2">2</span>
+            <span class="title-0">0</span>
+            <span class="title-4">4</span>
+            <span class="title-8">8</span>
+          </h1>
           <p class="game-subtitle">合并数字，合成 2048 方块！</p>
         </div>
         <div class="score-container">
@@ -41,7 +46,7 @@
           <div class="overlay-emoji">{{ won ? '🎉' : '😢' }}</div>
           <div class="overlay-text">{{ won ? '恭喜达到 2048！' : '游戏结束！' }}</div>
           <div class="overlay-score">得分：{{ score }}</div>
-          <button class="btn btn-primary" @click="newGame">再来一局</button>
+          <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
         </div>
       </div>
     </div>
@@ -256,10 +261,60 @@ onUnmounted(() => {
 
 .game-title-2048 {
   font-size: 56px;
-  font-weight: bold;
-  color: #776e65;
+  font-weight: 900;
   margin: 0;
   line-height: 1;
+  display: flex;
+}
+
+.title-2 {
+  background: linear-gradient(135deg, #eee4da, #ede0c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePop 0.5s ease both;
+  animation-delay: 0s;
+}
+
+.title-0 {
+  background: linear-gradient(135deg, #f2b179, #f59563);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePop 0.5s ease both;
+  animation-delay: 0.1s;
+}
+
+.title-4 {
+  background: linear-gradient(135deg, #f67c5f, #f65e3b);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePop 0.5s ease both;
+  animation-delay: 0.2s;
+}
+
+.title-8 {
+  background: linear-gradient(135deg, #edcf72, #edc22e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: titlePop 0.5s ease both;
+  animation-delay: 0.3s;
+}
+
+@keyframes titlePop {
+  0% {
+    transform: scale(0) rotate(-10deg);
+    opacity: 0;
+  }
+  60% {
+    transform: scale(1.15) rotate(2deg);
+  }
+  100% {
+    transform: scale(1) rotate(0);
+    opacity: 1;
+  }
 }
 
 .game-subtitle {
@@ -277,22 +332,29 @@ onUnmounted(() => {
   display: flex;
   flex-direction: column;
   align-items: center;
-  background: #bbada0;
-  padding: 6px 16px;
-  border-radius: 4px;
-  min-width: 60px;
+  background: linear-gradient(135deg, #bbada0, #a89588);
+  padding: 8px 18px;
+  border-radius: 8px;
+  min-width: 65px;
+  box-shadow: 0 3px 10px rgba(187, 173, 160, 0.4);
+  transition: transform 0.2s;
+}
+
+.score-box:hover {
+  transform: translateY(-2px);
 }
 
 .score-label {
   font-size: 11px;
-  font-weight: bold;
+  font-weight: 700;
   color: #eee4da;
   text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
 .score-value {
   font-size: 20px;
-  font-weight: bold;
+  font-weight: 800;
   color: #fff;
 }
 
@@ -301,15 +363,16 @@ onUnmounted(() => {
   grid-template-columns: repeat(4, 80px);
   grid-template-rows: repeat(4, 80px);
   gap: 12px;
-  background: #bbada0;
+  background: linear-gradient(135deg, #bbada0, #a89588);
   padding: 12px;
-  border-radius: 6px;
+  border-radius: 12px;
   touch-action: none;
+  box-shadow: 0 8px 30px rgba(187, 173, 160, 0.3);
 }
 
 .grid-cell {
   background: rgba(238, 228, 218, 0.35);
-  border-radius: 4px;
+  border-radius: 6px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -322,69 +385,90 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 4px;
-  font-weight: bold;
+  border-radius: 6px;
+  font-weight: 800;
   font-size: 40px;
   transition: all 0.12s;
   color: #776e65;
 }
 
 .tile-2 {
-  background: #eee4da;
+  background: linear-gradient(135deg, #eee4da, #e8dcc8);
+  box-shadow: 0 2px 6px rgba(238, 228, 218, 0.4);
 }
 
 .tile-4 {
-  background: #ede0c8;
+  background: linear-gradient(135deg, #ede0c8, #e6d5b5);
+  box-shadow: 0 2px 8px rgba(237, 224, 200, 0.4);
 }
 
 .tile-8 {
-  background: #f2b179;
+  background: linear-gradient(135deg, #f2b179, #efa065);
   color: #f9f6f2;
+  box-shadow: 0 3px 10px rgba(242, 177, 121, 0.4);
 }
 
 .tile-16 {
-  background: #f59563;
+  background: linear-gradient(135deg, #f59563, #f2834a);
   color: #f9f6f2;
+  box-shadow: 0 3px 12px rgba(245, 149, 99, 0.4);
 }
 
 .tile-32 {
-  background: #f67c5f;
+  background: linear-gradient(135deg, #f67c5f, #f46842);
   color: #f9f6f2;
+  box-shadow: 0 3px 14px rgba(246, 124, 95, 0.45);
 }
 
 .tile-64 {
-  background: #f65e3b;
+  background: linear-gradient(135deg, #f65e3b, #f44a22);
   color: #f9f6f2;
+  box-shadow: 0 4px 16px rgba(246, 94, 59, 0.5);
 }
 
 .tile-128 {
-  background: #edcf72;
+  background: linear-gradient(135deg, #edcf72, #eac455);
   color: #f9f6f2;
   font-size: 32px;
+  box-shadow: 0 4px 18px rgba(237, 207, 114, 0.5);
 }
 
 .tile-256 {
-  background: #edcc61;
+  background: linear-gradient(135deg, #edcc61, #eac042);
   color: #f9f6f2;
   font-size: 32px;
+  box-shadow: 0 4px 20px rgba(237, 204, 97, 0.55);
 }
 
 .tile-512 {
-  background: #edc850;
+  background: linear-gradient(135deg, #edc850, #e7bc2e);
   color: #f9f6f2;
   font-size: 32px;
+  box-shadow: 0 5px 22px rgba(237, 200, 80, 0.6);
 }
 
 .tile-1024 {
-  background: #edc53f;
+  background: linear-gradient(135deg, #edc53f, #e5b91e);
   color: #f9f6f2;
   font-size: 24px;
+  box-shadow: 0 5px 24px rgba(237, 197, 63, 0.65);
 }
 
 .tile-2048 {
-  background: #edc22e;
+  background: linear-gradient(135deg, #edc22e, #e0b510);
   color: #f9f6f2;
   font-size: 24px;
+  box-shadow: 0 6px 28px rgba(237, 194, 46, 0.7);
+  animation: tile2048Glow 1.5s ease-in-out infinite alternate;
+}
+
+@keyframes tile2048Glow {
+  from {
+    box-shadow: 0 6px 28px rgba(237, 194, 46, 0.7);
+  }
+  to {
+    box-shadow: 0 6px 40px rgba(237, 194, 46, 0.9), 0 0 20px rgba(237, 194, 46, 0.4);
+  }
 }
 
 .game-tip {
@@ -396,65 +480,93 @@ onUnmounted(() => {
 
 .game-tip kbd {
   display: inline-block;
-  padding: 2px 8px;
+  padding: 3px 8px;
   border: 1px solid #bbada0;
-  border-radius: 4px;
-  background: #eee4da;
+  border-radius: 6px;
+  background: linear-gradient(135deg, #eee4da, #e8dcc8);
   font-size: 12px;
   margin: 0 2px;
-  font-weight: bold;
+  font-weight: 700;
+  box-shadow: 0 2px 4px rgba(187, 173, 160, 0.2);
 }
 
 .game-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(238, 228, 218, 0.73);
+  background: rgba(238, 228, 218, 0.75);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 12px;
   z-index: 10;
+  animation: g2048OverlayIn 0.4s ease;
+}
+
+@keyframes g2048OverlayIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .overlay-content {
   text-align: center;
   color: #776e65;
+  animation: g2048ContentIn 0.5s ease 0.1s both;
+}
+
+@keyframes g2048ContentIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
 }
 
 .overlay-emoji {
-  font-size: 48px;
+  font-size: 56px;
   margin-bottom: 12px;
+  animation: g2048EmojiBounce 0.6s ease 0.3s both;
+}
+
+@keyframes g2048EmojiBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .overlay-text {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 800;
   margin-bottom: 8px;
 }
 
 .overlay-score {
   font-size: 18px;
   margin-bottom: 16px;
+  font-weight: 600;
 }
 
-.btn {
-  display: inline-block;
-  padding: 10px 24px;
-  border: none;
-  border-radius: 4px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: all 0.2s;
+.overlay-btn {
+  background: linear-gradient(135deg, #8f7a66, #7a6652) !important;
+  box-shadow: 0 4px 16px rgba(143, 122, 102, 0.4) !important;
 }
 
-.btn-primary {
-  background: #8f7a66;
-  color: #f9f6f2;
-}
-
-.btn-primary:hover {
-  background: #9f8b77;
+.overlay-btn:hover {
+  box-shadow: 0 6px 24px rgba(143, 122, 102, 0.5) !important;
+  transform: translateY(-2px) !important;
 }
 
 @media (max-width: 768px) {
@@ -470,6 +582,7 @@ onUnmounted(() => {
 
   .game-title-2048 {
     font-size: 48px;
+    justify-content: center;
   }
 
   .game-board {

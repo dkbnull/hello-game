@@ -1,17 +1,5 @@
 <template>
-  <GamePage title="今天吃什么">
-    <template #actions>
-      <button v-if="phase === 'result'" class="fp-action-btn fp-action-btn--outline" @click="resetAll">
-        <span class="fp-action-btn-icon">↺</span> 重新选择
-      </button>
-      <button v-if="phase === 'result'" class="fp-action-btn fp-action-btn--gradient" @click="reroll">
-        <span class="fp-action-btn-icon">🎲</span> 再抽一次
-      </button>
-      <button v-if="phase !== 'result' && phase !== 'spinning'" class="fp-action-btn fp-action-btn--outline"
-              @click="showManage = true">
-        <span class="fp-action-btn-icon">📝</span> 管理食物
-      </button>
-    </template>
+  <GamePage hero>
     <div class="food-picker-wrapper">
       <!-- 选择面板 -->
       <div v-if="phase === 'select'" class="select-screen">
@@ -87,10 +75,15 @@
           开始抽取
           <span v-if="mealType" class="btn-start-count">（{{ availableCount }}个可选）</span>
         </button>
+
+        <button class="fp-action-btn fp-action-btn--outline fp-manage-btn" @click="showManage = true">
+          <span class="fp-action-btn-icon">📝</span> 管理食物
+        </button>
       </div>
 
       <!-- 抽取动画 -->
       <div v-if="phase === 'spinning'" class="spinning-screen">
+        <h2 class="hero-title spin-hero-title">今天吃什么？</h2>
         <div class="slot-machine">
           <div class="slot-frame">
             <div class="slot-glow"></div>
@@ -157,6 +150,14 @@
           </div>
           <div class="result-meal-info">
             {{ getMealLabel() }} · 推荐美食
+          </div>
+          <div class="result-actions">
+            <button class="fp-action-btn fp-action-btn--outline" @click="resetAll">
+              <span class="fp-action-btn-icon">↺</span> 重新选择
+            </button>
+            <button class="fp-action-btn fp-action-btn--gradient" @click="reroll">
+              <span class="fp-action-btn-icon">🎲</span> 再抽一次
+            </button>
           </div>
         </div>
 
@@ -278,10 +279,10 @@ import {DIETARY_OPTIONS, filterFoods, getRandomFood, MEAL_TYPES, TASTE_OPTIONS,}
 import {useFoodPicker} from '@/composables/useFoodPicker.js'
 
 const FOOD_EMOJIS = [
-    '🍚', '🍜', '🍝', '🍛', '🍲', '🥘', '🥟', '🥠', '🥩', '🍗',
-    '🍖', '🥓', '🍔', '🍕', '🌭', '🥪', '🥙', '🥗', '🥞', '🌯',
-    '🥣', '🥡', '🍱', '🍣', '🦀', '🍤', '🍳', '🥛', '🥜', '🥥',
-    '🥚', '🍅', '🌶️', '🐟', '🐠', '🥦', '🍆', '🍢', '🦆',
+  '🍚', '🍜', '🍝', '🍛', '🍲', '🥘', '🥟', '🥠', '🥩', '🍗',
+  '🍖', '🥓', '🍔', '🍕', '🌭', '🥪', '🥙', '🥗', '🥞', '🌯',
+  '🥣', '🥡', '🍱', '🍣', '🦀', '🍤', '🍳', '🥛', '🥜', '🥥',
+  '🥚', '🍅', '🌶️', '🐟', '🐠', '🥦', '🍆', '🍢', '🦆',
 ]
 
 const {allFoods, customFoods, addCustomFood, removeCustomFood} = useFoodPicker()
@@ -650,6 +651,23 @@ function resetAll() {
   margin-top: 4px;
 }
 
+.spin-hero-title {
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.result-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.fp-manage-btn {
+  margin-top: 10px;
+}
+
 .form-section {
   width: 100%;
   margin-bottom: 16px;
@@ -700,10 +718,10 @@ function resetAll() {
 }
 
 .meal-btn.active {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-color: var(--primary);
+  background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+  border-color: #ff6b6b;
   color: #fff;
-  box-shadow: 0 4px 16px rgba(108, 92, 231, 0.35);
+  box-shadow: 0 4px 16px rgba(255, 107, 107, 0.35);
   transform: translateY(-2px);
 }
 
@@ -747,10 +765,10 @@ function resetAll() {
 
 .taste-btn.active,
 .dietary-btn.active {
-  background: var(--primary);
-  border-color: var(--primary);
+  background: linear-gradient(135deg, #ff6b6b, #ff9f43);
+  border-color: #ff6b6b;
   color: #fff;
-  box-shadow: 0 2px 8px rgba(108, 92, 231, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 107, 107, 0.3);
 }
 
 .taste-icon,
@@ -830,13 +848,13 @@ function resetAll() {
 .slot-frame {
   width: 280px;
   position: relative;
-  background: linear-gradient(145deg, #1a1a2e, #16213e);
+  background: linear-gradient(145deg, #f5f2fa, #ede9f6);
   border-radius: 20px;
   padding: 20px;
-  box-shadow: 0 0 30px rgba(108, 92, 231, 0.4),
-  0 0 60px rgba(108, 92, 231, 0.2),
-  inset 0 1px 0 rgba(255, 255, 255, 0.1);
-  border: 2px solid rgba(108, 92, 231, 0.5);
+  box-shadow: 0 0 30px rgba(108, 92, 231, 0.12),
+  0 0 60px rgba(108, 92, 231, 0.06),
+  inset 0 1px 0 rgba(255, 255, 255, 0.5);
+  border: 2px solid rgba(108, 92, 231, 0.2);
 }
 
 .slot-glow {
@@ -847,7 +865,7 @@ function resetAll() {
   background-size: 400% 400%;
   animation: glowRotate 3s linear infinite;
   z-index: -1;
-  opacity: 0.6;
+  opacity: 0.25;
   filter: blur(8px);
 }
 
@@ -867,7 +885,7 @@ function resetAll() {
   height: 240px;
   overflow: hidden;
   border-radius: 12px;
-  background: rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.6);
   position: relative;
 }
 
@@ -882,7 +900,7 @@ function resetAll() {
   justify-content: center;
   gap: 12px;
   padding: 0 20px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(108, 92, 231, 0.06);
 }
 
 .slot-emoji {
@@ -892,17 +910,17 @@ function resetAll() {
 .slot-name {
   font-size: 20px;
   font-weight: 700;
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(42, 42, 72, 0.6);
   letter-spacing: 2px;
 }
 
 .slot-item-final .slot-name {
-  color: #ffd93d;
-  text-shadow: 0 0 10px rgba(255, 217, 61, 0.5);
+  color: #e17055;
+  text-shadow: 0 0 10px rgba(255, 107, 107, 0.2);
 }
 
 .slot-item-final .slot-emoji {
-  filter: drop-shadow(0 0 6px rgba(255, 217, 61, 0.6));
+  filter: drop-shadow(0 0 6px rgba(255, 107, 107, 0.3));
 }
 
 .slot-indicator {
@@ -912,10 +930,10 @@ function resetAll() {
   right: 0;
   height: 80px;
   transform: translateY(-50%);
-  border-top: 2px solid rgba(255, 217, 61, 0.6);
-  border-bottom: 2px solid rgba(255, 217, 61, 0.6);
+  border-top: 2px solid rgba(108, 92, 231, 0.3);
+  border-bottom: 2px solid rgba(108, 92, 231, 0.3);
   pointer-events: none;
-  background: rgba(255, 217, 61, 0.05);
+  background: rgba(108, 92, 231, 0.04);
 }
 
 .spin-text {

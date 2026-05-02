@@ -1,17 +1,16 @@
 <template>
-  <GamePage title="忍者结印">
-    <template #actions>
-      <button class="btn-action naruto-action-btn" @click="toggleCamera">
-        {{ cameraActive ? '关闭摄像头' : '开启摄像头' }}
-      </button>
-      <button v-if="cameraActive" class="btn-action btn-secondary-action naruto-action-btn" @click="resetJutsu">
-        清除忍术
-      </button>
-    </template>
+  <GamePage hero>
     <div class="naruto-container">
       <div v-if="!cameraActive" class="camera-prompt">
-        <img :src="narutoIcon" alt="忍者结印" class="prompt-svg"/>
+        <div class="naruto-hero">
+          <img :src="narutoIcon" alt="忍者结印" class="prompt-svg"/>
+          <div class="naruto-hero-ring"></div>
+        </div>
+        <h2 class="naruto-hero-title">忍者结印</h2>
         <p class="prompt-text">点击「开启摄像头」开始结印修炼</p>
+        <button class="btn-action naruto-action-btn naruto-cam-btn" @click="toggleCamera">
+          开启摄像头
+        </button>
         <div class="seal-guide">
           <h3>结印手势指南</h3>
           <div class="guide-list">
@@ -26,6 +25,15 @@
         </div>
       </div>
       <div v-else class="camera-area">
+        <h2 class="naruto-hero-title camera-hero-title">忍者结印</h2>
+        <div class="camera-actions">
+          <button class="btn-action naruto-action-btn naruto-cam-btn" @click="toggleCamera">
+            关闭摄像头
+          </button>
+          <button class="btn-action btn-secondary-action naruto-action-btn naruto-reset-btn" @click="resetJutsu">
+            清除忍术
+          </button>
+        </div>
         <div class="video-wrapper">
           <video ref="videoRef" class="camera-video" playsinline></video>
           <canvas ref="canvasRef" class="landmark-canvas"></canvas>
@@ -519,6 +527,27 @@ onUnmounted(() => {
   height: 40px;
 }
 
+.naruto-cam-btn {
+  background: linear-gradient(135deg, #ff6b35, #e74c3c) !important;
+  box-shadow: 0 4px 16px rgba(255, 107, 53, 0.35) !important;
+  transition: all 0.25s !important;
+}
+
+.naruto-cam-btn:hover {
+  box-shadow: 0 6px 24px rgba(255, 107, 53, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+.naruto-reset-btn {
+  border: 2px solid rgba(255, 107, 53, 0.3) !important;
+  transition: all 0.25s !important;
+}
+
+.naruto-reset-btn:hover {
+  border-color: rgba(255, 107, 53, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
 .smoke-particle,
 .fire-particle,
 .rasengan-particle,
@@ -550,10 +579,56 @@ onUnmounted(() => {
   gap: 16px;
 }
 
+.naruto-hero {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+
+.naruto-hero-ring {
+  position: absolute;
+  inset: -10px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 107, 53, 0.2);
+  animation: narutoRingPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes narutoRingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.6;
+  }
+}
+
 .prompt-svg {
   width: 100px;
   height: 100px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
+}
+
+.naruto-hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #ff6b35, #e74c3c, #ff9800);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: narutoGradientShift 4s ease infinite;
+  margin-bottom: 4px;
+}
+
+@keyframes narutoGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 .prompt-text {
@@ -561,19 +636,32 @@ onUnmounted(() => {
   color: var(--text-secondary);
 }
 
+.camera-hero-title {
+  text-align: center;
+  margin-bottom: 12px;
+}
+
+.camera-actions {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
 .seal-guide {
   margin-top: 20px;
   width: 100%;
   max-width: 500px;
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  padding: 20px;
-  border: 1px solid var(--border);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
+  border-radius: 18px;
+  padding: 24px;
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  box-shadow: 0 8px 28px rgba(255, 107, 53, 0.06);
 }
 
 .seal-guide h3 {
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   margin-bottom: 16px;
   color: var(--text-primary);
   text-align: center;
@@ -589,9 +677,17 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 8px 12px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-game);
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--bg-game), var(--bg-card));
+  border: 1px solid rgba(255, 107, 53, 0.06);
+  transition: all 0.25s;
+}
+
+.guide-item:hover {
+  transform: translateX(4px);
+  border-color: rgba(255, 107, 53, 0.15);
+  box-shadow: 0 4px 12px rgba(255, 107, 53, 0.08);
 }
 
 .guide-emoji {
@@ -619,10 +715,12 @@ onUnmounted(() => {
 .video-wrapper {
   position: relative;
   width: 100%;
-  border-radius: var(--radius);
+  border-radius: 18px;
   overflow: hidden;
   background: #000;
   aspect-ratio: 4 / 3;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  border: 2px solid rgba(255, 107, 53, 0.15);
 }
 
 .camera-video {
@@ -655,15 +753,16 @@ onUnmounted(() => {
 }
 
 .loading-spinner {
-  width: 36px;
-  height: 36px;
-  border: 3px solid rgba(255, 255, 255, 0.3);
-  border-top-color: #fff;
+  width: 40px;
+  height: 40px;
+  border: 3px solid rgba(255, 107, 53, 0.2);
+  border-top-color: #ff6b35;
+  border-right-color: #e74c3c;
   border-radius: 50%;
-  animation: spin 0.8s linear infinite;
+  animation: narutoSpin 0.8s linear infinite;
 }
 
-@keyframes spin {
+@keyframes narutoSpin {
   to {
     transform: rotate(360deg);
   }
@@ -673,16 +772,17 @@ onUnmounted(() => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 12px 16px;
-  background: var(--bg-card);
-  border-radius: var(--radius);
-  border: 1px solid var(--border);
+  padding: 14px 18px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
+  border-radius: 16px;
+  border: 1px solid rgba(255, 107, 53, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .current-jutsu {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   font-size: 16px;
   font-weight: 600;
   color: var(--text-secondary);
@@ -690,7 +790,8 @@ onUnmounted(() => {
 }
 
 .current-jutsu.active {
-  color: var(--primary);
+  color: #ff6b35;
+  text-shadow: 0 0 8px rgba(255, 107, 53, 0.3);
 }
 
 .jutsu-emoji {
@@ -711,13 +812,14 @@ onUnmounted(() => {
 
 .finger {
   opacity: 0.3;
-  transition: all 0.2s;
+  transition: all 0.25s;
   font-size: 14px;
 }
 
 .finger.extended {
   opacity: 1;
-  transform: scale(1.2);
+  transform: scale(1.3);
+  filter: drop-shadow(0 0 4px rgba(255, 107, 53, 0.4));
 }
 
 .effect-layer {
@@ -752,7 +854,8 @@ onUnmounted(() => {
   width: 240px;
   height: 180px;
   border-radius: var(--radius);
-  border: 2px solid rgba(108, 92, 231, 0.5);
+  border: 2px solid rgba(255, 107, 53, 0.5);
+  box-shadow: 0 4px 20px rgba(255, 107, 53, 0.2);
 }
 
 .clone-1 {
@@ -1039,9 +1142,9 @@ onUnmounted(() => {
   font-size: 2.5rem;
   font-weight: 800;
   color: #fff;
-  text-shadow: 0 0 10px rgba(108, 92, 231, 0.8),
-  0 0 20px rgba(108, 92, 231, 0.6),
-  0 0 40px rgba(108, 92, 231, 0.4),
+  text-shadow: 0 0 10px rgba(255, 107, 53, 0.8),
+  0 0 20px rgba(255, 107, 53, 0.6),
+  0 0 40px rgba(231, 76, 60, 0.4),
   2px 2px 4px rgba(0, 0, 0, 0.8);
   white-space: nowrap;
   letter-spacing: 4px;
@@ -1087,6 +1190,25 @@ onUnmounted(() => {
 
   .clone-3 {
     transform: translate(0, 80px) scale(0.6);
+  }
+}
+
+@media (max-width: 480px) {
+  .naruto-hero-title {
+    font-size: 22px;
+  }
+
+  .prompt-svg {
+    width: 72px;
+    height: 72px;
+  }
+
+  .seal-guide {
+    padding: 16px;
+  }
+
+  .guide-item {
+    padding: 8px 10px;
   }
 }
 </style>

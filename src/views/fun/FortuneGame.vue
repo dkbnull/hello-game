@@ -1,20 +1,20 @@
 <template>
-  <GamePage title="算命运势">
-    <template #actions>
-      <button v-if="result" class="btn-secondary-action equal-width-action" @click="reset">重新测算</button>
-    </template>
+  <GamePage hero>
     <div class="fortune-wrapper">
       <div v-if="!result" class="input-screen">
-        <img :src="fortuneIcon" alt="算命" class="start-svg"/>
-        <h2>算命运势</h2>
-        <p>输入信息，测算你的命运与运势</p>
+        <div class="fortune-hero">
+          <img :src="fortuneIcon" alt="算命" class="start-svg"/>
+          <div class="fortune-hero-ring"></div>
+        </div>
+        <h2 class="fortune-hero-title">算命运势</h2>
+        <p class="fortune-hero-desc">输入信息，测算你的命运与运势</p>
 
         <div class="form-section">
           <div class="form-group">
             <label class="form-label">你的名字</label>
             <input
                 v-model="name"
-                class="form-input"
+                class="form-input fortune-input"
                 type="text"
                 placeholder="请输入姓名"
                 maxlength="20"
@@ -53,7 +53,7 @@
         </div>
 
         <button
-            class="btn btn-primary btn-lg"
+            class="btn btn-primary btn-lg fortune-start-btn"
             :disabled="!name.trim() || !zodiac"
             @click="doFortune"
         >开始测算
@@ -88,6 +88,7 @@
                   stroke-linecap="round"
                   :stroke-dasharray="`${result.score * 3.14} 314`"
                   transform="rotate(-90 60 60)"
+                  class="score-circle-anim"
               />
               <text x="60" y="60" text-anchor="middle" dominant-baseline="central"
                     :fill="result.level.color" font-size="28" font-weight="800">{{ result.score }}
@@ -125,7 +126,7 @@
         </div>
 
         <div class="result-actions">
-          <button class="btn btn-primary btn-lg" @click="saveResult">保存为图片</button>
+          <button class="btn btn-primary btn-lg fortune-start-btn" @click="saveResult">保存为图片</button>
           <button class="btn btn-secondary btn-lg" @click="reset">再测一次</button>
         </div>
       </div>
@@ -199,30 +200,71 @@ async function saveResult() {
   justify-content: center;
 }
 
+.fortune-hero {
+  position: relative;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+
+.fortune-hero-ring {
+  position: absolute;
+  inset: -8px;
+  border-radius: 50%;
+  border: 2px solid rgba(253, 203, 110, 0.25);
+  animation: fortuneRingPulse 2.5s ease-in-out infinite;
+}
+
+@keyframes fortuneRingPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.6;
+  }
+}
+
 .start-svg {
   width: 100px;
   height: 100px;
-  margin-bottom: 12px;
+  margin-bottom: 0;
 }
 
-.input-screen h2 {
-  font-size: 22px;
+.fortune-hero-title {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #fdcb6e, #e17055, #fd79a8);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: fortuneGradientShift 4s ease infinite;
   margin-bottom: 6px;
-  color: var(--text-primary);
 }
 
-.input-screen p {
+@keyframes fortuneGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.fortune-hero-desc {
   color: var(--text-secondary);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  font-size: 14px;
 }
 
 .form-section {
   width: 100%;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
 }
 
 .form-group {
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   text-align: left;
 }
 
@@ -231,101 +273,149 @@ async function saveResult() {
   font-size: 14px;
   font-weight: 600;
   color: var(--text-secondary);
-  margin-bottom: 6px;
+  margin-bottom: 8px;
 }
 
-.form-input {
+.fortune-input {
   width: 100%;
-  padding: 10px 14px;
+  padding: 12px 16px;
   border: 2px solid var(--border);
-  border-radius: var(--radius);
+  border-radius: 12px;
   font-size: 15px;
   outline: none;
-  background: var(--bg-card);
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
   color: var(--text-primary);
-  transition: border-color 0.2s;
+  transition: all 0.3s;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
 
-.form-input:focus {
-  border-color: var(--primary);
+.fortune-input:focus {
+  border-color: #fdcb6e;
+  box-shadow: 0 4px 16px rgba(253, 203, 110, 0.2);
+}
+
+.fortune-input::placeholder {
+  color: var(--text-light);
 }
 
 .zodiac-grid {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
-  gap: 6px;
+  gap: 8px;
 }
 
 .zodiac-btn {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 2px;
-  padding: 8px 4px;
-  border-radius: var(--radius-sm);
-  background: var(--bg-card);
+  gap: 3px;
+  padding: 10px 4px;
+  border-radius: 10px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
   color: var(--text-secondary);
   border: 2px solid var(--border);
-  transition: all 0.2s;
+  transition: all 0.25s;
+  cursor: pointer;
 }
 
 .zodiac-btn:hover {
-  border-color: var(--primary-light);
+  border-color: rgba(253, 203, 110, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(253, 203, 110, 0.15);
 }
 
 .zodiac-btn.active {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.05);
-  color: var(--primary);
+  border-color: #fdcb6e;
+  background: linear-gradient(145deg, #fff9e6, #fff3cc);
+  color: #e17055;
+  box-shadow: 0 4px 16px rgba(253, 203, 110, 0.3);
+  transform: translateY(-2px);
 }
 
 .zodiac-icon {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .zodiac-name {
-  font-size: 12px;
-  font-weight: 500;
+  font-size: 11px;
+  font-weight: 600;
 }
 
 .type-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 10px;
 }
 
 .type-btn {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 16px;
-  border-radius: var(--radius);
-  background: var(--bg-card);
+  gap: 10px;
+  padding: 14px 18px;
+  border-radius: 12px;
+  background: linear-gradient(145deg, var(--bg-card), var(--bg-game));
   color: var(--text-secondary);
   border: 2px solid var(--border);
-  transition: all 0.2s;
+  transition: all 0.25s;
+  cursor: pointer;
 }
 
 .type-btn:hover {
-  border-color: var(--primary-light);
+  border-color: rgba(253, 203, 110, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(253, 203, 110, 0.15);
 }
 
 .type-btn.active {
-  border-color: var(--primary);
-  background: rgba(108, 92, 231, 0.05);
-  color: var(--primary);
+  border-color: #fdcb6e;
+  background: linear-gradient(145deg, #fff9e6, #fff3cc);
+  color: #e17055;
+  box-shadow: 0 4px 16px rgba(253, 203, 110, 0.3);
+  transform: translateY(-2px);
 }
 
 .type-icon {
-  font-size: 20px;
+  font-size: 22px;
 }
 
 .type-label {
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.input-screen .btn-lg:disabled {
+.fortune-start-btn {
+  background: linear-gradient(135deg, #fdcb6e, #e17055) !important;
+  box-shadow: 0 4px 20px rgba(253, 203, 110, 0.35) !important;
+  position: relative;
+  overflow: hidden;
+}
+
+.fortune-start-btn::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.15) 50%, transparent 70%);
+  animation: fortuneShine 3s ease-in-out infinite;
+}
+
+@keyframes fortuneShine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+.fortune-start-btn:hover:not(:disabled) {
+  box-shadow: 0 6px 28px rgba(253, 203, 110, 0.5) !important;
+  transform: translateY(-2px) !important;
+}
+
+.fortune-start-btn:disabled {
   opacity: 0.5;
   cursor: not-allowed;
 }
@@ -336,16 +426,29 @@ async function saveResult() {
   display: flex;
   flex-direction: column;
   align-items: center;
+  animation: fortuneResultIn 0.5s ease;
+}
+
+@keyframes fortuneResultIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .result-card {
-  background: #fff;
-  border-radius: var(--radius-lg);
+  background: linear-gradient(145deg, #fffdf5, #fff8e8);
+  border-radius: 20px;
   padding: 28px 24px;
-  box-shadow: var(--shadow);
+  box-shadow: 0 8px 32px rgba(253, 203, 110, 0.15), 0 2px 8px rgba(0, 0, 0, 0.05);
   width: 100%;
   text-align: center;
   margin-bottom: 16px;
+  border: 1px solid rgba(253, 203, 110, 0.2);
 }
 
 .result-header {
@@ -357,12 +460,13 @@ async function saveResult() {
 
 .result-type-badge {
   display: inline-block;
-  padding: 4px 14px;
+  padding: 5px 16px;
   border-radius: 20px;
   background: linear-gradient(135deg, #fdcb6e, #e17055);
   color: #fff;
   font-size: 13px;
   font-weight: 700;
+  box-shadow: 0 2px 8px rgba(253, 203, 110, 0.3);
 }
 
 .result-date {
@@ -374,12 +478,25 @@ async function saveResult() {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   margin-bottom: 16px;
 }
 
 .result-zodiac {
-  font-size: 28px;
+  font-size: 32px;
+  animation: fortuneZodiacBounce 0.6s ease 0.3s both;
+}
+
+@keyframes fortuneZodiacBounce {
+  0% {
+    transform: scale(0);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 
 .result-name {
@@ -422,12 +539,23 @@ async function saveResult() {
   height: 120px;
 }
 
+.score-circle-anim {
+  animation: fortuneScoreDraw 1s ease-out 0.3s both;
+}
+
+@keyframes fortuneScoreDraw {
+  from {
+    stroke-dasharray: 0 314;
+  }
+}
+
 .result-fortune {
-  background: var(--bg-game);
-  border-radius: var(--radius);
+  background: linear-gradient(135deg, rgba(253, 203, 110, 0.08), rgba(225, 112, 85, 0.05));
+  border-radius: 14px;
   padding: 16px;
   margin-bottom: 16px;
   text-align: left;
+  border: 1px solid rgba(253, 203, 110, 0.1);
 }
 
 .result-fortune p {
@@ -450,16 +578,22 @@ async function saveResult() {
 .lucky-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 8px;
+  gap: 10px;
 }
 
 .lucky-item {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 10px;
-  background: var(--bg-game);
-  border-radius: var(--radius-sm);
+  padding: 12px;
+  background: linear-gradient(145deg, rgba(253, 203, 110, 0.06), rgba(225, 112, 85, 0.03));
+  border-radius: 12px;
+  border: 1px solid rgba(253, 203, 110, 0.1);
+  transition: transform 0.2s;
+}
+
+.lucky-item:hover {
+  transform: translateY(-2px);
 }
 
 .lucky-label {
@@ -471,14 +605,14 @@ async function saveResult() {
 .lucky-value {
   font-size: 15px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #e17055;
 }
 
 .result-footer {
   font-size: 12px;
   color: var(--text-light);
   padding-top: 12px;
-  border-top: 1px solid var(--border);
+  border-top: 1px solid rgba(253, 203, 110, 0.15);
 }
 
 .result-actions {
@@ -507,8 +641,8 @@ async function saveResult() {
     height: 72px;
   }
 
-  .input-screen h2 {
-    font-size: 18px;
+  .fortune-hero-title {
+    font-size: 22px;
   }
 
   .zodiac-grid {
