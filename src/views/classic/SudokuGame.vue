@@ -54,15 +54,17 @@
         </button>
         <button class="num-btn erase-btn" @click="eraseNumber">✕</button>
       </div>
+    </div>
+    <template #overlay>
       <div v-if="completed" class="game-overlay">
         <div class="overlay-content">
           <div class="overlay-emoji">🎉</div>
           <div class="overlay-text">恭喜完成！</div>
-          <div class="overlay-time">用时：{{ elapsedTime }}s</div>
+          <div class="overlay-time">用时：{{ elapsedTime }}s | 得分：+{{ gainedScore }}</div>
           <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
         </div>
       </div>
-    </div>
+    </template>
   </GamePage>
 </template>
 
@@ -84,6 +86,7 @@ const selectedNum = ref(0)
 const completed = ref(false)
 const score = ref(gameStore.getScore('sudoku'))
 const bestScore = ref(gameStore.getBestScore('sudoku'))
+const gainedScore = ref(0)
 
 const boxSize = computed(() => {
   const s = gridSize.value
@@ -231,7 +234,12 @@ function checkComplete() {
   const wasComplete = completed.value
   completed.value = puzzle.value.every(c => c.value === c.solution)
   if (completed.value && !wasComplete) {
-    score.value++
+    const difficultyBonus = {easy: 3, medium: 5, hard: 8}
+    const sizeBonus = gridSize.value >= 9 ? 2 : gridSize.value >= 6 ? 1 : 0
+    const timeBonus = elapsedTime.value < 60 ? 3 : elapsedTime.value < 180 ? 2 : elapsedTime.value < 300 ? 1 : 0
+    const gained = (difficultyBonus[difficulty.value] || 1) + sizeBonus + timeBonus
+    gainedScore.value = gained
+    score.value += gained
     gameStore.updateScore('sudoku', score.value)
     stopTimer()
   }
@@ -421,6 +429,10 @@ onUnmounted(() => {
 
 .overlay-text {
   background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .overlay-time {

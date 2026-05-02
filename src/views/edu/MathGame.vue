@@ -367,12 +367,12 @@ function startGame() {
 
 .math-option-btn:hover:not(:disabled) {
   border-color: rgba(108, 92, 231, 0.5) !important;
-  transform: translateY(-3px) scale(1.02) !important;
+  transform: translateY(-3px) !important;
   box-shadow: 0 6px 20px rgba(108, 92, 231, 0.2) !important;
 }
 
 .math-option-btn:active:not(:disabled) {
-  transform: translateY(-1px) scale(0.98) !important;
+  transform: translateY(-1px) !important;
 }
 
 .math-option-btn.correct {

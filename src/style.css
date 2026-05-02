@@ -279,19 +279,6 @@ button:active {
     align-items: center;
 }
 
-.game-overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.55);
-    backdrop-filter: blur(6px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-sm);
-    z-index: 10;
-    animation: overlayFadeIn 0.4s ease;
-}
-
 @keyframes overlayFadeIn {
     from {
         opacity: 0;
@@ -334,13 +321,6 @@ button:active {
     100% {
         transform: scale(1);
     }
-}
-
-.overlay-text {
-    font-size: 22px;
-    font-weight: 700;
-    margin-bottom: 16px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .edu-game-wrapper {

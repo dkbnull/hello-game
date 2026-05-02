@@ -41,6 +41,8 @@
           <span v-else-if="cell.flagged" class="cell-flag">🚩</span>
         </div>
       </div>
+    </div>
+    <template #overlay>
       <div v-if="gameOver" class="game-overlay">
         <div class="overlay-content">
           <div class="overlay-emoji">{{ won ? '🎉' : '💥' }}</div>
@@ -49,7 +51,7 @@
           <button class="btn btn-primary btn-lg overlay-btn" @click="resetGame">再来一局</button>
         </div>
       </div>
-    </div>
+    </template>
   </GamePage>
 </template>
 
@@ -438,7 +440,6 @@ onUnmounted(() => {
 .game-overlay {
   background: rgba(240, 236, 247, 0.88);
   backdrop-filter: blur(8px);
-  border-radius: 12px;
 }
 
 .overlay-content {
@@ -447,6 +448,10 @@ onUnmounted(() => {
 
 .overlay-text {
   background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .overlay-time {

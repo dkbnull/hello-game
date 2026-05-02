@@ -50,6 +50,8 @@
           <div v-if="tile.matched" class="tile-match-effect">✨</div>
         </div>
       </div>
+    </div>
+    <template #overlay>
       <div v-if="gameOver" class="game-overlay">
         <div class="overlay-content">
           <div class="overlay-emoji">🎉</div>
@@ -58,7 +60,7 @@
           <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
         </div>
       </div>
-    </div>
+    </template>
   </GamePage>
 </template>
 
@@ -342,7 +344,6 @@ onUnmounted(() => {
 .game-overlay {
   background: rgba(240, 236, 247, 0.88);
   backdrop-filter: blur(8px);
-  border-radius: 16px;
 }
 
 .overlay-content {
@@ -352,6 +353,10 @@ onUnmounted(() => {
 .overlay-text {
   font-size: 26px;
   background: linear-gradient(135deg, #6c5ce7, #fd79a8, #00cec9);
+  background-size: 200% 200%;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .overlay-score {

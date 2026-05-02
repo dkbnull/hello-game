@@ -21,6 +21,7 @@
       <div class="game-body">
         <slot></slot>
       </div>
+      <slot name="overlay"></slot>
     </div>
   </div>
 </template>
@@ -42,6 +43,7 @@ defineProps({
 }
 
 .game-center-area {
+  position: relative;
   flex: 1;
   display: flex;
   flex-direction: column;

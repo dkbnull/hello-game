@@ -41,6 +41,8 @@
       <div class="game-tip">
         <p>使用 <kbd>↑</kbd><kbd>↓</kbd><kbd>←</kbd><kbd>→</kbd> 方向键或滑动操作</p>
       </div>
+    </div>
+    <template #overlay>
       <div v-if="gameOver" class="game-overlay">
         <div class="overlay-content">
           <div class="overlay-emoji">{{ won ? '🎉' : '😢' }}</div>
@@ -49,7 +51,7 @@
           <button class="btn btn-primary btn-lg overlay-btn" @click="newGame">再来一局</button>
         </div>
       </div>
-    </div>
+    </template>
   </GamePage>
 </template>
 
@@ -493,7 +495,6 @@ onUnmounted(() => {
 .game-overlay {
   background: rgba(238, 228, 218, 0.75);
   backdrop-filter: blur(6px);
-  border-radius: 12px;
 }
 
 .overlay-content {
@@ -506,6 +507,9 @@ onUnmounted(() => {
 
 .overlay-text {
   font-size: 24px;
+  -webkit-text-fill-color: unset;
+  background: none;
+  color: #776e65;
 }
 
 .overlay-score {
