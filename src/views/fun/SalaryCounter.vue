@@ -206,13 +206,24 @@ const canStart = computed(() => {
   return monthlySalary.value > 0 && workDays.value > 0 && workStartTime.value && workEndTime.value
 })
 
-const dailyWorkSeconds = computed(() => {
-  const [sh, sm] = workStartTime.value.split(':').map(Number)
-  const [eh, em] = workEndTime.value.split(':').map(Number)
-  const startSec = sh * 3600 + sm * 60
-  const endSec = eh * 3600 + em * 60
-  return Math.max(0, endSec - startSec)
+// 提取重复的时间字符串解析逻辑，统一为秒数计算
+function parseTimeToSeconds(timeStr) {
+  const [h, m] = timeStr.split(':').map(Number)
+  return h * 3600 + m * 60
+}
+
+function getNowSeconds() {
+  const now = new Date()
+  return now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
+}
+
+const workRangeSeconds = computed(() => {
+  const startSec = parseTimeToSeconds(workStartTime.value)
+  const endSec = parseTimeToSeconds(workEndTime.value)
+  return {startSec, endSec, total: Math.max(0, endSec - startSec)}
 })
+
+const dailyWorkSeconds = computed(() => workRangeSeconds.value.total)
 
 const perSecondRate = computed(() => {
   if (!monthlySalary.value || !workDays.value || !dailyWorkSeconds.value) return '0.000000'
@@ -245,43 +256,34 @@ const todayEarnings = computed(() => {
   return earned.value.toFixed(2)
 })
 
+// 当前工作时间状态：before | working | off
+function getWorkStatus() {
+  const {startSec, endSec} = workRangeSeconds.value
+  const nowSec = getNowSeconds()
+  if (nowSec < startSec) return {phase: 'before', nowSec, startSec, endSec}
+  if (nowSec >= endSec) return {phase: 'off', nowSec, startSec, endSec}
+  return {phase: 'working', nowSec, startSec, endSec}
+}
+
 function getCurrentWorkSeconds() {
-  const now = new Date()
-  const [sh, sm] = workStartTime.value.split(':').map(Number)
-  const [eh, em] = workEndTime.value.split(':').map(Number)
-  const startSec = sh * 3600 + sm * 60
-  const endSec = eh * 3600 + em * 60
-  const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
-  if (nowSec < startSec) return 0
-  if (nowSec >= endSec) return endSec - startSec
+  const {phase, nowSec, startSec, endSec} = getWorkStatus()
+  if (phase === 'before') return 0
+  if (phase === 'off') return endSec - startSec
   return nowSec - startSec
 }
 
 function isCurrentlyWorking() {
-  const now = new Date()
-  const [sh, sm] = workStartTime.value.split(':').map(Number)
-  const [eh, em] = workEndTime.value.split(':').map(Number)
-  const startSec = sh * 3600 + sm * 60
-  const endSec = eh * 3600 + em * 60
-  const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
-  return nowSec >= startSec && nowSec < endSec
+  return getWorkStatus().phase === 'working'
 }
 
 function isBeforeWork() {
-  const now = new Date()
-  const [sh, sm] = workStartTime.value.split(':').map(Number)
-  const startSec = sh * 3600 + sm * 60
-  const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
-  return nowSec < startSec
+  return getWorkStatus().phase === 'before'
 }
 
 function getTimeToWork() {
-  const now = new Date()
-  const [sh, sm] = workStartTime.value.split(':').map(Number)
-  const startSec = sh * 3600 + sm * 60
-  const nowSec = now.getHours() * 3600 + now.getMinutes() * 60 + now.getSeconds()
+  const {phase, nowSec, startSec} = getWorkStatus()
+  if (phase !== 'before') return ''
   const diff = startSec - nowSec
-  if (diff <= 0) return ''
   const h = Math.floor(diff / 3600)
   const m = Math.floor((diff % 3600) / 60)
   const s = diff % 60

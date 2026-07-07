@@ -324,34 +324,6 @@ function startGame() {
   }
 }
 
-.combo-fire {
-  animation: mathFireWiggle 0.5s ease infinite alternate;
-  display: inline-block;
-}
-
-@keyframes mathFireWiggle {
-  from {
-    transform: rotate(-5deg) scale(1);
-  }
-  to {
-    transform: rotate(5deg) scale(1.15);
-  }
-}
-
-@keyframes mathComboPop {
-  0% {
-    transform: scale(0.5);
-    opacity: 0;
-  }
-  60% {
-    transform: scale(1.15);
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
 .math-options-grid {
   gap: 12px !important;
 }

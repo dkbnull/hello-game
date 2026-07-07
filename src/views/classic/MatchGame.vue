@@ -81,11 +81,6 @@ const remaining = ref(0)
 const gameOver = ref(false)
 const hintPair = ref([])
 
-const gridRows = computed(() => {
-  const total = gridCols.value * gridCols.value
-  return gridCols.value
-})
-
 const boardStyle = computed(() => ({
   gridTemplateColumns: `repeat(${gridCols.value}, 1fr)`,
 }))
@@ -103,13 +98,11 @@ function generatePairs() {
     ])
   } else if (mode.value === 'math') {
     const mathPairs = []
-    const usedResults = new Set()
     for (let i = 0; i < pairCount; i++) {
       const a = Math.floor(Math.random() * 9) + 1
       const b = Math.floor(Math.random() * 9) + 1
       const result = a + b
       const id = `math_${result}`
-      usedResults.add(result)
       mathPairs.push([
         {icon: '🧮', label: `${a}+${b}`, pairId: id, type: 'expr'},
         {icon: '🔢', label: `${result}`, pairId: id, type: 'result'},

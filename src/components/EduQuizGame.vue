@@ -48,7 +48,6 @@
                   v-model="searchText"
                   class="search-input"
                   placeholder="搜索题库..."
-                  @input="onSearch"
               />
             </div>
             <div class="search-results" v-if="filteredBank.length > 0">
@@ -107,8 +106,8 @@
 </template>
 
 <script setup>
-import {shuffle} from '@/utils/helpers'
-import {useTimer} from '@/composables/useTimer'
+import { shuffle } from '@/utils/helpers'
+import { useTimer } from '@/composables/useTimer'
 
 const ROUND_OPTIONS = [5, 10, 15, 20, 30]
 const ANSWER_DELAY = 800
@@ -119,7 +118,6 @@ const props = defineProps({
   title: {type: String, required: true},
   icon: {type: String, default: '📚'},
   description: {type: String, default: ''},
-  totalRounds: {type: Number, default: 10},
   wordBank: {type: Array, required: true},
   answerKey: {type: String, required: true},
 })
@@ -164,9 +162,6 @@ function toggleCustomItem(item) {
   } else {
     customItems.value.push({...item})
   }
-}
-
-function onSearch() {
 }
 
 function generateQuestions() {

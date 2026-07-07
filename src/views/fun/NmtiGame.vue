@@ -158,25 +158,25 @@ const currentIndex = ref(0)
 const answers = ref({})
 const result = ref(null)
 const resultCardRef = ref(null)
+// 随机分数在生成时一次性确定，避免 computed 中使用 Math.random 产生副作用
+const randomScores = ref({})
 
 const totalQuestions = questions.length
 
 const currentQuestion = computed(() => questions[currentIndex.value])
 const progressPercent = computed(() => ((currentIndex.value + 1) / questions.length) * 100)
 
+// 纯函数：基于已生成的 randomScores 派生展示数据，无副作用
 const personalityScores = computed(() => {
   const allTypes = {...personalityTypes, ...specialPersonalityTypes}
   const scores = {}
 
   const typeKeys = ['NLRI', 'NMRI', 'NLRT', 'NMRT', 'NMOI']
 
-  typeKeys.forEach((key, index) => {
+  typeKeys.forEach(key => {
     const pt = allTypes[key]
     if (pt) {
-      scores[key] = {
-        ...pt,
-        score: Math.floor(Math.random() * 16) + (index === 0 ? 12 : 0)
-      }
+      scores[key] = {...pt, score: randomScores.value[key] ?? 0}
     }
   })
 
@@ -185,13 +185,32 @@ const personalityScores = computed(() => {
     if (resultKey) {
       scores[resultKey] = {
         ...allTypes[resultKey],
-        score: Math.floor(Math.random() * 8) + 16
+        score: randomScores.value[resultKey] ?? 0
       }
     }
   }
 
   return scores
 })
+
+// 一次性生成所有随机分数，保证 computed 派生时数据稳定
+function generateRandomScores() {
+  const scores = {}
+  const typeKeys = ['NLRI', 'NMRI', 'NLRT', 'NMRT', 'NMOI']
+  typeKeys.forEach((key, index) => {
+    scores[key] = Math.floor(Math.random() * 16) + (index === 0 ? 12 : 0)
+  })
+
+  // 实际结果类型的分数更高
+  if (result.value && result.value.personality) {
+    const allTypes = {...personalityTypes, ...specialPersonalityTypes}
+    const resultKey = Object.keys(allTypes).find(k => allTypes[k].name === result.value.personality.name)
+    if (resultKey) {
+      scores[resultKey] = Math.floor(Math.random() * 8) + 16
+    }
+  }
+  return scores
+}
 
 const startTest = () => {
   phase.value = 'testing'
@@ -219,6 +238,8 @@ const submitTest = () => {
   phase.value = 'loading'
   setTimeout(() => {
     result.value = calculateResult(answers.value)
+    // result 确定后一次性生成随机分数，computed 派生时数据稳定
+    randomScores.value = generateRandomScores()
     phase.value = 'result'
   }, 2000)
 }
@@ -228,6 +249,7 @@ const restartTest = () => {
   currentIndex.value = 0
   answers.value = {}
   result.value = null
+  randomScores.value = {}
 }
 
 const saveResult = async () => {
